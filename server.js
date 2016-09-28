@@ -1,5 +1,5 @@
 const name = 'WEB RTC'
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 60000
 
 debug = require('debug')
 mLOG = debug('server:log')
@@ -54,7 +54,9 @@ io.sockets.on('connection', function(socket) {
   socket.on('create or join', function(room) {
     log('Received request to create or join room ' + room);
 
-    var numClients = io.sockets.sockets.length;
+var numSockets = Object.keys(io.sockets.connected).length;
+console.log(`THERE ARE ${numSockets} SOCKETS`)
+    var numClients = Object.keys(io.sockets.connected).length
     log('Room ' + room + ' now has ' + numClients + ' client(s)');
 
     if (numClients === 1) {

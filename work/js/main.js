@@ -22,40 +22,40 @@ var sdpConstraints = {
   }
 };
 
-/////////////////////////////////////////////
-
-var room = 'foo';
-// Could prompt for room name:
-room = prompt('Enter room name:');
-
 var socket = io.connect();
 
-if (room !== '') {
-  socket.emit('create or join', room);
-  console.log('Attempted to create or  join room', room);
+function report(str){
+  console.log(str);
+  document.getElementById("roomText").innerHTML = str;
 }
 
-socket.on('created', function(room) {
-  console.log('Created room ' + room);
+var room = prompt('Enter room name:');
+
+if (room !== '') {
+  report(`got ${room}`);
+  socket.emit('create or join', room);
+}
+
+socket.on('created', room => {
+  report(`waiting in ${room}`);
   isInitiator = true;
 });
 
-socket.on('full', function(room) {
-  console.log('Room ' + room + ' is full');
+socket.on('full', room => {
+  report(`${room} is full`);
 });
 
-socket.on('join', function (room){
-  console.log('Another peer made a request to join room ' + room);
-  console.log('This peer is the initiator of room ' + room + '!');
+socket.on('join', room =>{
+  report(`Peer Channel Ready for ${room}`);
   isChannelReady = true;
 });
 
-socket.on('joined', function(room) {
+socket.on('joined', room =>{
   console.log('joined: ' + room);
   isChannelReady = true;
 });
 
-socket.on('log', function(array) {
+socket.on('log', array => {
   console.log.apply(console, array);
 });
 

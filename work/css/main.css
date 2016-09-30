@@ -95,6 +95,10 @@ h1{
   text-align: center;
 }
 
+h2{
+  text-align: center;
+}
+
 section{
     display: block;
     margin: 20px;
@@ -116,46 +120,4 @@ textarea{
     border: solid 2px white;
     margin: 10px;
     padding:10px;
-}
-
-
-figure {
-    display: flex;
-    text-align: center;
-}
-
-figure img{
-    margin: 5px 5px;
-}
-
-.somecode {
-    display: block;
-    margin: auto;
-    padding:5px;
-    color:black;
-    width:440px;
-    background-color: lightgrey;
-
-    /*border: solid 2px red;*/
-}
-
-aside{
-    width: 180px;
-    height: 200px;
-    background-color: rgb(236,240,241);
-
-    position: absolute;
-    top: 250px;
-    left:510px;
-
-    color:black;
-}
-
-aside h4{
-    margin: 5px 0px 5px 20px;
-}
-
-aside p {
-    margin: 0px 0px 5px 30px;
-    color: #808080;
 }

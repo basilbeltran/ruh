@@ -7,8 +7,20 @@
 </head>
 
 <body ng-controller="mainController">
+<!-- <body ng-controller="mainController as main"> -->
+<!-- <h1> {{main.message}} </h1> -->
 
   <h1> {{message}} </h1>
+
+  <input type="text"  ng-model = "newThing" placeholder="add a new thing" />
+  <button ng-click="addThing()">Add</button>
+
+<ul>
+  <li ng-repeat="thing in things">
+    {{thing}}
+  </li>
+</ul>
+
 
   <video id="localVideo" autoplay></video>
   <video id="remoteVideo" autoplay></video>

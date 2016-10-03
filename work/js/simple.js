@@ -1,16 +1,28 @@
 'use strict';
 
-angular.module("MainApp", []);
+angular.module("MainApp", []);  // console.dir(angular);
+// angular.module("MainApp").controller('mainController', ['$scope', mainController] );
 angular.module("MainApp").controller('mainController', mainController);
+
 mainController.$inject=['$scope'];
 
-console.dir(angular);
+// function mainController(){
+//   this.message = "here - we have acess to this";
+// }
 
 function mainController($scope){
   $scope.message = "here - we have acess to $scope";
-  //////////////////////////////////////////
+  $scope.things = ['first', 'second', 'third', 'fourth'];
+  console.dir($scope);
+
+  $scope.addThing = function(){
+    $scope.things.push($scope.newThing);
+  }
 
 }
+
+
+
 
 
 //////////////////////////////////////////

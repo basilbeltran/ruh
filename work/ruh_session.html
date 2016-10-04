@@ -10,8 +10,15 @@
 
   <h1> {{message}} </h1>
 
-  <input type="text"  ng-model = "newThing" placeholder="add a new thing" />
-  <button ng-click="addThing()">Add</button>
+<input type="text"  ng-model = "group" placeholder="the group" />
+<input type="text"  ng-model = "status" placeholder="the status" />
+<input type="text"  ng-model = "time" placeholder="the time" />
+<input type="text"  ng-model = "subject" placeholder="the subject" />
+<input type="text"  ng-model = "subarea" placeholder="the subarea" />
+<input type="text"  ng-model = "user" placeholder="the user" />
+<input type="text"  ng-model = "expert" placeholder="the expert" />
+<input type="text"  ng-model = "question" placeholder="the question" />
+  <button ng-click="addQuestion()">Add Question</button>
 
 <ul>
   <li ng-repeat="thing in things">
@@ -32,7 +39,7 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
   <script src="js/lib/adapter.js"></script>
-  <script src="js/simple.js"></script>
+  <script src="js/ruh_session.js"></script>
 
 </body>
 

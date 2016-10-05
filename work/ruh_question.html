@@ -10,7 +10,7 @@
     <meta name="description" content="Expert Gui for Ru Help System">
     <meta name="author" content="Beltran">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/ruh_session.css" rel="stylesheet">
+    <link href="css/ruh_question.css" rel="stylesheet">
 </head>
 
 <body ng-controller="qController as main">
@@ -89,7 +89,7 @@
                     {{ value.subject}} {{ value.subarea }}
                     {{ value.user }} {{ value.expert }}
                     <ul>
-                        <li ng-repeat="text in value.texts">
+                        <li ng-repeat="text in value.textsIn">
                             {{text}}
                         </li>
                     </ul>
@@ -119,8 +119,8 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/lib/adapter.js"></script>
-    <script src="js/ruh_session.js"></script>
-
+    <script src="js/ruh_question_module.js"></script>
+    <script src="js/ruh_question_controller.js"></script>
 </body>
 
 </html>

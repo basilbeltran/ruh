@@ -1,45 +1,125 @@
 <!DOCTYPE html>
-<html ng-app="MainApp">
+<html ng-app="SessionApp">
 
 <head>
-  <title>Realtime communication with WebRTC</title>
-  <link rel="stylesheet" href="css/main.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RUH! Session View</title>
+
+    <meta name="description" content="Expert Gui for Ru Help System">
+    <meta name="author" content="Beltran">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/ruh_session.css" rel="stylesheet">
 </head>
 
-<body ng-controller="mainController">
+<body ng-controller="qController as main">
+    <nav id="main-nav" role="navigation" class="navbar navbar-default">
+        <div class="navbar-header">
+            <a href="http://www.refactoru.com/" class="navbar-brand">
+                <img src="logo.png" alt="RefactorU Company Logo" class="ru-logo">
+            </a>
+        </div>
+        <ul id="outside-navbar" class="nav navbar-nav navbar-right hidden-xs">
+            <li class="ru-nav ">
+                <a href="#">RU Curious</a>
+            </li>
+            <li>
+                <a href="http://www.refactoru.com/courses/web-development">Intensive Bootcamp</a>
+            </li>
+            <li>
+                <a href="http://learntocode.refactoru.com/online-courses">Online Courses</a>
+            </li>
+            <li>
+                <a href="http://www.refactoru.com/testimonials">Success Stories</a>
+            </li>
+        </ul>
+        <a id="main-menu-button" href="#" data-state="open" class="menu-button menu-button-open"></a>
 
-  <h1> {{message}} </h1>
-
-<input type="text"  ng-model = "group" placeholder="the group" />
-<input type="text"  ng-model = "status" placeholder="the status" />
-<input type="text"  ng-model = "time" placeholder="the time" />
-<input type="text"  ng-model = "subject" placeholder="the subject" />
-<input type="text"  ng-model = "subarea" placeholder="the subarea" />
-<input type="text"  ng-model = "user" placeholder="the user" />
-<input type="text"  ng-model = "expert" placeholder="the expert" />
-<input type="text"  ng-model = "question" placeholder="the question" />
-  <button ng-click="addQuestion()">Add Question</button>
-
-<ul>
-  <li ng-repeat="thing in things">
-    {{thing}}
-  </li>
-</ul>
-
-
-  <video id="localVideo" autoplay></video>
-  <video id="remoteVideo" autoplay></video>
-
-  <div>
-    <button onclick="start()" id="startButton">Start</button>
-    <button onclick="makeOffer()" id="callButton">Call</button>
-    <button onclick="hangup()" id="hangupButton">Hang Up</button>
-  </div>
+    </nav>
 
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
-  <script src="js/lib/adapter.js"></script>
-  <script src="js/ruh_session.js"></script>
+
+    <div class="container-fluid ">
+        <div class=" question-container">
+            <h3> {{main.message}} </h3>
+            <input type="text" class=" questionText" ng-model="main.question" placeholder="enter a summary of your question..." />
+
+        <button>
+            <div class="">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> SUBJECT
+                      <strong class="caret"></strong></a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="cat in main.categories">
+                            {{cat.subjectName}}
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </button>
+
+        <button>
+            <div class="">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{main.categories[0].subjectName}}
+                      <strong class="caret"></strong></a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="area in main.categories[0].subAreas">
+                            {{area}}
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </button>
+        </div>
+        <div class="row">
+
+
+        </div>
+        <button ng-click="main.addQuestion()">Add Question</button>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <ul>
+                <li ng-repeat="(key, value) in main.questions">
+                    {{value.status}} {{value.time}} {{ value.group }}
+                    {{ value.subject}} {{ value.subarea }}
+                    {{ value.user }} {{ value.expert }}
+                    <ul>
+                        <li ng-repeat="text in value.texts">
+                            {{text}}
+                        </li>
+                    </ul>
+                    </br> {{ value.question }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <video id="localVideo" autoplay></video>
+            <video id="remoteVideo" autoplay></video>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <button onclick="start()" id="startButton">Start</button>
+            <button onclick="makeOffer()" id="callButton">Call</button>
+            <button onclick="hangup()" id="hangupButton">Hang Up</button>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/lib/adapter.js"></script>
+    <script src="js/ruh_session.js"></script>
 
 </body>
 

@@ -1,18 +1,13 @@
 'use strict';
 
-angular.module("MainApp", []);  // console.dir(angular);
-// angular.module("MainApp").controller('mainController', ['$scope', mainController] );
-angular.module("MainApp").controller('mainController', mainController);
+angular.module("SessionApp", []);
+angular.module("SessionApp").controller('qController', questionController);
 
-mainController.$inject=['$scope'];
+function questionController(){
+  var main = this;
+  main.message = "RU Stuck?";
 
-// function mainController(){
-//   this.message = "here - we have acess to this";
-// }
-
-function mainController($scope){
-  $scope.message = "here - we have acess to $scope";
-  $scope.questions = [
+  main.questions = [
     { "group":"sept-2016",
       "status":"yellow",
       "time": 0,
@@ -20,6 +15,7 @@ function mainController($scope){
       "subarea": "functions",
       "user":"basil.beltran@tinkermill.org",
       "expert":"basil.beltran@tinkermill.org",
+      "texts":["1", "ok thats fine", "letter A"],
       "question":"How do you decide where to merge the data for a composite view element like this? It must happen above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
     },
     { "group":"sept-2016",
@@ -29,6 +25,7 @@ function mainController($scope){
       "subarea": "bash",
       "user":"basil.beltran@tinkermill.org",
       "expert":"basil.beltran@tinkermill.org",
+      "texts":["2", "Im a moron", "letter B"],
       "question":"how do I migrate from cloud9 to a local dev environment"
     },
     { "group":"sept-2016",
@@ -38,24 +35,63 @@ function mainController($scope){
       "subarea": "bootstrap",
       "user":"basil.beltran@tinkermill.org",
       "expert":"basil.beltran@tinkermill.org",
+      "texts":["3", "no way", "letter C"],
       "question":"How many turtles are there?"
     }
   ] // end $scope.questions
 
-  console.dir($scope);
 
-  $scope.addQuestion = function(){
-    $scope.questions.push({
-        "group":$scope.group,
-        "status":$scope.status,
-        "time": $scope.time,
-        "subject":$scope.subject,
-        "subarea":$scope.subarea,
-        "user":$scope.user,
-        "expert":$scope.expert,
-        "question":$scope.question
+
+  main.addQuestion = function(){
+    main.questions.push({
+      "group":"",     // derived from userId
+      "status":"",   // derived programatically
+      "time": "",      // derived proframatically
+      "subject":"", // GET DROP CHOICE WORKING
+      "subarea":"", // GET DROP CHOICE WORKING
+      "user":"",          // derived proframatically
+      "expert":"",      // assigned or choosen
+        // "group":main.group,     // derived from userId
+        // "status":main.status,   // derived programatically
+        // "time": main.time,      // derived proframatically
+        // "subject":main.subject, // GET DROP CHOICE WORKING
+        // "subarea":main.subarea, // GET DROP CHOICE WORKING
+        // "user":main.user,          // derived proframatically
+        // "expert":main.expert,      // assigned or choosen
+        "question":main.question
     });
   }
+
+  main.categories = [
+    {"subjectName": "JAVASCRIPT",
+      "subAreas":["functions", "prototype", "scope", "this", "iteration", "modules"]
+    },
+    {"subjectName": "CSS",
+      "subAreas":["selectors", "bootstrap"]
+    },
+    {"subjectName": "DEVOPS",
+      "subAreas":["git", "bash", "c9"]
+    },
+    {"subjectName": "ANGULAR",
+      "subAreas":["directives", "controller", "factory"]
+    },
+    {"subjectName": "MONGO",
+      "subAreas":["mongoose", "sharding"]
+    },
+    {"subjectName": "NODE",
+      "subAreas":["npm", "grunt"]
+    }
+  ] // end categories
+
+  main.groups = [
+    {"groupName": "sept-2016",
+      "members":["basil", "JeffM", "JeffB", "Chris", "JustinD", "Justin"]
+    },
+    {"groupName": "aug-2016",
+      "members":["Dylan", "Tim", "John"]
+    }
+  ] // end groups
+
 
 } //mainController
 

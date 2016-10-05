@@ -51,7 +51,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> SUBJECT
                       <strong class="caret"></strong></a>
                     <ul class="dropdown-menu">
-                        <li ng-repeat="cat in main.categories">
+                        <li ng-repeat="cat in main.data.categories">
                             {{cat.subjectName}}
                         </li>
                     </ul>
@@ -62,10 +62,10 @@
         <button>
             <div class="">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{main.categories[0].subjectName}}
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{main.data.categories[0].subjectName}}
                       <strong class="caret"></strong></a>
                     <ul class="dropdown-menu">
-                        <li ng-repeat="area in main.categories[0].subAreas">
+                        <li ng-repeat="area in main.data.categories[0].subAreas">
                             {{area}}
                         </li>
                     </ul>
@@ -83,19 +83,19 @@
 
     <div class="container-fluid">
         <div class="row">
-            <ul>
-                <li ng-repeat="(key, value) in main.questions">
+            <div>
+                <div ng-repeat="(key, value) in main.data.questions">
                     {{value.status}} {{value.time}} {{ value.group }}
                     {{ value.subject}} {{ value.subarea }}
                     {{ value.user }} {{ value.expert }}
-                    <ul>
-                        <li ng-repeat="text in value.textsIn">
+                    <div>
+                        <div ng-repeat="text in value.textsIn track by $index">
                             {{text}}
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                     </br> {{ value.question }}
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -114,13 +114,45 @@
         </div>
     </div>
 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+      Launch demo modal
+    </button>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+    <form ng-submit="main.addQuestion()">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+
+          <div class="modal-body">
+            <input ng-model="main.questios.question" placeholder="Question">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+    </form>
+
+        </div>
+      </div>
+    </div>
+
+
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/lib/adapter.js"></script>
+    <script src="js/ruh_stubData.js"></script>
     <script src="js/ruh_question_module.js"></script>
     <script src="js/ruh_question_controller.js"></script>
+    <script src="js/ruh_question_localRTC.js"></script>
 </body>
 
 </html>

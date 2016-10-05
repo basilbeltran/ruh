@@ -7,15 +7,12 @@ function questionController(){
   var main = this;
   main.message = "RU Stuck?";
 
-  // main.questions =  stub.questions;
-  // main.categories =stub.categories;
-  // main.groups =  stub.groups;
-  // main.qStatus =  stub.qStatus;
-
-
-  main.data = JSON.parse(window.localStorage.getItem('data')) || [];
-
-  console.log(main.data);
+  main.data = JSON.parse(window.localStorage.getItem('data')) || {};
+   console.log(main.data);
+  if(main.data.constructor === Object){
+    console.log("initializing main.data with stubs");
+    window.localStorage.setItem('data', JSON.stringify(stub));
+  }
 
   main.addQuestion = function(){
     main.data.questions.push({
@@ -37,17 +34,16 @@ function questionController(){
     });
 
 
-// var storeQuestions = angular.copy(main.questions);
-// storeQuestions.forEach(function(q){
-//   delete q.$$hashKey;
-// });
+    var storeQuestions = angular.copy(main.data.questions);
+    storeQuestions.forEach(function(q){
+      delete q.$$hashKey;
+    });
+    main.data.questions = storeQuestions;
+    window.localStorage.setItem('data', JSON.stringify(main.data));
 
-//window.localStorage.setItem('questions', JSON.stringify(main.questions))
-
-//$('#myModal').modal('toggle '); // trigger the modal
-
-
-} // addQuestion
+    $('#myModal').modal('hide'); // trigger the modal
+    console.log(  JSON.parse(window.localStorage.getItem('data')) );
+  } //END addQuestion
 
 
-} //mainController
+} //END mainController

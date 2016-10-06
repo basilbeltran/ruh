@@ -1,0 +1,25 @@
+#main-nav{
+  border-bottom-color: rgb(252,182,20);
+}
+
+.ru-nav{
+  margin-right: 100px;
+  margin-left: 0px;
+}
+
+.qContainer{
+  margin: 50px 20px 10px;
+  padding:10px;
+}
+
+#question {
+    margin: 10px;
+    padding:10px;
+    border-radius: 5px;
+    border-style: double;
+    border-color: rgb(252,182,20)
+}
+
+#questionText {
+    height: 70px;
+}

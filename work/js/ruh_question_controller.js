@@ -5,13 +5,14 @@ angular.module("SessionApp")
 
 function questionController(){
   var main = this;
-  main.message = "RU Stuck?";
+  main.message = "You are a click (more or less) away from expert help";
 
   main.data = JSON.parse(window.localStorage.getItem('data')) || {};
    console.log(main.data);
   if(main.data.constructor === Object){
     console.log("initializing main.data with stubs");
     window.localStorage.setItem('data', JSON.stringify(stub));
+    console.log(main.data);
   }
 
   main.addQuestion = function(){

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RUH! Expert View</title>
+    <title>RUH Expert View</title>
 
     <meta name="description" content="Expert Gui for Ru Help System">
     <meta name="author" content="Beltran">
@@ -13,7 +13,7 @@
     <link href="css/ruh_expert.css" rel="stylesheet">
 
   </head>
-  <body ng-controller="mainController">
+  <body ng-controller="eController as eMain">
 
     <nav id="main-nav" role="navigation" class="navbar navbar-default">
         <div class="container-fluid">
@@ -42,16 +42,10 @@
 
 
 
-
-
-
-
-
-
 <div class="container-fluid">
 	<div class="row qContainer" >
 
-		<div ng-repeat="q in questions" id="question" class="col-md-12" >
+		<div ng-repeat="q in eMain.data.questions" id="question" class="col-md-12" >
 
 			<nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
@@ -143,6 +137,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/ruh_stubData.js"></script>
     <script src="js/ruh_expert.js"></script>
   </body>
 </html>

@@ -13,7 +13,7 @@
     <link href="css/ruh_question.css" rel="stylesheet">
 </head>
 
-<body ng-controller="qController as main">
+<body ng-controller="qController as qMain">
 
     <nav id="main-nav" role="navigation" class="navbar navbar-default">
         <div class="navbar-header">
@@ -42,7 +42,7 @@
 
     <div class="container-fluid ">
         <div class=" question-container">
-            <h3> {{main.message}} </h3>
+            <h3> {{qMain.message}} </h3>
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                 Compose a Question
             </button>
@@ -51,7 +51,7 @@
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form ng-submit="main.addQuestion()">
+                    <form ng-submit="qMain.addQuestion()">
 
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="modal-body">
-                            <input type="text" class="questionText" ng-model="main.question" placeholder="enter a summary of the problem..." />
+                            <input type="text" class="questionText" ng-model="qMain.question" placeholder="enter a summary of the problem..." />
                         </div>
 
                         <button>
@@ -68,7 +68,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> SUBJECT
                       <strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
-                                        <li ng-repeat="cat in main.data.categories">
+                                        <li ng-repeat="cat in qMain.data.categories">
                                             {{cat.subjectName}}
                                         </li>
                                     </ul>
@@ -79,10 +79,10 @@
                         <button>
                             <div class="">
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{main.data.categories[0].subjectName}}
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{qMain.data.categories[0].subjectName}}
                       <strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
-                                        <li ng-repeat="area in main.data.categories[0].subAreas">
+                                        <li ng-repeat="area in qMain.data.categories[0].subAreas">
                                             {{area}}
                                         </li>
                                     </ul>

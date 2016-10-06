@@ -3,10 +3,10 @@
 angular.module("RuhApp")
   .controller('RuhExpertController', expertController);
 
-  eController.$inject = ['userFactory'];
+  expertController.$inject = ['userFactory'];
 
 
-function expertController(userFactory){
+function expertController(RuhUserFactory){
   var eMain = this;
   eMain.users = userFactory.users;
   console.log( userFactory.getExperts("node")) ;
@@ -37,9 +37,5 @@ function expertController(userFactory){
     eMain.qStatus = "statusGreen";
     console.log('makeStatusGreen called');
   }
-
-
-
-
 
 } //expertController

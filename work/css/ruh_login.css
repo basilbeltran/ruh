@@ -12,11 +12,7 @@ form {
   border-color: black
 }
 
-.questionText {
-    height: 40px;
-    width: 30%;
-    margin: 20px 20px;
-}
+
 
 .mButton {
   background-color: rgb(252,182,20);

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RUH! Session View</title>
+    <title>RU Stuck</title>
 
     <meta name="description" content="Expert Gui for Ru Help System">
     <meta name="author" content="Beltran">
@@ -13,7 +13,7 @@
     <link href="css/ruh_login.css" rel="stylesheet">
 </head>
 
-<body ng-controller="questionController as qMain">
+<body ng-controller="RuhLoginController as loginMain">
 
     <nav id="main-nav" role="navigation" class="navbar navbar-default">
         <div class="navbar-header">
@@ -42,27 +42,31 @@
 
     <div class="container-fluid ">
 
-        <form ng-submit="qMain.addQuestion()">
+        <form ng-submit="loginMain.login()">
 
             <div class="login-header">
-                <h4>login to RU Stuck</h4>
+                <h2>Sign in to RU Stuck</h2>
+                <h5>Enter your email address and password.</h5>
             </div>
 
             <div class="login-body">
                 <input type="text"
                         class="questionText"
-                        ng-model="qMain.question"
-                        placeholder="User Name ..." />
+                        ng-model="loginMain.uname"
+                        placeholder="you@domain.com" />
 
                 <input type="text"
                         class="questionText"
-                        ng-model="qMain.question"
-                        placeholder="Password ..." />
+                        ng-model="loginMain.pwd"
+                        placeholder="password" />
+
             </div>
 
 
             <div class="login-footer">
                 <button type="submit" class="btn btn-primary mButton">Login</button>
+            <h5>Keep me signed in</h5>
+            <h5>I forgot my password</h5>
             </div>
 
         </form>

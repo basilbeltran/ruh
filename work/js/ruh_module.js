@@ -4,23 +4,18 @@ angular.module("RuhApp", []);
 //factories allow controllers to share data
 
 angular.module("RuhApp")
+    .controller('RuhLoginController', loginController)
     .factory('RuhUserFactory', userFactory)
-    .controller('RuhLoginController', loginController);
 
-
-    function loginController(){
+function loginController(){
       var loginMain = this;
 
       loginMain.ngBlur = function () {
-          isBlur = true;
-          blur = "Ng-Blur True";
+          loginMain.isBlur = true;
+          loginMain.blur = "Ng-Blur True";
       }
 
-    }
-
-
-
-
+}
 
 
   function userFactory(){

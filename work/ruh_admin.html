@@ -1,148 +1,85 @@
 <!DOCTYPE html>
-<html lang="en"  ng-app="MainApp">
-  <head>
+<html ng-app="RuhApp">
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RUH! Expert View</title>
+    <title>RU Stuck</title>
 
-    <meta name="description" content="Admin gui for RU Online Help system">
+    <meta name="description" content="Expert Gui for Ru Help System">
     <meta name="author" content="Beltran">
-
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/ruh_login.css" rel="stylesheet">
+</head>
 
-  </head>
-  <body ng-controller="mainController">
+<body ng-controller="RuhLoginController as loginMain">
 
     <nav id="main-nav" role="navigation" class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="http://www.refactoru.com/" class="navbar-brand">
-                    <img src="logo.png" alt="RefactorU Company Logo" class="ru-logo">
-                </a>
-            </div>
-            <ul id="outside-navbar" class="nav navbar-nav navbar-right ru-navbar hidden-xs">
-              <li class="ru-nav">
-                  <a href="#">RU Helpful</a>
-              </li>
-                <li class="ru-nav">
-                    <a href="http://www.refactoru.com/courses/web-development">Intensive Bootcamp</a>
-                </li>
-                <li class="ru-nav">
-                    <a href="http://learntocode.refactoru.com/online-courses">Online Courses</a>
-                </li>
-                <li class="ru-nav">
-                    <a href="http://www.refactoru.com/testimonials">Success Stories</a>
-                </li>
-            </ul>
-            <a id="main-menu-button" href="#" data-state="open" class="menu-button menu-button-open"></a>
+        <div class="navbar-header">
+            <a href="http://www.refactoru.com/" class="navbar-brand">
+                <img src="logo.png" alt="RefactorU Company Logo" class="ru-logo">
+            </a>
         </div>
+        <ul id="outside-navbar" class="nav navbar-nav navbar-right hidden-xs">
+            <li class="ru-nav ">
+                <a href="#">RU Stuck</a>
+            </li>
+            <li>
+                <a href="http://www.refactoru.com/courses/web-development">Intensive Bootcamp</a>
+            </li>
+            <li>
+                <a href="http://learntocode.refactoru.com/online-courses">Online Courses</a>
+            </li>
+            <li>
+                <a href="http://www.refactoru.com/testimonials">Success Stories</a>
+            </li>
+        </ul>
+        <a id="main-menu-button" href="#" data-state="open" class="menu-button menu-button-open"></a>
     </nav>
 
 
 
+    <div class="container-fluid ">
+
+        <form ng-submit="loginMain.login()">
+
+            <div class="login-header">
+                <h2>Sign in to RU Stuck</h2>
+                <h5>Enter your email address and password.</h5>
+            </div>
+
+            <div class="login-body">
+                <input type="text"
+                        class="questionText"
+                        ng-model="loginMain.uname"
+                        placeholder="you@domain.com" />
+
+                <input type="text"
+                        class="questionText"
+                        ng-model="loginMain.pwd"
+                        placeholder="password" />
+
+            </div>
 
 
+            <div class="login-footer">
+                <button type="submit" class="btn btn-primary mButton">Login</button>
+            <h5>Keep me signed in</h5>
+            <h5>I forgot my password</h5>
+            </div>
 
+        </form>
 
+    </div>
 
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/lib/adapter.js"></script>
+        <script src="js/ruh_stubData.js"></script>
+        <script src="js/ruh_module.js"></script>
 
-<div class="container-fluid">
-	<div class="row qContainer" >
+</body>
 
-		<div ng-repeat="q in questions" id="question" class="col-md-12" >
-
-			<nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-					</button> <a class="navbar-brand" href="#">{{q.status}}</a>
-				</div>
-
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-            <li class="active">
-              <a href="#">{{q.time}}</a>
-            </li>
-						<li >
-							<a href="#">{{q.group}}</a>
-						</li>
-
-						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{q.subject}}<strong class="caret"></strong></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Expand Subject List Here</a>
-								</li>
-							</ul>
-						</li>
-
-
-            <li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{q.subarea}}<strong class="caret"></strong></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Expand Appropriate Sub Subject List</a>
-								</li>
-							</ul>
-						</li>
-
-					</ul>
-
-
-					<form class="navbar-form navbar-left" role="search">
-						<div class="form-group">
-							<input class="form-control" type="text">
-						</div>
-						<button type="submit" class="btn btn-default">
-							Send Text
-						</button>
-					</form>
-
-
-					<ul class="nav navbar-nav navbar-right">
-
-            <li>
-							<a href="#">Link</a>
-						</li>
-
-						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Attachments<strong class="caret"></strong></a>
-      							<ul class="dropdown-menu">
-      								<li>
-      									<a href="#">Attachment1</a>
-      								</li>
-      								<li>
-      									<a href="#">Attachment2</a>
-      								</li>
-      							</ul>
-						</li>
-					</ul>
-				</div>
-			</nav>
-
-			<div class="row">
-				<div class="col-md-12">
-          <p id="questionText" >
-            {{q.question}}
-          </p>
-				</div>
-			</div>
-
-		</div>  <!--  question to be repeated -->
-	</div>  <!--  row wraps question (s)? -->
-</div>
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
-  </body>
 </html>

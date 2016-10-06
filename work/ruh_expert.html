@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"  ng-app="RuhApp">
-  <head>
+<html lang="en" ng-app="RuhApp">
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,105 +13,77 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ruh_expert.css" rel="stylesheet">
 
-  </head>
-  <body ng-controller="eController as eMain">
+</head>
 
-    <nav id="main-nav" role="navigation" class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="http://www.refactoru.com/" class="navbar-brand">
-                    <img src="logo.png" alt="RefactorU Company Logo" class="ru-logo">
-                </a>
-            </div>
-            <ul id="outside-navbar" class="nav navbar-nav navbar-right hidden-xs">
-              <li class="ru-nav ">
-                  <a ng-click="eMain.showProfile()" href="#">RU Expert</a>
-              </li>
-                <li >
-                    <a href="http://www.refactoru.com/courses/web-development">Intensive Bootcamp</a>
-                </li>
-                <li >
-                    <a href="http://learntocode.refactoru.com/online-courses">Online Courses</a>
-                </li>
-                <li >
-                    <a href="http://www.refactoru.com/testimonials">Success Stories</a>
-                </li>
-            </ul>
-            <a id="main-menu-button" href="#" data-state="open" class="menu-button menu-button-open"></a>
-        </div>
-    </nav>
+<body ng-controller="RuhExpertController as eMain">
 
+<nav id="main-nav" role="navigation" class="navbar navbar-default">
     <div class="container-fluid">
-    	<div class="row">
-        <h1 ng-show="eMain.isProfileShown" > Logged in as You </h1>
-      </div>
+        <div class="navbar-header">
+            <a href="http://www.refactoru.com/" class="navbar-brand">
+                <img src="logo.png" alt="RefactorU Company Logo" class="ru-logo">
+            </a>
+        </div>
+        <ul id="outside-navbar" class="nav navbar-nav navbar-right hidden-xs">
+            <li class="ru-nav ">
+                <a ng-click="eMain.showProfile()" href="#">RU Expert</a>
+            </li>
+            <li>
+                <a href="http://www.refactoru.com/courses/web-development">Intensive Bootcamp</a>
+            </li>
+            <li>
+                <a href="http://learntocode.refactoru.com/online-courses">Online Courses</a>
+            </li>
+            <li>
+                <a href="http://www.refactoru.com/testimonials">Success Stories</a>
+            </li>
+        </ul>
+        <a id="main-menu-button" href="#" data-state="open" class="menu-button menu-button-open"></a>
     </div>
-
+</nav>
 
 
 <div class="container-fluid">
-	<div class="row qContainer">
-
-		<div  ng-repeat="q in eMain.data.questions"
-          id="question"
-          class="col-md-12" >
-
-			<!-- <nav class="navbar navbar-default" role="navigation"> -->
-      <div class="questionData">
-					 <a class="navbar-brand"
-              ng-class="{statusRed: eMain.isStatusRed}"
-              ng-mouseenter="eMain.makeStatusRed()"
-              ng-mouseleave="eMain.makeStatusYellow()"
-              href="#">{{q.status}}</a>
-
-              <a href="#">{{q.time}}</a>
-							<a href="#">{{q.group}}</a>
-
-						<div class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{q.subject}}<strong class="caret"></strong></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Expand Subject List Here</a>
-								</li>
-							</ul>
-						<div>
-
-            <div class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{q.subarea}}<strong class="caret"></strong></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Expand Appropriate Sub Subject List</a>
-								</li>
-							</ul>
-						</div>
-
-				</div>
-      </div>
-			<!-- </nav> -->
-
-			<div class="row">
-				<div class="col-md-12">
-          <p id="questionText">
-            {{q.question}}
-          </p>
-				</div>
-			</div>
-
-		</div>  <!--  question to be repeated -->
-	</div>  <!--  row wraps question (s)? -->
+    <div class="row">
+        <h1 ng-show="eMain.isProfileShown"> Logged in as You </h1>
+    </div>
 </div>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/ruh_stubData.js"></script>
-    <script src="js/ruh_module.js"></script>
-    <script src="js/ruh_expert_controller.js"></script>
-  </body>
+
+<div class="container-fluid">
+    <div class="row outerBox">
+        <div ng-repeat="q in eMain.data.questions" id="question" class="col-md-12">
+
+          <div class="buttonsBox">
+            <button
+                ng-class="eMain.qStatus"
+                ng-mouseenter="eMain.makeStatusRed()"
+                ng-mouseleave="eMain.makeStatusGreen()"
+                href="#">{{q.status}}</button>
+            <button class="button ">{{q.time}}</button>
+            <button class="button ">{{q.group}}</button>
+            <button class="button ">{{q.subject}}</button>
+            <button class="button ">{{q.subarea}}</button>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p id="questionBox">
+                        {{q.question}}
+                    </p>
+                </div>
+            </div>
+          </div>
+        </div>   <!-- ng-repeat -->
+    </div>
+</div>
+
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+                <script src="js/jquery.min.js"></script>
+                <script src="js/bootstrap.min.js"></script>
+                <script src="js/ruh_stubData.js"></script>
+                <script src="js/ruh_module.js"></script>
+                <script src="js/ruh_expert_controller.js"></script>
+</body>
+
 </html>

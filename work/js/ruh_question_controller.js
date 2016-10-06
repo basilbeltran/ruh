@@ -1,9 +1,14 @@
+'use strict';
 
 angular.module("RuhApp")
-  .controller('qController', questionController);
+  .controller('RuhQuestionController', questionController);
 
-function questionController(){
+questionController.$inject = ['RuhUserFactory'];
+
+function questionController(RuhUserFactory){
   var qMain = this;
+
+
   qMain.message = "You are a click (more or less) away from expert help";
 
   qMain.data = JSON.parse(window.localStorage.getItem('data')) || {};

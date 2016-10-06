@@ -7,7 +7,22 @@
   margin-left: 0px;
 }
 
-.questionData{
+.button {
+
+}
+
+
+
+
+.outerBox{
+  margin: 50px 20px 10px;
+  padding:10px;
+  border-radius: 5px;
+  border-style: double;
+  border-color: red
+}
+
+.buttonsBox{
   margin: 10px;
   padding:10px;
   border-radius: 5px;
@@ -15,17 +30,12 @@
   border-color: green
 }
 
-.qContainer{
-  margin: 50px 20px 10px;
-  padding:10px;
-}
-
-#question {
+#questionBox {
     margin: 10px;
     padding:10px;
     border-radius: 5px;
     border-style: double;
-    border-color: rgb(252,182,20)
+    border-color: blue
 }
 
 #questionText {
@@ -34,4 +44,10 @@
 
 .statusRed {
     color: red;
+    font-weight: bold;
+}
+
+.statusGreen {
+    color: green;
+    font-weight: bold;
 }

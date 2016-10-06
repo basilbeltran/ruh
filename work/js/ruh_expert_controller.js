@@ -1,16 +1,22 @@
+'use strict';
 
 angular.module("RuhApp")
-  .controller('eController', expertController);
+  .controller('RuhExpertController', expertController);
 
-function expertController(){
+  eController.$inject = ['userFactory'];
+
+
+function expertController(userFactory){
   var eMain = this;
+  eMain.users = userFactory.users;
+  console.log( userFactory.getExperts("node")) ;
 
   eMain.data = JSON.parse(window.localStorage.getItem('data')) || {};
-   console.log(eMain.data);
+   // console.log(eMain.data);
   if(eMain.data.constructor === Object){
     console.log("initializing eMain.data with stubs");
     window.localStorage.setItem('data', JSON.stringify(stub));
-    console.log(eMain.data);
+    //.log(eMain.data);
   }
 
   eMain.showProfile = function(){
@@ -23,8 +29,17 @@ function expertController(){
   }
 
   eMain.makeStatusRed = function(){
-    eMain.isStatusRed = true;
+    eMain.qStatus = "statusRed";
     console.log('makeStatusRed called');
   }
+
+  eMain.makeStatusGreen = function(){
+    eMain.qStatus = "statusGreen";
+    console.log('makeStatusGreen called');
+  }
+
+
+
+
 
 } //expertController

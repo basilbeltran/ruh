@@ -1,22 +1,21 @@
-'use strict';
 
-angular.module("SessionApp")
+angular.module("RuhApp")
   .controller('qController', questionController);
 
 function questionController(){
-  var main = this;
-  main.message = "You are a click (more or less) away from expert help";
+  var qMain = this;
+  qMain.message = "You are a click (more or less) away from expert help";
 
-  main.data = JSON.parse(window.localStorage.getItem('data')) || {};
-   console.log(main.data);
-  if(main.data.constructor === Object){
-    console.log("initializing main.data with stubs");
+  qMain.data = JSON.parse(window.localStorage.getItem('data')) || {};
+   console.log(qMain.data);
+  if(qMain.data.constructor === Object){
+    console.log("initializing qMain.data with stubs");
     window.localStorage.setItem('data', JSON.stringify(stub));
-    console.log(main.data);
+    console.log(qMain.data);
   }
 
-  main.addQuestion = function(){
-    main.data.questions.push({
+  qMain.addQuestion = function(){
+    qMain.data.questions.push({
       "group":"temp",       // derived from userId
       "status":"temp",      // derived programatically
       "time": "temp",       // derived proframatically
@@ -24,27 +23,27 @@ function questionController(){
       "subarea":"temp",     // GET DROP CHOICE WORKING
       "user":"temp",        // derived proframatically
       "expert":"temp",      // assigned or choosen
-        // "group":main.group,     // derived from userId
-        // "status":main.status,   // derived programatically
-        // "time": main.time,      // derived proframatically
-        // "subject":main.subject, // GET DROP CHOICE WORKING
-        // "subarea":main.subarea, // GET DROP CHOICE WORKING
-        // "user":main.user,          // derived proframatically
-        // "expert":main.expert,      // assigned or choosen
-        "question":main.question
+        // "group":qMain.group,     // derived from userId
+        // "status":qMain.status,   // derived programatically
+        // "time": qMain.time,      // derived proframatically
+        // "subject":qMain.subject, // GET DROP CHOICE WORKING
+        // "subarea":qMain.subarea, // GET DROP CHOICE WORKING
+        // "user":qMain.user,          // derived proframatically
+        // "expert":qMain.expert,      // assigned or choosen
+        "question":qMain.question
     });
 
 
-    var storeQuestions = angular.copy(main.data.questions);
+    var storeQuestions = angular.copy(qMain.data.questions);
     storeQuestions.forEach(function(q){
       delete q.$$hashKey;
     });
-    main.data.questions = storeQuestions;
-    window.localStorage.setItem('data', JSON.stringify(main.data));
+    qMain.data.questions = storeQuestions;
+    window.localStorage.setItem('data', JSON.stringify(qMain.data));
 
     $('#myModal').modal('hide'); // trigger the modal
     console.log(  JSON.parse(window.localStorage.getItem('data')) );
   } //END addQuestion
 
 
-} //END mainController
+} //END qMainController

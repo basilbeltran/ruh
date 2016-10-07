@@ -10,10 +10,10 @@
     <meta name="description" content="Expert Gui for Ru Help System">
     <meta name="author" content="Beltran">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/ruh_login.css" rel="stylesheet">
+    <link href="css/ruh_profile.css" rel="stylesheet">
 </head>
 
-<body ng-controller="RuhLoginController as loginMain">
+<body ng-controller="RuhProfileController as profileMain">
 
     <nav id="main-nav" role="navigation" class="navbar navbar-default">
         <div class="navbar-header">
@@ -42,38 +42,39 @@
 
     <div class="container-fluid ">
 
-        <form ng-submit="loginMain.login()">
+        <form class="ruhProfile" ng-submit="loginMain.login()">
 
-            <div class="login-header">
-                <h2>Sign in to RU Stuck</h2>
-                <h5>Enter your email address and password.</h5>
-            </div>
+            <header class="formHeader">
+                <h2>Stuck Profile</h2>
+                <h5>Change your password.</h5>
+            </header>
 
-            <div class="login-body">
+            <section class="formBody">
                 <input type="text"
                         class="questionText"
                         ng-model="loginMain.uname"
-                        placeholder="you@domain.com" />
+                        placeholder="old password" />
 
                 <input type="text"
                         class="questionText"
                         ng-model="loginMain.pwd"
                         placeholder="password" />
 
-            </div>
+            </section>
 
 
-            <div class="login-footer">
+            <footer class="formFooter">
                 <button type="submit" class="btn btn-primary mButton">Login</button>
             <h5>Keep me signed in</h5>
             <h5>I forgot my password</h5>
-            </div>
+          </footer>
 
         </form>
 
     </div>
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/lib/adapter.js"></script>

@@ -1,48 +1,8 @@
-<!DOCTYPE html>
-<html ng-app="RuhApp">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RU Stuck</title>
-
-    <meta name="description" content="Expert Gui for Ru Help System">
-    <meta name="author" content="Beltran">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/ruh_question.css" rel="stylesheet">
-</head>
-
-<body ng-controller="RuhQuestionController as qMain">
-
-    <nav id="main-nav" role="navigation" class="navbar navbar-default">
-        <div class="navbar-header">
-            <a href="http://www.refactoru.com/" class="navbar-brand">
-                <img src="logo.png" alt="RefactorU Company Logo" class="ru-logo">
-            </a>
-        </div>
-        <ul id="outside-navbar" class="nav navbar-nav navbar-right hidden-xs">
-            <li class="ru-nav ">
-                <a href="#">RU Stuck</a>
-            </li>
-            <li>
-                <a href="http://www.refactoru.com/courses/web-development">Intensive Bootcamp</a>
-            </li>
-            <li>
-                <a href="http://learntocode.refactoru.com/online-courses">Online Courses</a>
-            </li>
-            <li>
-                <a href="http://www.refactoru.com/testimonials">Success Stories</a>
-            </li>
-        </ul>
-        <a id="main-menu-button" href="#" data-state="open" class="menu-button menu-button-open"></a>
-    </nav>
-
 
 
     <div class="container-fluid ">
         <div class=" question-container">
-            <h3> {{qMain.message}} </h3>
+            <h3> {{questionMain.message}} </h3>
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                 Compose a Question
             </button>
@@ -51,7 +11,7 @@
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form ng-submit="qMain.addQuestion()">
+                    <form ng-submit="questionMain.addQuestion()">
 
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -59,7 +19,7 @@
                         </div>
 
                         <div class="modal-body">
-                            <input type="text" class="questionText" ng-model="qMain.question" placeholder="enter a summary of the problem..." />
+                            <input type="text" class="questionText" ng-model="questionMain.question" placeholder="enter a summary of the problem..." />
                         </div>
 
                         <button>
@@ -68,7 +28,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> SUBJECT
                       <strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
-                                        <li ng-repeat="cat in qMain.data.categories">
+                                        <li ng-repeat="cat in questionMain.data.categories">
                                             {{cat.subjectName}}
                                         </li>
                                     </ul>
@@ -79,10 +39,10 @@
                         <button>
                             <div class="">
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{qMain.data.categories[0].subjectName}}
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{questionMain.data.categories[0].subjectName}}
                       <strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
-                                        <li ng-repeat="area in qMain.data.categories[0].subAreas">
+                                        <li ng-repeat="area in questionMain.data.categories[0].subAreas">
                                             {{area}}
                                         </li>
                                     </ul>
@@ -114,15 +74,3 @@
                 <button onclick="hangup()" id="hangupButton">Hang Up</button>
             </div>
         </div>
-
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/lib/adapter.js"></script>
-        <script src="js/ruh_stubData.js"></script>
-        <script src="js/ruh_module.js"></script>
-        <script src="js/ruh_question_controller.js"></script>
-        <script src="js/ruh_question_localRTC.js"></script>
-</body>
-
-</html>

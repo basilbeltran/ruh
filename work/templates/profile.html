@@ -1,0 +1,56 @@
+
+
+    <div class="container-fluid ">
+
+        <form class="ruhProfile" ng-submit="profileMain.changePassword()">
+            <header class="formHeader">
+                <h2>{{profileMain.mainText}}</h2>
+                <h5>{{profileMain.subText}}</h5>
+            </header>
+
+            <section class="formBody">
+                <input type="text"
+                        class="questionText"
+                        ng-model="profileMain.oldPassword"
+                        placeholder={{profileMain.oldPasswordText}} />
+
+                <input type="text"
+                        class="questionText"
+                        ng-model="profileMain.newPassword"
+                        placeholder={{profileMain.newPasswordText}} />
+
+                <input type="text"
+                        class="questionText"
+                        ng-model="profileMain.checkPassword"
+                        placeholder={{profileMain.checkPasswordText}} />
+
+            </section>
+
+
+            <footer class="formFooter">
+                <button type="submit" class="btn btn-primary mButton">Change Password</button>
+          </footer>
+        </form>
+
+
+
+        <form class="ruhProfile" ng-submit="profileMain.changePassword()">
+            <header class="formHeader">
+                <h2>{{profileMain.addText}}</h2>
+            </header>
+
+            <section class="formBody">
+                <button class="buttonText"/>
+                {{profileMain.addButtonText}}
+                </button>
+
+            </section>
+
+
+            <footer class="formFooter">
+                <button type="submit" class="btn btn-primary mButton">Submit Subjects</button>
+          </footer>
+        </form>
+
+
+    </div>

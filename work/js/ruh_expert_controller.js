@@ -3,13 +3,13 @@
 angular.module("RuhApp")
   .controller('RuhExpertController', expertController);
 
-  expertController.$inject = ['userFactory'];
+  expertController.$inject = ['RuhUserFactory'];
 
 
 function expertController(RuhUserFactory){
   var eMain = this;
-  eMain.users = userFactory.users;
-  console.log( userFactory.getExperts("node")) ;
+  eMain.users = RuhUserFactory.users;
+  console.log( RuhUserFactory.getExperts("node")) ;
 
   eMain.data = JSON.parse(window.localStorage.getItem('data')) || {};
    // console.log(eMain.data);

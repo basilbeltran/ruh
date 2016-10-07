@@ -1,0 +1,36 @@
+
+
+<div class="container-fluid">
+    <div class="row">
+        <h1 ng-show="expertMain.isProfileShown"> Logged in as You </h1>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row outerBox">
+        <div ng-repeat="q in expertMain.data.questions" id="question" class="col-md-12">
+
+          <div class="buttonsBox">
+            <button
+                ng-class="expertMain.qStatus"
+                ng-mouseenter="expertMain.makeStatusRed()"
+                ng-mouseleave="expertMain.makeStatusGreen()"
+                href="#">{{q.status}}</button>
+            <button class="button ">{{q.time}}</button>
+            <button class="button ">{{q.group}}</button>
+            <button class="button ">{{q.subject}}</button>
+            <button class="button ">{{q.subarea}}</button>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p id="questionBox">
+                        {{q.question}}
+                    </p>
+                </div>
+            </div>
+          </div>
+        </div>   <!-- ng-repeat -->
+    </div>
+</div>

@@ -5,19 +5,21 @@ angular.module("RuhApp")
 
 questionController.$inject = ['RuhUserFactory'];
 
+
+
 function questionController(RuhUserFactory){
   var qMain = this;
-
-
   qMain.message = "You are a click (more or less) away from expert help";
 
-  qMain.data = JSON.parse(window.localStorage.getItem('data')) || {};
-   console.log(qMain.data);
-  if(qMain.data.constructor === Object){
-    console.log("initializing qMain.data with stubs");
-    window.localStorage.setItem('data', JSON.stringify(stub));
-    console.log(qMain.data);
-  }
+
+
+  // eMain.data = JSON.parse(window.localStorage.getItem('data')) || {};
+  //  console.log(qMain.data);
+  // if(qMain.data.constructor === Object){
+  //   console.log("initializing qMain.data with stubs");
+  //   window.localStorage.setItem('data', JSON.stringify(stub));
+  //   console.log(qMain.data);
+  // }
 
   qMain.addQuestion = function(){
     qMain.data.questions.push({

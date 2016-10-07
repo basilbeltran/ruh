@@ -4,37 +4,34 @@ angular.module("RuhApp")
   .controller('RuhExpertController', expertController);
 
   expertController.$inject = ['RuhUserFactory'];
+  expertController.$inject = ['RuhQuestionFactory'];
+
+function expertController( RuhQuestionFactory){
+  var expertMain = this;
+
+  // expertMain.users = RuhUserFactory.users;
+
+  expertMain.data = RuhQuestionFactory.getQuestionData();
+console.log(expertMain.data);
+  // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
 
 
-function expertController(RuhUserFactory){
-  var eMain = this;
-  eMain.users = RuhUserFactory.users;
-  console.log( RuhUserFactory.getExperts("node")) ;
-
-  eMain.data = JSON.parse(window.localStorage.getItem('data')) || {};
-   // console.log(eMain.data);
-  if(eMain.data.constructor === Object){
-    console.log("initializing eMain.data with stubs");
-    window.localStorage.setItem('data', JSON.stringify(stub));
-    //.log(eMain.data);
-  }
-
-  eMain.showProfile = function(){
-    // eMain.isProfileShown = true;
-    if(eMain.isProfileShown){
-      eMain.isProfileShown = false;
+  expertMain.showProfile = function(){
+    // expertMain.isProfileShown = true;
+    if(expertMain.isProfileShown){
+      expertMain.isProfileShown = false;
     } else{
-      eMain.isProfileShown = true;
+      expertMain.isProfileShown = true;
     }
   }
 
-  eMain.makeStatusRed = function(){
-    eMain.qStatus = "statusRed";
+  expertMain.makeStatusRed = function(){
+    expertMain.qStatus = "statusRed";
     console.log('makeStatusRed called');
   }
 
-  eMain.makeStatusGreen = function(){
-    eMain.qStatus = "statusGreen";
+  expertMain.makeStatusGreen = function(){
+    expertMain.qStatus = "statusGreen";
     console.log('makeStatusGreen called');
   }
 

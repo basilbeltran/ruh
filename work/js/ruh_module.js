@@ -6,7 +6,7 @@ angular.module("RuhApp")
     .controller('RuhLoginController', loginController)
     .controller('RuhProfileController', profileController)
     .factory('RuhUserFactory', userFactory)
-
+    .factory('RuhQuestionFactory', questionFactory)
 
 angular.module('RuhApp')
         .config(myRouter);
@@ -60,7 +60,9 @@ function profileController(){    var profileMain = this;
 }
 
 
-function userFactory(){     var usersData = [
+function userFactory(){
+
+  var usersData = [
       {
           email: "basil.beltran@gmail.com",
           password: "12345678",
@@ -82,4 +84,31 @@ function userFactory(){     var usersData = [
       users: usersData,
       getExperts: getExperts
     }
+}
+
+
+function questionFactory(){
+  var questions;
+
+
+      var getQuestionData = function () {
+        if(! questions){
+            window.localStorage.setItem('data', JSON.stringify(stub))
+            questions = JSON.parse(window.localStorage.getItem('data'));
+            return questions;
+        } else {
+          return questions;
+        }
+      }
+
+
+      var getQuestion = function(questionID){
+        console.log(`looking for ${questionID}`);
+        return questionData.filter( x  => x.objectElement.includes(questionID) )
+      }
+
+  return {
+    getQuestionData: getQuestionData,
+    getQuestion: getQuestion
+  }
 }

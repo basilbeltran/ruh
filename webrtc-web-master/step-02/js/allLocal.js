@@ -1,6 +1,6 @@
 'use strict';
 
-var pc1, pc2, startTime, localStream;
+var lc, rc, startTime, localStream;
 var localVideo = document.getElementById('localVideo');
 var remoteVideo = document.getElementById('remoteVideo');
 var mediaConstraints = { audio: false, video: true };
@@ -15,16 +15,16 @@ function start() {
 function makeOffer() {
   var servers = null;
 
-  pc2 = new RTCPeerConnection(servers);
-   pc2.onicecandidate = (e) => onIceCandidate(pc2, e);
-   pc2.oniceconnectionstatechange = (e) => onIceStateChange(pc2, e);
-   pc2.onaddstream = e => remoteVideo.srcObject = e.stream;
+  rc = new RTCPeerConnection(servers);
+   rc.onicecandidate = (ev) => onIceCandidate(rc, ev);
+   rc.oniceconnectionstatechange = (ev) => onIceStateChange(rc, ev);
+   rc.onaddstream = e => remoteVideo.srcObject = e.stream;
 
-  pc1 = new RTCPeerConnection(servers);
-   pc1.onicecandidate = (e) => onIceCandidate(pc1, e);
-   pc1.oniceconnectionstatechange = (e) => onIceStateChange(pc1, e);
-  pc1.addStream(localStream);
-  pc1.createOffer(offerOptions)
+  lc = new RTCPeerConnection(servers);
+   lc.onicecandidate = (e) => onIceCandidate(lc, e);
+   lc.oniceconnectionstatechange = (ev) => onIceStateChange(lc, ev);
+  lc.addStream(localStream);
+  lc.createOffer(offerOptions)
   .then(
     onCreateOfferSuccess,
     onSdpError
@@ -32,20 +32,20 @@ function makeOffer() {
 }
 
 function onCreateOfferSuccess(desc) {
-  pc1.setLocalDescription(desc)
-  .then( ()=> trace( `${getName(pc1)}  setLocal complete`), onSdpError);
-  pc2.setRemoteDescription(desc)
-  .then( () => trace( `${getName(pc2)}  setRemote complete`), onSdpError);
+  lc.setLocalDescription(desc)
+  .then( ()=> trace( `${getName(lc)}  setLocal complete`), onSdpError);
+  rc.setRemoteDescription(desc)
+  .then( () => trace( `${getName(rc)}  setRemote complete`), onSdpError);
 
-  pc2.createAnswer()
+  rc.createAnswer()
   .then( onCreateAnswerSuccess, onSdpError);
 }
 
 function onCreateAnswerSuccess(desc) {
-  pc1.setRemoteDescription(desc)
-  .then( () => trace(`${getName(pc1)}  setRemote complete`), onSdpError);
-  pc2.setLocalDescription(desc)
-  .then(() => trace(`${getName(pc2)}  setLocal complete`), onSdpError);
+  lc.setRemoteDescription(desc)
+  .then( () => trace(`${getName(lc)}  setRemote complete`), onSdpError);
+  rc.setLocalDescription(desc)
+  .then(() => trace(`${getName(rc)}  setLocal complete`), onSdpError);
 }
 
 function onIceCandidate(pc, event) {
@@ -60,15 +60,15 @@ function onIceCandidate(pc, event) {
 }
 
 var  onSdpError = (error) => trace('SDP error: ' + error.toString());
-var  getName = pc =>  (pc === pc1) ? 'pc1' : 'pc2';
-var  getOtherPc = pc => (pc === pc1) ? pc2 : pc1;
+var  getName = pc =>  (pc === lc) ? 'lc' : 'rc';
+var  getOtherPc = pc => (pc === lc) ? rc : lc;
 var  onIceStateChange = (pc, event) => {
   if(pc){trace(getName(pc) + ' ' + pc.iceConnectionState );}
 }
 
 var hangup = () => {
 try{
-    pc1.close();  pc2.close();  pc1 = null;  pc2 = null;
+    lc.close();  rc.close();  lc = null;  rc = null;
   }catch(err){ }
 }
 

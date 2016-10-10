@@ -88,11 +88,10 @@ function userFactory(){
 
 
 function questionFactory(){
-  var questions;
-
+  var questions = [];
 
       var getQuestionData = function () {
-        if(! questions){
+        if(questions === []){
             window.localStorage.setItem('data', JSON.stringify(stub))
             questions = JSON.parse(window.localStorage.getItem('data'));
             return questions;
@@ -107,8 +106,42 @@ function questionFactory(){
         return questionData.filter( x  => x.objectElement.includes(questionID) )
       }
 
+      var addQuestion = function(qText){
+        //getQuestionData().push({  // why "not function" ?
+        questions.push({
+          "group":"temp",       // derived from userId
+          "status":"temp",      // derived programatically
+          "time": "temp",       // derived proframatically
+          "subject":"temp",     // GET DROP CHOICE WORKING
+          "subarea":"temp",     // GET DROP CHOICE WORKING
+          "user":"temp",        // derived proframatically
+          "expert":"temp",      // assigned or choosen
+            // "group":qMain.group,     // derived from userId
+            // "status":qMain.status,   // derived programatically
+            // "time": qMain.time,      // derived proframatically
+            // "subject":qMain.subject, // GET DROP CHOICE WORKING
+            // "subarea":qMain.subarea, // GET DROP CHOICE WORKING
+            // "user":qMain.user,          // derived proframatically
+            // "expert":qMain.expert,      // assigned or choosen
+            "question":qText
+        });
+
+
+        var storeQuestions = angular.copy(questions); // avoid duplicates
+        storeQuestions.forEach(function(q){
+          delete q.$$hashKey;
+        });
+        questions = storeQuestions;
+        window.localStorage.setItem('data', JSON.stringify(questions));
+
+        console.log(  JSON.parse(window.localStorage.getItem('data')) );
+      } //END addQuestion
+
+
+
   return {
     getQuestionData: getQuestionData,
-    getQuestion: getQuestion
+    getQuestion: getQuestion,
+    addQuestion: addQuestion
   }
 }

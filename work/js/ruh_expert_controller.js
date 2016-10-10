@@ -6,7 +6,7 @@ angular.module("RuhApp")
   expertController.$inject = ['RuhUserFactory'];
   expertController.$inject = ['RuhQuestionFactory'];
 
-function expertController( RuhQuestionFactory){
+function expertController(RuhQuestionFactory){
   var expertMain = this;
   var loggedText = "Logged in as You";
   // expertMain.users = RuhUserFactory.users;

@@ -37,53 +37,50 @@ var httpsServer = https.createServer(credentials, app);
 httpServer.listen(port);
 httpsServer.listen(sslport);
 
+setInterval(function(){
+  mINFO(sslport+' is serving https @ %s', name);
+}, 60000);
+
 
 //START EXPRESS LISTENING
 // var server = app.listen(port, () => {
 //     mLOG(port +' Listening for %s', name);
 // });
 
-
-
-setInterval(function(){
-  mINFO(sslport+' is serving https @ %s', name);
-}, 60000);
-
-
-
+var allInqs = [];
 var io = socketIO.listen(httpsServer);
 
 io.sockets.on('connection', function(socket) {
 
-  // convenience function to log server messages on the client
-  function log() {
-    var array = ['Message from server:'];
-    array.push.apply(array, arguments);
-    socket.emit('log', array);
-    mLOG(array);
-  }
+  // // convenience function to log server messages on the client
+  // function log() {
+  //   var array = ['Message from server:'];
+  //   array.push.apply(array, arguments);
+  //   socket.emit('log', array);
+  //   mLOG(array);
+  // }
 
-  socket.on('message', function(message) {
-    log('Client said: ', message);
-    // for a real app, would be room-only (not broadcast)
-    socket.broadcast.emit('message', message);
+
+
+  socket.on('message', function(message) {     // log('Client said: ', message);
+    socket.broadcast.emit('message', message); // for a real app, would be room-only (not broadcast)
   });
 
-  socket.on('create or join', function(room) {
-    log('Received request to create or join room ' + room);
+  socket.on('inquiry', function(room) {
+    var numClients = Object.keys(io.sockets.connected).length;
+      console.log(`io.sockets holds ${numClients} connections:`);
 
-var numSockets = Object.keys(io.sockets.connected).length;
-console.log(`THERE ARE ${numSockets} SOCKETS`)
-    var numClients = Object.keys(io.sockets.connected).length
-    log('Room ' + room + ' now has ' + numClients + ' client(s)');
+     allInqs.push({"id":socket.id, "room":room});
+     io.sockets.emit('allInqs', allInqs);
+     console.log(allInqs);
 
     if (numClients === 1) {
       socket.join(room);
-      log('Client ID ' + socket.id + ' created room ' + room);
+      console.log(`${socket.id} created room  ${room}`);
       socket.emit('created', room, socket.id);
 
-    } else if (numClients === 2) {
-      log('Client ID ' + socket.id + ' joined room ' + room);
+    } else if (numClients === 2) {              // log('Client ID ' + socket.id + ' joined room ' + room);
+      console.log(`Client ID ' ${socket.id} joined room ${room}`)
       io.sockets.in(room).emit('join', room);
       socket.join(room);
       socket.emit('joined', room, socket.id);

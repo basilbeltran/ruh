@@ -8,11 +8,11 @@ angular.module("RuhApp")
 
 function expertController( RuhQuestionFactory){
   var expertMain = this;
-
+  var loggedText = "Logged in as You";
   // expertMain.users = RuhUserFactory.users;
 
   expertMain.data = RuhQuestionFactory.getQuestionData();
-console.log(expertMain.data);
+
   // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
 
 

@@ -30,46 +30,75 @@ function report(str){
   document.getElementById("roomText").innerHTML = str;
 }
 
-var room = prompt('Enter room name:');
+var room = prompt('Enter question:');
 
 if (room !== '') {
-  report(`got ${room}`);
-  socket.emit('create or join', room);
+  socket.emit('inquiry', room);
+  report(`sending inquiry with room: ${room}`);
 }
 
+navigator.mediaDevices.getUserMedia({
+  audio: false,
+  video: true
+})
+.then(gotStream)
+.catch(function(e) {
+  alert('getUserMedia() error: ' + e.name);
+});
+
+function gotStream(stream) {
+  console.log('Adding local stream.');
+  localVideo.src = window.URL.createObjectURL(stream);
+  localStream = stream;
+  sendMessage('got user media');
+  if (isInitiator) {
+    maybeStart();
+  }
+}
+
+
+
 socket.on('created', room => {
-  report(`waiting in ${room}`);
+  report(`received created with room ${room}`);
   isInitiator = true;
 });
 
 socket.on('full', room => {
-  report(`${room} is full`);
+  report(`received  full with ${room} `);
 });
 
 socket.on('join', room =>{
-  report(`Peer Channel Ready for ${room}`);
+  report(`received join with  ${room}`);
   isChannelReady = true;
 });
 
 socket.on('joined', room =>{
-  console.log('joined: ' + room);
+  report(`received joined with  ${room}`);
   isChannelReady = true;
 });
 
 socket.on('log', array => {
+  report(`received log with ...`);
   console.log.apply(console, array);
 });
 
+socket.on('allInqs', inq => {
+  console.dir(inq);
+});
 ////////////////////////////////////////////////
 
 function sendMessage(message) {
-  console.log('Client sending message: ', message);
+  if(message.type){
+    console.log(' sending message: ', message.type);
+  }else{
+    console.log(' sending message: ', message);
+  }
   socket.emit('message', message);
 }
 
 // This client receives a message
 socket.on('message', function(message) {
-  console.log('Client received message:', message);
+  console.log('received message with', message);
   if (message === 'got user media') {
     maybeStart();
   } else if (message.type === 'offer') {
@@ -96,30 +125,13 @@ socket.on('message', function(message) {
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 
-navigator.mediaDevices.getUserMedia({
-  audio: false,
-  video: true
-})
-.then(gotStream)
-.catch(function(e) {
-  alert('getUserMedia() error: ' + e.name);
-});
 
-function gotStream(stream) {
-  console.log('Adding local stream.');
-  localVideo.src = window.URL.createObjectURL(stream);
-  localStream = stream;
-  sendMessage('got user media');
-  if (isInitiator) {
-    maybeStart();
-  }
-}
 
 var constraints = {
   video: true
 };
 
-console.log('Getting user media with constraints', constraints);
+console.log('Getting user media with constraints');
 
 if (location.hostname !== 'localhost') {
   requestTurn(
@@ -128,15 +140,16 @@ if (location.hostname !== 'localhost') {
 }
 
 function maybeStart() {
-  console.log('>>>>>>> maybeStart() ', isStarted, localStream, isChannelReady);
+
+  console.log(`maybeStart() isStarted is ${isStarted} isChannelReady is ${isChannelReady}` );
   if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
-    console.log('>>>>>> creating peer connection');
+    console.log(' maybeStart() creating peer connection');
     createPeerConnection();
     pc.addStream(localStream);
     isStarted = true;
     console.log('isInitiator', isInitiator);
     if (isInitiator) {
-      doCall();
+      doOffer();
     }
   }
 }
@@ -162,7 +175,7 @@ function createPeerConnection() {
 }
 
 function handleIceCandidate(event) {
-  console.log('icecandidate event: ', event);
+  console.log('icecandidate event: ', event.type);
   if (event.candidate) {
     sendMessage({
       type: 'candidate',
@@ -185,7 +198,7 @@ function handleCreateOfferError(event) {
   console.log('createOffer() error: ', event);
 }
 
-function doCall() {
+function doOffer() {
   console.log('Sending offer to peer');
   pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
 }
@@ -202,7 +215,7 @@ function setLocalAndSendMessage(sessionDescription) {
   // Set Opus as the preferred codec in SDP if Opus is present.
   //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
   pc.setLocalDescription(sessionDescription);
-  console.log('setLocalAndSendMessage sending message', sessionDescription);
+  console.log('setLocalAndSendMessage sending message', sessionDescription.type);
   sendMessage(sessionDescription);
 }
 

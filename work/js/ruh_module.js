@@ -88,14 +88,16 @@ function userFactory(){
 
 
 function questionFactory(){
-  var questions = [];
+  var questions;
 
       var getQuestionData = function () {
-        if(questions === []){
+        if(! questions){
+            console.log(`looking for stub data`)
             window.localStorage.setItem('data', JSON.stringify(stub))
             questions = JSON.parse(window.localStorage.getItem('data'));
             return questions;
         } else {
+          console.log(`returning cached data`)
           return questions;
         }
       }
@@ -116,14 +118,7 @@ function questionFactory(){
           "subarea":"temp",     // GET DROP CHOICE WORKING
           "user":"temp",        // derived proframatically
           "expert":"temp",      // assigned or choosen
-            // "group":qMain.group,     // derived from userId
-            // "status":qMain.status,   // derived programatically
-            // "time": qMain.time,      // derived proframatically
-            // "subject":qMain.subject, // GET DROP CHOICE WORKING
-            // "subarea":qMain.subarea, // GET DROP CHOICE WORKING
-            // "user":qMain.user,          // derived proframatically
-            // "expert":qMain.expert,      // assigned or choosen
-            "question":qText
+          "question":qText
         });
 
 

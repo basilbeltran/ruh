@@ -1,36 +1,41 @@
 
 stub = {};
 stub.questions = [
-  { "group":"sept-2016",
-    "status":"yellow",
-    "time": 0,
+  { "group":"aaaaaaaaaa",
+    "myStatus":"yellow",
+    "inTime": 0,
     "subject": "javascript",
-    "subarea": "functions",
-    "user":"basil.beltran@tinkermill.org",
-    "expert":"basil.beltran@tinkermill.org",
-    "textsIn":["1", "Is it ok?", "letter A"],
-    "textsOut":["2", "ok thats fine", "letter B"],
-    "question":"How do you decide where to merge the data for a composite view element like this? It must happen above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
+    "user":"11111",
+    "helpers":"22222",
+    "comments":[
+      {myUUID:"11111", myText:"Is it ok?"},
+      {myUUID:"22222", myText:"It's just fine"}
+    ],
+    "question":"where to merge the data, above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
   },
-  { "group":"sept-2016",
-    "status":"red",
-    "time": 600,
+  { "group":"bbbbbbbbbb",
+    "myStatus":"red",
+    "inTime": 600,
     "subject": "dev-ops",
-    "subarea": "bash",
-    "user":"basil.beltran@tinkermill.org",
-    "textsIn":["3", "Turtles", "letter C"],
-    "textsOut":["4", "All the way down", "letter D"],
-    "question":"how do I migrate from cloud9 to a local dev environment"
+    "user":"22222",
+    "helpers":"22222",
+    "comments":[
+      {myUUID:"22222", myText:"You a moron?"},
+      {myUUID:"11111", myText:"Yes, I a moron."}
+    ],
+    "question":"how do I migrate from cloud9 to a local"
   },
-  { "group":"sept-2016",
-    "status":"orange",
-    "time": 240,
+  { "group":"cccccccccc",
+    "myStatus":"orange",
+    "inTime": 240,
     "subject": "css",
-    "subarea": "bootstrap",
-    "user":"basil.beltran@tinkermill.org",
+    "user":"11111",
     "expert":"basil.beltran@tinkermill.org",
-    "textsIn":["5", "You wana go?", "letter E"],
-    "textsOut":["6", "ok lets go", "letter F"],
+    "helpers":"22222",
+    "comments":[
+      {myUUID:"11111", myText:"Is it a turtle?"},
+      {myUUID:"22222", myText:"Lots and lots of turtles"}
+    ],
     "question":"How many turtles are there?"
   }
 ] // end $scope.questions
@@ -58,12 +63,31 @@ stub.categories = [
 
 stub.groups = [
   {"groupName": "sept-2016",
-    "members":["basil", "JeffM", "JeffB", "Chris", "JustinD", "Justin"]
+    "members":["11111", "22222"],
+    "myUUID":"aaaaaaaaaa"
   },
   {"groupName": "aug-2016",
-    "members":["Dylan", "Tim", "John"]
+    "members":["11111", "22222"],
+    "myUUID":"bbbbbbbbbb"
   }
 ] // end groups
 
 
-stub.qStatus = [ {"color": "green", "message": "its ok"} ]
+stub.myStatus = [
+  {
+    "color": "green",
+    "message": "question is answered"
+  },
+  {
+    "color": "red",
+    "message": "user put on hold"
+  },
+  {
+    "color": "orange",
+    "message": "question is queued"
+  },
+  {
+    "color": "yellow",
+    "message": "answer in progress"
+  }
+]

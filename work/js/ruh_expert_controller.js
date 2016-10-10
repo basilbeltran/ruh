@@ -12,6 +12,8 @@ function expertController(RuhQuestionFactory){
   // expertMain.users = RuhUserFactory.users;
 
   expertMain.data = RuhQuestionFactory.getQuestionData();
+  console.log(expertMain.data);
+
 
   // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
 

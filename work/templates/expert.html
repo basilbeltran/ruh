@@ -2,7 +2,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <h1 ng-show="expertMain.isProfileShown"> {{loggedText}} </h1>
+        <!-- <h1 ng-show="expertMain.isProfileShown"> {{loggedText}} </h1> -->
+        <h1> {{loggedText}} </h1>
     </div>
 </div>
 
@@ -16,11 +17,12 @@
                 ng-class="expertMain.qStatus"
                 ng-mouseenter="expertMain.makeStatusRed()"
                 ng-mouseleave="expertMain.makeStatusGreen()"
-                href="#">{{q.status}}</button>
-            <button class="button ">{{q.time}}</button>
+                href="#">{{q.myStatus}}</button>
+            <button class="button ">{{q.inTime}}</button>
+            <button class="button ">{{q.user}}</button>
             <button class="button ">{{q.group}}</button>
             <button class="button ">{{q.subject}}</button>
-            <button class="button ">{{q.subarea}}</button>
+
 
 
             <div class="row">

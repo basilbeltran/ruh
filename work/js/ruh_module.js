@@ -64,15 +64,19 @@ function questionFactory(){
   var data;
 
       var getData = function () {
-        if(! data){
-            console.log(`looking for stub data`)
-            window.localStorage.setItem('data', JSON.stringify(stub))
-            data = JSON.parse(window.localStorage.getItem('data'));
-            return data;
-        } else {
-          console.log(`returning cached data`)
+        if(data){
+          console.log(`returning questionFactory data`)
           return data;
         }
+        console.log(`reading localStorage to questionFactory data`)
+        data = JSON.parse(window.localStorage.getItem('data'));
+        if(! data){
+              console.log(`initialize localStorage from stub file`)
+              window.localStorage.setItem('data', JSON.stringify(stub));
+              data = JSON.parse(window.localStorage.getItem('data'));
+              return data;
+        }
+        return data;
       }
 
 

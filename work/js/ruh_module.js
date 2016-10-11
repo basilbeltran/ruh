@@ -63,25 +63,52 @@ function profileController(){    var profileMain = this;
 function questionFactory(){
   var data;
 
-      var getData = function () {
-        if(data){
-          console.log(`returning questionFactory data`)
-          return data;
-        }
-        console.log(`reading localStorage to questionFactory data`)
-        data = JSON.parse(window.localStorage.getItem('data'));
-        if(! data){
-              console.log(`initialize localStorage from stub file`)
-              window.localStorage.setItem('data', JSON.stringify(stub));
-              data = JSON.parse(window.localStorage.getItem('data'));
-              return data;
-        }
-        return data;
-      }
+var getData = function () {
+  if(data){
+    console.log(`using questionFactory fresh data`)
+    return data;
+  }
+  console.log(`reading localStorage to questionFactory data`)  // hit on page refresh
+  data = JSON.parse(window.localStorage.getItem('data'));
+  if(! data){
+    console.log(`initialize localStorage from stub file`)  // hit after deleting LS
+    window.localStorage.setItem('data', JSON.stringify(stub));
+    data = JSON.parse(window.localStorage.getItem('data'));
+    return data;
+  }
+  return data;
+}
 
+var putData = function () {
+    console.log("writing questionFactory data to localStorage");
+
+    // var dqs = angular.copy(data.questions); // avoid duplicates
+    // dqs.forEach(function(q){
+    //   delete q.$$hashKey;
+    // });
+    // data.questions = dqs;
+
+    window.localStorage.setItem('data', JSON.stringify(data));
+    data = JSON.parse(window.localStorage.getItem('data'));
+    console.log("new localStorage data:", data);
+}
+
+function addQuestion(questionThis){
+    var q = new question();
+    q.setQuestionObj(questionThis);
+    getData().questions.push( q );
+    console.log("new data:", data);
+    putData();
+}
+
+
+function getQuestions(){
+ return getData().questions;
+}
 
   return {
-    getData: getData
+    getData: getData,
+    getQuestions: getQuestions,
+    addQuestion: addQuestion
   }
 }
-//getQuestionData().push({   why "not function" ?

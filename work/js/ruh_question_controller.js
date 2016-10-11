@@ -7,11 +7,13 @@ questionController.$inject = ['RuhQuestionFactory'];
 
 
 function questionController(RuhQuestionFactory){
-  var qMain = this;
-  qMain.message = "You are a click (more or less) away from expert help";
+  var questionThis = this;
+  questionThis.message = "You are a click (more or less) away from expert help";
 
-  qMain.addQuestion = function(){
-    RuhQuestionFactory.addQuestion(qMain.question);
+  questionThis.data = RuhQuestionFactory.getData();
+
+  questionThis.addQuestion = function(){
+    RuhQuestionFactory.addQuestion(questionThis);
     $('#myModal').modal('hide'); // trigger the modal
   }
 

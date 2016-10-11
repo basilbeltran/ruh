@@ -19,10 +19,10 @@
                         </div>
 
                         <div class="modal-body">
-                            <input type="text" class="questionText" ng-model="questionMain.question" placeholder="enter a summary of the problem..." />
+                            <input type="text" class="questionText" ng-model="questionMain.qText" placeholder="enter a summary of the problem..." />
                         </div>
 
-                        <button>
+                        <!-- <button>
                             <div class="">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> SUBJECT
@@ -34,21 +34,9 @@
                                     </ul>
                                 </li>
                             </div>
-                        </button>
+                        </button> -->
 
-                        <button>
-                            <div class="">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{questionMain.data.categories[0].subjectName}}
-                      <strong class="caret"></strong></a>
-                                    <ul class="dropdown-menu">
-                                        <li ng-repeat="area in questionMain.data.categories[0].subAreas">
-                                            {{area}}
-                                        </li>
-                                    </ul>
-                                </li>
-                            </div>
-                        </button>
+
 
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->

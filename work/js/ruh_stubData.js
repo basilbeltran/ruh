@@ -1,42 +1,44 @@
 
 stub = {};
 stub.questions = [
-  { "group":"aaaaaaaaaa",
-    "myStatus":"yellow",
-    "inTime": 0,
-    "subject": "javascript",
-    "user":"11111",
-    "helpers":"22222",
-    "comments":[
+  { "qUUID":"qweweqwewe",
+    "qGroupID":"aaaaaaaaaa",
+    "qStatus":"yellow",
+    "qInTime": 0,
+    "qSubject": "javascript",
+    "qUserID":"11111",
+    "qHelpers":"22222",
+    "qComments":[
       {myUUID:"11111", myText:"Is it ok?"},
       {myUUID:"22222", myText:"It's just fine"}
     ],
-    "question":"where to merge the data, above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
+    "qText":"where to merge the data, above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
   },
-  { "group":"bbbbbbbbbb",
-    "myStatus":"red",
-    "inTime": 600,
-    "subject": "dev-ops",
-    "user":"22222",
-    "helpers":"22222",
-    "comments":[
+  { "qUUID":"12345qwewe",
+    "qGroupID":"bbbbbbbbbb",
+    "qStatus":"red",
+    "qInTime": 600,
+    "qSubject": "dev-ops",
+    "qUserID":"22222",
+    "qHelpers":"22222",
+    "qComments":[
       {myUUID:"22222", myText:"You a moron?"},
       {myUUID:"11111", myText:"Yes, I a moron."}
     ],
-    "question":"how do I migrate from cloud9 to a local"
+    "qText":"how do I migrate from cloud9 to a local"
   },
-  { "group":"cccccccccc",
-    "myStatus":"orange",
-    "inTime": 240,
-    "subject": "css",
-    "user":"11111",
-    "expert":"basil.beltran@tinkermill.org",
-    "helpers":"22222",
-    "comments":[
+  { "qUUID":"55555qwewe",
+    "qGroupID":"cccccccccc",
+    "qStatus":"orange",
+    "qInTime": 240,
+    "qSubject": "css",
+    "qUserID":"11111",
+    "qHelpers":"22222",
+    "qComments":[
       {myUUID:"11111", myText:"Is it a turtle?"},
       {myUUID:"22222", myText:"Lots and lots of turtles"}
     ],
-    "question":"How many turtles are there?"
+    "qText":"How many turtles are there?"
   }
 ] // end $scope.questions
 

@@ -10,25 +10,25 @@
 
 <div class="container-fluid">
     <div class="row outerBox">
-        <div ng-repeat="q in expertMain.data.questions" id="question" class="col-md-12">
+        <div ng-repeat="q in expertMain.qArray track by $id($index)" id="question" class="col-md-12">
 
           <div class="buttonsBox">
             <button
                 ng-class="expertMain.qStatus"
                 ng-mouseenter="expertMain.makeStatusRed()"
                 ng-mouseleave="expertMain.makeStatusGreen()"
-                href="#">{{q.myStatus}}</button>
-            <button class="button ">{{q.inTime}}</button>
-            <button class="button ">{{q.user}}</button>
-            <button class="button ">{{q.group}}</button>
-            <button class="button ">{{q.subject}}</button>
+                href="#">{{q.qStatus}}</button>
+            <button class="button ">{{q.qInTime}}</button>
+            <button class="button ">{{q.qUserID}}</button>
+            <button class="button ">{{q.qGroupID}}</button>
+            <button class="button ">{{q.qSubject}}</button>
 
 
 
             <div class="row">
                 <div class="col-md-12">
                     <p id="questionBox">
-                        {{q.question}}
+                        {{q.qText}}
                     </p>
                 </div>
             </div>

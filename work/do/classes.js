@@ -1,56 +1,69 @@
 
 class question {
-  constructor( question,
-              subject,
-              userID,
-              groupID,
-              comments,
-              helpers,
-              myStatus,
-              inTime ) {
-    this.question = question,
-    this.subject = subject,
-    this.user = user,
-    this.group = group,
-    this.comments = comments,
-    this.helpers = helpers,
-    this.myStatus = myStatus,
-    this.inTime = inTime,
-    this.myUUID = randomString(10)
+  constructor() {
+    this.qInTime = new Date().getTime(),
+    this.qUUID = randomString(10)
+  }
+
+  setQuestionObj(obj) {
+    if(obj.qText)     this.qText = obj.qText;
+    if(obj.qSubject)  this.qSubject = obj.qSubject;
+    if(obj.qUserID)   this.qUserID = obj.qUserID;
+    if(obj.qGroupID)  this.qGroupID = obj.qGroupID;
+    if(obj.qComments) this.qComments = obj.qComments;
+    if(obj.qHelpers)  this.qHelpers = obj.qHelpers;
+    if(obj.qStatus)   this.qStatus = obj.qStatus;
+    if(obj.qInTime)   this.qInTime = obj.qInTime;
+    if(obj.qUUID)     this.qUUID = obj.qUUID;
+  }
+
+  setQuestionParams(
+              qText,
+              qSubject,
+              qUserID,
+              qGroupID,
+              qComments,
+              qHelpers,
+              qStatus,
+              qInTime,
+              qUUID) {
+    this.qText = qText;
+    this.qSubject = qSubject;
+    this.qUserID = qUserID;
+    this.qGroupID = qGroupID;
+    this.qComments = qComments;
+    this.qHelpers = qHelpers;
+    this.qStatus = qStatus;
+    this.qInTime = qInTime;
+    this.qUUID = qUUID;
   }
 
 
-
   toString(){
-    return `question is ${this.question} \n
-            subject is ${this.subject} \n
-            user is ${this.user} \n
-            group is ${this.group} \n
-            comments is ${this.comments} \n
-            helpers is ${this.helpers} \n
-            myStatus is ${this.myStatus} \n
-            inTime is ${this.inTime} \n
-            myUUID is ${this.myUUID} \n `
+    return `qText is ${this.qText} \n
+            qSubject is ${this.qSubject} \n
+            qUserID is ${this.qUserID} \n
+            qGroupID is ${this.qGroupID} \n
+            qComments is ${this.qComments} \n
+            qHelpers is ${this.qHelpers} \n
+            qStatus is ${this.qStatus} \n
+            qInTime is ${this.qInTime} \n
+            qUUID is ${this.qUUID} \n `
   }
 }
 
 
 
 class questions {
-    constructor( questionsArray ) {
-      this.questionsArray = questionsArray
+    constructor( ) {
+      this.questionsArray = []
     }
 
     addQuestion (qText){
       this.questionsArray.push( new question(qText));
 
 
-      // var storeQuestions = angular.copy(data); // avoid duplicates
-      // storeQuestions.forEach(function(q){
-      //   delete q.$$hashKey;
-      // });
-      // questions = storeQuestions;
-      // window.localStorage.setItem('data', JSON.stringify(data));
+
       console.log(  JSON.parse(window.localStorage.getItem('data')) );
     } //END addQuestion
 
@@ -62,7 +75,7 @@ class questions {
 
     getQuestion (questionID){
       console.log(`looking for ${questionID}`);
-      return this.questionsArray.filter( q  => q.myUUID === questionID)
+      return this.questionsArray.filter( q  => q.myUUID === questionID);
     }
 
     getQuestions(){

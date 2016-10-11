@@ -10,9 +10,9 @@ function expertController(RuhQuestionFactory){
   var loggedText = "Logged in as You";
   // expertMain.users = RuhUserFactory.users;
 
-  expertMain.data = RuhQuestionFactory.getData();
-  console.log(expertMain.data);
 
+  expertMain.qArray = RuhQuestionFactory.getQuestions();   // an error here stops the page painting
+  // console.log(expertMain.qArray);
 
   // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
 

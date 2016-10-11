@@ -1,8 +1,8 @@
 
-class question = {
+class question {
   constructor( question,
               subject,
-              userID,            //TODO create user object
+              userID,
               groupID,
               comments,
               helpers,
@@ -16,8 +16,9 @@ class question = {
     this.helpers = helpers,
     this.myStatus = myStatus,
     this.inTime = inTime,
-    this.myUUID = randomString(5)
+    this.myUUID = randomString(10)
   }
+
 
 
   toString(){
@@ -35,26 +36,81 @@ class question = {
 
 
 
-class questions = {
+class questions {
     constructor( questionsArray ) {
       this.questionsArray = questionsArray
     }
+
+    addQuestion (qText){
+      this.questionsArray.push( new question(qText));
+
+
+      // var storeQuestions = angular.copy(data); // avoid duplicates
+      // storeQuestions.forEach(function(q){
+      //   delete q.$$hashKey;
+      // });
+      // questions = storeQuestions;
+      // window.localStorage.setItem('data', JSON.stringify(data));
+      console.log(  JSON.parse(window.localStorage.getItem('data')) );
+    } //END addQuestion
+
+
 
     loadFromStub(){
 
     }
 
+    getQuestion (questionID){
+      console.log(`looking for ${questionID}`);
+      return this.questionsArray.filter( q  => q.myUUID === questionID)
+    }
+
+    getQuestions(){
+      return this.questionsArray;
+    }
+
     toString(){
       var strVal;  //TODO  is this needed?
-      this.questions.map( q => strVal += q.toString() );
+      this.questionsArray.map( q => strVal += q.toString() );
       return strVal;
     }
 } // questions
 
 
+class user {
+      constructor( email, password, groupID  ) {
+          this.email = email,
+          this.password = password,
+          this.expertise = [],
+          this.groupID = groupID,
+          this.myUUID = randomString(5)
+        }
 
-class comment = {
+    getExperts (subject){
+      console.log(`looking for ${subject}`);
+      return usersData.filter( x  => x.expertise.includes(subject) )
+    }
 
+    toString(){
+      return `email is ${this.email} \n
+              password is ********   \n
+              myUUID is ${this.myUUID} \n `
+    }
+}
+
+class users {
+    constructor(  ) {
+      this.usersArray = [];
+    }
+
+    toString(){
+      return  this.usersArray  //TODO use map when working below on helpers (questions also)
+    }
+} // helpers
+
+
+
+class comment {
       constructor( userID, myText  ) {
         this.userID = userID,
         this.myText = text,
@@ -72,17 +128,14 @@ class comment = {
 } // comment
 
 
-class comments = {
-
+class comments {
     constructor() {
-      this.comments = [];
+      this.commentsArray = [];
     }
 
     addComment(id, text){
-      this.comments.push(new Comment(id, text));
+      this.commentsArray.push(new Comment(id, text));
     }
-
-
 
 
     orderCommentsByTime(){
@@ -92,7 +145,7 @@ class comments = {
 
     toString(){
       var strVal;  //TODO  is this needed?
-      this.comments.map( comment => strVal += comment.toString() );
+      this.commentsArray.map( comment => strVal += comment.toString() );
       return strVal;
     }
 } // comments
@@ -100,8 +153,7 @@ class comments = {
 
 
 
-class helper = {
-
+class helper {
     constructor( userID, socketID ) {
       this.userID = userID,
       this.socketID = socketID,
@@ -116,13 +168,12 @@ class helper = {
 } // helper
 
 
-class helpers = {
-
-    constructor( helpers ) {
-      this.helpers = helpers;
+class helpers {
+    constructor() {
+      this.helpersArray = [];
     }
 
     toString(){
-      return  this.helpers  //TODO use map when working below on helpers (questions also)
+      return  this.helpersArray  //TODO use map when working below on helpers (questions also)
     }
 } // helpers

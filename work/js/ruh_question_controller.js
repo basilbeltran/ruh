@@ -3,7 +3,6 @@
 angular.module("RuhApp")
   .controller('RuhQuestionController', questionController);
 
-questionController.$inject = ['RuhUserFactory'];
 questionController.$inject = ['RuhQuestionFactory'];
 
 

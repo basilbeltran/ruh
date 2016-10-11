@@ -3,7 +3,6 @@
 angular.module("RuhApp")
   .controller('RuhExpertController', expertController);
 
-  expertController.$inject = ['RuhUserFactory'];
   expertController.$inject = ['RuhQuestionFactory'];
 
 function expertController(RuhQuestionFactory){
@@ -11,7 +10,7 @@ function expertController(RuhQuestionFactory){
   var loggedText = "Logged in as You";
   // expertMain.users = RuhUserFactory.users;
 
-  expertMain.data = RuhQuestionFactory.getQuestionData();
+  expertMain.data = RuhQuestionFactory.getData();
   console.log(expertMain.data);
 
 

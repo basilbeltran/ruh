@@ -5,7 +5,6 @@ angular.module("RuhApp")
     .controller('RuhMainController', mainController)
     .controller('RuhLoginController', loginController)
     .controller('RuhProfileController', profileController)
-    .factory('RuhUserFactory', userFactory)
     .factory('RuhQuestionFactory', questionFactory)
 
 angular.module('RuhApp')
@@ -60,83 +59,25 @@ function profileController(){    var profileMain = this;
 }
 
 
-function userFactory(){
-
-  var usersData = [
-      {
-          email: "basil.beltran@gmail.com",
-          password: "12345678",
-          expertise: ["javascript", "devops"]
-      },
-      {
-          email: "basil.beltran@tinkermill.org",
-          password: "asdf09",
-          expertise: ["css", "node"]
-      },
-  ];
-
-  var getExperts = function(subject){
-    console.log(`looking for ${subject}`);
-    return usersData.filter( x  => x.expertise.includes(subject) )
-  }
-
-    return {
-      users: usersData,
-      getExperts: getExperts
-    }
-}
-
 
 function questionFactory(){
-  var questions;
+  var data;
 
-      var getQuestionData = function () {
-        if(! questions){
+      var getData = function () {
+        if(! data){
             console.log(`looking for stub data`)
             window.localStorage.setItem('data', JSON.stringify(stub))
-            questions = JSON.parse(window.localStorage.getItem('data'));
-            return questions;
+            data = JSON.parse(window.localStorage.getItem('data'));
+            return data;
         } else {
           console.log(`returning cached data`)
-          return questions;
+          return data;
         }
       }
 
 
-      var getQuestion = function(questionID){
-        console.log(`looking for ${questionID}`);
-        return questionData.filter( x  => x.objectElement.includes(questionID) )
-      }
-
-      var addQuestion = function(qText){
-        //getQuestionData().push({  // why "not function" ?
-        questions.push({
-          "group":"temp",       // derived from userId
-          "status":"temp",      // derived programatically
-          "time": "temp",       // derived proframatically
-          "subject":"temp",     // GET DROP CHOICE WORKING
-          "subarea":"temp",     // GET DROP CHOICE WORKING
-          "user":"temp",        // derived proframatically
-          "expert":"temp",      // assigned or choosen
-          "question":qText
-        });
-
-
-        var storeQuestions = angular.copy(questions); // avoid duplicates
-        storeQuestions.forEach(function(q){
-          delete q.$$hashKey;
-        });
-        questions = storeQuestions;
-        window.localStorage.setItem('data', JSON.stringify(questions));
-
-        console.log(  JSON.parse(window.localStorage.getItem('data')) );
-      } //END addQuestion
-
-
-
   return {
-    getQuestionData: getQuestionData,
-    getQuestion: getQuestion,
-    addQuestion: addQuestion
+    getData: getData
   }
 }
+//getQuestionData().push({   why "not function" ?

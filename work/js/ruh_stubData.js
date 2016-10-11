@@ -40,6 +40,21 @@ stub.questions = [
   }
 ] // end $scope.questions
 
+
+stub.usersData = [
+    {
+        email: "basil.beltran@gmail.com",
+        password: "12345678",
+        expertise: ["javascript", "devops"]
+    },
+    {
+        email: "basil.beltran@tinkermill.org",
+        password: "asdf09",
+        expertise: ["css", "node"]
+    },
+];
+
+
 stub.categories = [
   {"subjectName": "JAVASCRIPT",
     "subAreas":["functions", "prototype", "scope", "this", "iteration", "modules"]
@@ -63,11 +78,9 @@ stub.categories = [
 
 stub.groups = [
   {"groupName": "sept-2016",
-    "members":["11111", "22222"],
     "myUUID":"aaaaaaaaaa"
   },
   {"groupName": "aug-2016",
-    "members":["11111", "22222"],
     "myUUID":"bbbbbbbbbb"
   }
 ] // end groups

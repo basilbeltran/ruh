@@ -7,11 +7,8 @@ stub.questions = [
     "qInTime": 0,
     "qSubject": "javascript",
     "qUserID":"11111",
-    "qHelpers":"22222",
-    "qComments":[
-      {myUUID:"11111", myText:"Is it ok?"},
-      {myUUID:"22222", myText:"It's just fine"}
-    ],
+    "qHelpers":["22222", "11111"],
+    "qComments":["5555555555", "6666666666"],
     "qText":"where to merge the data, above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
   },
   { "qUUID":"12345qwewe",
@@ -20,11 +17,8 @@ stub.questions = [
     "qInTime": 600,
     "qSubject": "dev-ops",
     "qUserID":"22222",
-    "qHelpers":"22222",
-    "qComments":[
-      {myUUID:"22222", myText:"You a moron?"},
-      {myUUID:"11111", myText:"Yes, I a moron."}
-    ],
+    "qHelpers":["22222", "11111"],
+    "qComments":["3333333333", "4444444444"],
     "qText":"how do I migrate from cloud9 to a local"
   },
   { "qUUID":"55555qwewe",
@@ -33,26 +27,38 @@ stub.questions = [
     "qInTime": 240,
     "qSubject": "css",
     "qUserID":"11111",
-    "qHelpers":"22222",
-    "qComments":[
-      {myUUID:"11111", myText:"Is it a turtle?"},
-      {myUUID:"22222", myText:"Lots and lots of turtles"}
-    ],
+    "qHelpers":["22222", "11111"],
+    "qComments":["1111111111", "2222222222"],
     "qText":"How many turtles are there?"
   }
 ] // end $scope.questions
 
+stub.comments = [
+  {
+    cUUID:"1111111111",
+    cUserID:"11111",
+    cTopic:"55555qwewe",
+    cText:"Is it a turtle?"
+  },
+  {cUUID:"2222222222", cUserID:"22222", cTopic:"55555qwewe", cText:"Lots and lots of turtles"},
+  {cUUID:"3333333333", cUserID:"22222", cTopic:"12345qwewe", cText:"You a moron?"},
+  {cUUID:"4444444444", cUserID:"11111", cTopic:"12345qwewe", cText:"Yes, I a moron."},
+  {cUUID:"5555555555", cUserID:"11111", cTopic:"qweweqwewe", cText:"Is it ok?"},
+  {cUUID:"6666666666", cUserID:"22222", cTopic:"qweweqwewe", cText:"It's just fine"}
+]
 
 stub.usersData = [
     {
-        email: "basil.beltran@gmail.com",
-        password: "12345678",
-        expertise: ["javascript", "devops"]
+        uEmail: "basil.beltran@gmail.com",
+        uPassword: "12345678",
+        uExpertise: ["javascript", "devops"],
+        uUUID: "22222"
     },
     {
-        email: "basil.beltran@tinkermill.org",
-        password: "asdf09",
-        expertise: ["css", "node"]
+        uEmail: "basil.beltran@tinkermill.org",
+        uPassword: "asdf09",
+        uExpertise: ["css", "node"],
+        uUUID: "11111"
     },
 ];
 
@@ -79,16 +85,16 @@ stub.categories = [
 ] // end categories
 
 stub.groups = [
-  {"groupName": "sept-2016",
-    "myUUID":"aaaaaaaaaa"
+  {"gName": "sept-2016",
+    "gUUID":"aaaaaaaaaa"
   },
-  {"groupName": "aug-2016",
-    "myUUID":"bbbbbbbbbb"
+  {"gName": "aug-2016",
+    "gUUID":"bbbbbbbbbb"
   }
 ] // end groups
 
 
-stub.myStatus = [
+stub.status = [
   {
     "color": "green",
     "message": "question is answered"

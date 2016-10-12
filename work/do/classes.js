@@ -6,13 +6,20 @@ class question {
   }
 
   setQuestionObj(obj) {
-    if(obj.qText)     this.qText = obj.qText;
+    if(obj.qText)     {this.qText = obj.qText}
+      else{ this.qText = "test"}
     if(obj.qSubject)  this.qSubject = obj.qSubject;
+      else{ this.qSubject = "Mathamatrix"}
     if(obj.qUserID)   this.qUserID = obj.qUserID;
+      else{ this.qUserID = "22222"}
     if(obj.qGroupID)  this.qGroupID = obj.qGroupID;
-    if(obj.qComments) this.qComments = obj.qComments;
-    if(obj.qHelpers)  this.qHelpers = obj.qHelpers;
-    if(obj.qStatus)   this.qStatus = obj.qStatus;
+      else{ this.qGroupID = "aaaaaaaaaa"}
+    if(obj.qComments) {this.qComments = obj.qComments}
+      else{ this.qComments = ["5555555555", "6666666666"]}
+    if(obj.qHelpers)  {this.qHelpers = obj.qHelpers}
+      else{ this.qHelpers = ["11111", "22222"]}
+    if(obj.qStatus)   {this.qStatus = obj.qStatus}
+      else{ this.qStatus = "yellow"}
     if(obj.qInTime)   this.qInTime = obj.qInTime;
     if(obj.qUUID)     this.qUUID = obj.qUUID;
   }
@@ -40,15 +47,15 @@ class question {
 
 
   toString(){
-    return `qText is ${this.qText} \n
-            qSubject is ${this.qSubject} \n
-            qUserID is ${this.qUserID} \n
-            qGroupID is ${this.qGroupID} \n
-            qComments is ${this.qComments} \n
-            qHelpers is ${this.qHelpers} \n
-            qStatus is ${this.qStatus} \n
-            qInTime is ${this.qInTime} \n
-            qUUID is ${this.qUUID} \n `
+    return `qText = ${this.qText} \n
+            qSubject = ${this.qSubject} \n
+            qUserID = ${this.qUserID} \n
+            qGroupID = ${this.qGroupID} \n
+            qComments = ${this.qComments} \n
+            qHelpers = ${this.qHelpers} \n
+            qStatus = ${this.qStatus} \n
+            qInTime = ${this.qInTime} \n
+            qUUID = ${this.qUUID} \n `
   }
 }
 
@@ -124,19 +131,20 @@ class users {
 
 
 class comment {
-      constructor( userID, myText  ) {
-        this.userID = userID,
-        this.myText = text,
-        this.myTime = new Date().getTime(),
-        this.myUUID = randomString(10)
+      constructor( user, topic, text  ) {
+        this.cTopic = topic,
+        this.cUserID = user,
+        this.cText = text,
+        this.cTime = new Date().getTime(),
+        this.cUUID = randomString(10)
       }
 
 
       toString(){
-        return `userID is ${this.userID} \n
-                myText is ${this.myText} \n
-                myTime is ${this.myTime} \n
-                myUUID is ${this.myUUID} \n `
+        return `cUserID = ${this.cUserID} \n
+                cText = ${this.cText} \n
+                cTime = ${this.cTime} \n
+                cUUID = ${this.cUUID} \n `
       }
 } // comment
 

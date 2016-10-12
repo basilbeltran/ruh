@@ -80,24 +80,25 @@ var getData = function () {
 }
 
 var putData = function () {
-    console.log("writing questionFactory data to localStorage");
 
     // var dqs = angular.copy(data.questions); // avoid duplicates
     // dqs.forEach(function(q){
     //   delete q.$$hashKey;
     // });
     // data.questions = dqs;
+    // decided to implement an alternative ... track by $id($index)
+    //      "q in expertMain.qArray track by $id($index)"
 
     window.localStorage.setItem('data', JSON.stringify(data));
     data = JSON.parse(window.localStorage.getItem('data'));
-    console.log("new localStorage data:", data);
+    console.log("wrote localStorage data:", data);
 }
 
 function addQuestion(questionThis){
     var q = new question();
     q.setQuestionObj(questionThis);
     getData().questions.push( q );
-    console.log("new data:", data);
+    console.log("adding question:", q.toString() );
     putData();
 }
 

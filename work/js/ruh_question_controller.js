@@ -8,7 +8,7 @@ questionController.$inject = ['RuhQuestionFactory'];
 
 function questionController(RuhQuestionFactory){
   var questionThis = this;
-  questionThis.message = "You are a click (more or less) away from expert help";
+  questionThis.message = "You are one click (more or less) away from expert help";
 
   questionThis.data = RuhQuestionFactory.getData();
 

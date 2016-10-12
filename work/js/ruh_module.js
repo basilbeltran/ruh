@@ -98,7 +98,7 @@ function addQuestion(questionThis){
     var q = new question();
     q.setQuestionObj(questionThis);
     getData().questions.push( q );
-    console.log("adding question:", q.toString() );
+    // console.log("adding question:", q.toString() );
     putData();
 }
 
@@ -107,9 +107,20 @@ function getQuestions(){
  return getData().questions;
 }
 
+function  getQuestion (questionID){
+  console.log(`looking for ${questionID}`);
+  return getData().questions.filter( q  => q.myUUID === questionID);
+}
+
+// function  getExperts (subject){
+//   console.log(`looking for ${subject}`);
+//   return usersData.filter( x  => x.expertise.includes(subject) )
+// }
+
   return {
     getData: getData,
     getQuestions: getQuestions,
+    getQuestion: getQuestion,
     addQuestion: addQuestion
   }
 }

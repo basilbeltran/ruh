@@ -6,48 +6,34 @@ class question {
   }
 
   setQuestionObj(obj) {
-    if(obj.qText)     {this.qText = obj.qText}
-      else{ this.qText = "test"}
-    if(obj.qSubject)  this.qSubject = obj.qSubject;
-      else{ this.qSubject = "Mathamatrix"}
-    if(obj.qUserID)   this.qUserID = obj.qUserID;
-      else{ this.qUserID = "22222"}
+    if(obj.qText)    this.qText = obj.qText // set from obj
+      else           this.qText = "test"   // else a default val
+
+    if(obj.qSubject)  this.qSubject = obj.qSubject
+      else this.qSubject = "Mathamatrix"
+
+    if(obj.qUserID)   this.qUserID = obj.qUserID
+      else            this.qUserID = "22222"
+
     if(obj.qGroupID)  this.qGroupID = obj.qGroupID;
-      else{ this.qGroupID = "aaaaaaaaaa"}
-    if(obj.qComments) {this.qComments = obj.qComments}
-      else{ this.qComments = ["5555555555", "6666666666"]}
-    if(obj.qHelpers)  {this.qHelpers = obj.qHelpers}
-      else{ this.qHelpers = ["11111", "22222"]}
-    if(obj.qStatus)   {this.qStatus = obj.qStatus}
-      else{ this.qStatus = "yellow"}
+      else            this.qGroupID = "aaaaaaaaaa"
+
+    if(obj.qComments) this.qComments = obj.qComments
+      else            this.qComments = ["5555555555", "6666666666"]
+
+    if(obj.qHelpers)  this.qHelpers = obj.qHelpers
+      else            this.qHelpers = ["11111", "22222"]
+
+    if(obj.qStatus)   this.qStatus = obj.qStatus
+      else            this.qStatus = "yellow"
+
     if(obj.qInTime)   this.qInTime = obj.qInTime;
     if(obj.qUUID)     this.qUUID = obj.qUUID;
   }
 
-  setQuestionParams(
-              qText,
-              qSubject,
-              qUserID,
-              qGroupID,
-              qComments,
-              qHelpers,
-              qStatus,
-              qInTime,
-              qUUID) {
-    this.qText = qText;
-    this.qSubject = qSubject;
-    this.qUserID = qUserID;
-    this.qGroupID = qGroupID;
-    this.qComments = qComments;
-    this.qHelpers = qHelpers;
-    this.qStatus = qStatus;
-    this.qInTime = qInTime;
-    this.qUUID = qUUID;
-  }
-
 
   toString(){
-    return `qText = ${this.qText} \n
+    return `\n qText = ${this.qText} \n
             qSubject = ${this.qSubject} \n
             qUserID = ${this.qUserID} \n
             qGroupID = ${this.qGroupID} \n
@@ -57,144 +43,68 @@ class question {
             qInTime = ${this.qInTime} \n
             qUUID = ${this.qUUID} \n `
   }
-}
-
-
-
-class questions {
-    constructor( ) {
-      this.questionsArray = []
-    }
-
-    addQuestion (qText){
-      this.questionsArray.push( new question(qText));
-
-
-
-      console.log(  JSON.parse(window.localStorage.getItem('data')) );
-    } //END addQuestion
-
-
-
-    loadFromStub(){
-
-    }
-
-    getQuestion (questionID){
-      console.log(`looking for ${questionID}`);
-      return this.questionsArray.filter( q  => q.myUUID === questionID);
-    }
-
-    getQuestions(){
-      return this.questionsArray;
-    }
-
-    toString(){
-      var strVal;  //TODO  is this needed?
-      this.questionsArray.map( q => strVal += q.toString() );
-      return strVal;
-    }
-} // questions
+} //question
 
 
 class user {
-      constructor( email, password, groupID  ) {
-          this.email = email,
-          this.password = password,
-          this.expertise = [],
-          this.groupID = groupID,
-          this.myUUID = randomString(5)
-        }
+  constructor() {
+    this.uInTime = new Date().getTime(),
+    this.uUUID = randomString(10)
+  }
 
-    getExperts (subject){
-      console.log(`looking for ${subject}`);
-      return usersData.filter( x  => x.expertise.includes(subject) )
+
+  setUserObj( obj ) {
+    if(obj.uEmail)  this.uEmail = obj.uEmail
+      else          this.uEmail = "user@gmail.com"
+
+    if(obj.uPassword)  this.uPassword = obj.uPassword
+      else             this.uPassword = "password"
+
+    if(obj.uExpertise)  this.uExpertise = obj.uExpertise
+      else              this.uExpertise = ["Javascript", "css"]
+
+    if(obj.uInTime)   this.uInTime = obj.uInTime;
+    if(obj.uUUID)     this.uUUID = obj.uUUID;
     }
 
-    toString(){
-      return `email is ${this.email} \n
-              password is ********   \n
-              myUUID is ${this.myUUID} \n `
-    }
-}
-
-class users {
-    constructor(  ) {
-      this.usersArray = [];
-    }
 
     toString(){
-      return  this.usersArray  //TODO use map when working below on helpers (questions also)
+      return `uEmail = ${this.uEmail} \n
+              uPassword = ${this.uPassword}   \n
+              myUUID = ${this.uUUID} \n `
     }
-} // helpers
+} //user
 
 
 
 class comment {
-      constructor( user, topic, text  ) {
-        this.cTopic = topic,
-        this.cUserID = user,
-        this.cText = text,
-        this.cTime = new Date().getTime(),
-        this.cUUID = randomString(10)
+  constructor() {
+    this.cInTime = new Date().getTime(),
+    this.cUUID = randomString(10)
+  }
+
+      setComment( obj ) {
+
+        if(obj.cTopic)  this.cTopic = obj.cTopic
+          else this.cTopic = "Mathamatrix"
+
+        if(obj.cUserID)   this.cUserID = obj.cUserID
+          else            this.cUserID = "22222"
+
+        if(obj.cText)    this.cText = obj.cText
+          else           this.cText = "comment"
+
+
+        if(obj.cInTime)   this.cInTime = obj.cInTime;
+        if(obj.cUUID)     this.cUUID = obj.cUUID;
       }
 
 
       toString(){
         return `cUserID = ${this.cUserID} \n
+                cTopic = ${this.cTopic} \n
                 cText = ${this.cText} \n
                 cTime = ${this.cTime} \n
                 cUUID = ${this.cUUID} \n `
       }
 } // comment
-
-
-class comments {
-    constructor() {
-      this.commentsArray = [];
-    }
-
-    addComment(id, text){
-      this.commentsArray.push(new Comment(id, text));
-    }
-
-
-    orderCommentsByTime(){
-        //TODO order comments this.comments.map
-      return [];
-    }
-
-    toString(){
-      var strVal;  //TODO  is this needed?
-      this.commentsArray.map( comment => strVal += comment.toString() );
-      return strVal;
-    }
-} // comments
-
-
-
-
-class helper {
-    constructor( userID, socketID ) {
-      this.userID = userID,
-      this.socketID = socketID,
-      this.myUUID = randomString(10)
-    }
-
-    toString(){
-      return `userID is ${this.userID} \n
-              socketID is ${this.socketID} \n
-              myUUID is ${this.myUUID} \n `
-    }
-} // helper
-
-
-class helpers {
-    constructor() {
-      this.helpersArray = [];
-    }
-
-    toString(){
-      return  this.helpersArray  //TODO use map when working below on helpers (questions also)
-    }
-} // helpers

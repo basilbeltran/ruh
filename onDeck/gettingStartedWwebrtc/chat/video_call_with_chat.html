@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+/*
+
+  webrtc_polyfill.js by Rob Manson
+  NOTE: Based on adapter.js by Adam Barth
+
+  The MIT License
+
+  Copyright (c) 2010-2013 Rob Manson, http://buildAR.com. All rights reserved.
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+
+*/
+
+var webrtc_capable = true;
+var rtc_peer_connection = null;
+var rtc_session_description = null;
+var get_user_media = null;
+var connect_stream_to_src = null;
+var stun_server = "stun.l.google.com:19302";
+
+if (navigator.getUserMedia) { // WebRTC 1.0 standard compliant browser
+  rtc_peer_connection = RTCPeerConnection;
+  rtc_session_description = RTCSessionDescription;
+  get_user_media = navigator.getUserMedia.bind(navigator);
+  connect_stream_to_src = function(media_stream, media_element) {
+    // https://www.w3.org/Bugs/Public/show_bug.cgi?id=21606
+    media_element.srcObject = media_stream;
+    media_element.play();
+  };
+} else if (navigator.mozGetUserMedia) { // early firefox webrtc implementation
+  rtc_peer_connection = mozRTCPeerConnection;
+  rtc_session_description = mozRTCSessionDescription;
+  get_user_media = navigator.mozGetUserMedia.bind(navigator);
+  connect_stream_to_src = function(media_stream, media_element) {
+    media_element.mozSrcObject = media_stream;
+    media_element.play();
+  };
+  stun_server = "74.125.31.127:19302";
+} else if (navigator.webkitGetUserMedia) { // early webkit webrtc implementation
+  rtc_peer_connection = webkitRTCPeerConnection;
+  rtc_session_description = RTCSessionDescription;
+  get_user_media = navigator.webkitGetUserMedia.bind(navigator);
+  connect_stream_to_src = function(media_stream, media_element) {
+    media_element.src = webkitURL.createObjectURL(media_stream);
+  };
+} else {
+  alert("This browser does not support WebRTC - visit WebRTC.org for more info");
+  webrtc_capable = false;
+}
+</script>
+<script>
+/*
+
+  video_call_with_chat.js by Rob Manson
+
+  The MIT License
+
+  Copyright (c) 2010-2013 Rob Manson, http://buildAR.com. All rights reserved.
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+
+*/
+
+var call_token; // unique token for this call
+var signaling_server; // signaling server for this call
+var peer_connection; // peer connection object
+
+function start() {
+  // create the WebRTC peer connection object
+  peer_connection = new rtc_peer_connection({ // RTCPeerConnection configuration 
+    "iceServers": [ // information about ice servers
+      { "url": "stun:"+stun_server }, // stun server info
+    ]
+  });
+
+  // generic handler that sends any ice candidates to the other peer
+  peer_connection.onicecandidate = function (ice_event) {
+    if (ice_event.candidate) {
+      signaling_server.send(
+        JSON.stringify({
+          token:call_token,
+          type: "new_ice_candidate",
+          candidate: ice_event.candidate ,
+        })
+      );
+    }
+  };
+
+  // display remote video streams when they arrive using local <video> MediaElement
+  peer_connection.onaddstream = function (event) {
+    connect_stream_to_src(event.stream, document.getElementById("remote_video"));
+    // hide placeholder and show remote video
+    document.getElementById("loading_state").style.display = "none";
+    document.getElementById("open_call_state").style.display = "block";
+  };
+
+  // setup stream from the local camera 
+  setup_video();
+
+  // setup generic connection to the signaling server using the WebSocket API
+  signaling_server = new WebSocket("ws://localhost:1234");
+
+  if (document.location.hash === "" || document.location.hash === undefined) { // you are the Caller
+
+    // create the unique token for this call 
+    var token = Date.now()+"-"+Math.round(Math.random()*10000);
+    call_token = "#"+token;
+
+    // set location.hash to the unique token for this call
+    document.location.hash = token;
+
+    signaling_server.onopen = function() {
+      // setup caller signal handler
+      signaling_server.onmessage = caller_signal_handler;
+
+      // tell the signaling server you have joined the call 
+      signaling_server.send(
+        JSON.stringify({ 
+          token:call_token,
+          type:"join",
+        })
+      );
+    }
+
+    document.title = "You are the Caller";
+    document.getElementById("loading_state").innerHTML = "Ready for a call...ask your friend to visit:<br/><br/>"+document.location;
+
+  } else { // you have a hash fragment so you must be the Callee 
+    
+    // get the unique token for this call from location.hash
+    call_token = document.location.hash;
+
+    signaling_server.onopen = function() {
+      // setup caller signal handler
+      signaling_server.onmessage = callee_signal_handler;
+
+      // tell the signaling server you have joined the call 
+      signaling_server.send(
+        JSON.stringify({ 
+          token:call_token,
+          type:"join",
+        })
+      );
+
+      // let the caller know you have arrived so they can start the call
+      signaling_server.send(
+        JSON.stringify({ 
+          token:call_token,
+          type:"callee_arrived",
+        })
+      );
+    }
+
+    document.title = "You are the Callee";
+    document.getElementById("loading_state").innerHTML = "One moment please...connecting your call...";
+  }
+
+  // setup message bar handlers
+  document.getElementById("message_input").onkeydown = send_chat_message;
+  document.getElementById("message_input").onfocus = function() { this.value = ""; }
+}
+
+/* functions used above are defined below */
+
+// handler to process new descriptions
+function new_description_created(description) {
+  peer_connection.setLocalDescription(
+    description, 
+    function () {
+      signaling_server.send(
+        JSON.stringify({
+          token:call_token,
+          type:"new_description",
+          sdp:description 
+        })
+      );
+    }, 
+    log_error
+  );
+}
+
+// handle signals as a caller
+function caller_signal_handler(event) {
+  var signal = JSON.parse(event.data);
+  if (signal.type === "callee_arrived") {
+    peer_connection.createOffer(
+      new_description_created, 
+      log_error
+    );
+  } else if (signal.type === "new_ice_candidate") {
+    peer_connection.addIceCandidate(
+      new RTCIceCandidate(signal.candidate)
+    );
+  } else if (signal.type === "new_description") {
+    peer_connection.setRemoteDescription(
+      new rtc_session_description(signal.sdp), 
+      function () {
+        if (peer_connection.remoteDescription.type == "answer") {
+          // extend with your own custom answer handling here
+        }
+      },
+      log_error
+    );
+  } else if (signal.type === "new_chat_message") {
+    add_chat_message(signal);
+  } else {
+    // extend with your own signal types here
+  }
+}
+
+// handle signals as a callee
+function callee_signal_handler(event) {
+  var signal = JSON.parse(event.data);
+  if (signal.type === "new_ice_candidate") {
+    peer_connection.addIceCandidate(
+      new RTCIceCandidate(signal.candidate)
+    );
+  } else if (signal.type === "new_description") {
+    peer_connection.setRemoteDescription(
+      new rtc_session_description(signal.sdp), 
+      function () {
+        if (peer_connection.remoteDescription.type == "offer") {
+          peer_connection.createAnswer(new_description_created, log_error);
+        }
+      },
+      log_error
+    );
+  } else if (signal.type === "new_chat_message") {
+    add_chat_message(signal);
+  } else {
+    // extend with your own signal types here
+  }
+}
+
+// add new chat message to messages list
+function add_chat_message(signal) {
+  var messages = document.getElementById("messages");
+  var user = signal.user || "them"; 
+  messages.innerHTML = user+": "+signal.message+"<br/>\n"+messages.innerHTML;
+}
+
+// send new chat message to the other browser
+function send_chat_message(e) {
+  if (e.keyCode == 13) {
+    var new_message = this.value;
+    this.value = ""; 
+    signaling_server.send(
+      JSON.stringify({
+        token:call_token,
+        type: "new_chat_message",
+        message: new_message 
+      })
+    );
+    add_chat_message({ user: "you", message: new_message }); 
+  }
+}
+
+// setup stream from the local camera 
+function setup_video() {
+  get_user_media(
+    { 
+      "audio": true, // request access to local microphone
+      "video": true  // request access to local camera
+    }, 
+    function (local_stream) { // success callback
+      // display preview from the local camera & microphone using local <video> MediaElement
+      connect_stream_to_src(local_stream, document.getElementById("local_video"));
+      // add local camera stream to peer_connection ready to be sent to the remote peer
+      peer_connection.addStream(local_stream);
+    },
+    log_error
+  );
+}
+
+// generic error handler
+function log_error(error) {
+  console.log(error);
+}
+
+</script>
+<style>
+html, body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Arial","Helvetica",sans-serif;
+}
+#loading_state {
+  position: absolute;
+  top: 45%;
+  left: 0px;
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+}
+#open_call_state {
+  display: none;
+}
+#local_video {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 160px;
+  height: 120px;
+  background: #333333;
+}
+#remote_video {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1024px;
+  height: 768px;
+  background: #999999;
+}
+#chat {
+  position: absolute;
+  top: 0px;
+  left: 1024px;
+  height: 768px;
+  width: 300px;
+  background: #CCCCCC;
+}
+#messages {
+  overflow: auto;
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  height: 733px;
+  width: 295px;
+  padding-top: 15px;
+  padding-left: 5px;
+  font-size: 14px;
+}
+#message_input {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 20px;
+  width: 280px;
+  padding-left: 5px;
+  background: #FFFFFF;
+}
+</style>
+</head>
+<body onload="start()">
+  <div id="loading_state">
+    loading...
+  </div>
+  <div id="open_call_state">
+    <video id="remote_video"></video>
+    <video id="local_video"></video>
+    <div id="chat">
+      <div id="messages"></div>
+      <input type="text" id="message_input" value="Type here then hit enter..."></input>
+    </div>
+  </div>
+</body>
+</html>

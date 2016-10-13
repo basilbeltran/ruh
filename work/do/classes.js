@@ -1,6 +1,6 @@
 
 class Question {
-  constructor(data) {
+  constructor() {
     this.qInTime = new Date().getTime(),
     this.qUUID = randomString(10),
     this.data = data
@@ -17,23 +17,12 @@ class Question {
     // if(obj.qWillAnswerIn)    this.qWillAnswerIn = obj.qWillAnswerIn
     //   else                   this.qWillAnswerIn = "minutes until broadcast"
 
-    if(obj.qSubject)  this.qSubject = obj.qSubject
-      else this.qSubject = "Subject area of question"
-
-    if(obj.qUserID)   this.qUserID = obj.qUserID
-      else            this.qUserID = "22222"
-
-    if(obj.qGroupID)  this.qGroupID = obj.qGroupID;
-      else            this.qGroupID = "aaaaaaaaaa"
-
-    if(obj.qComments) this.qComments = obj.qComments
-      else            this.qComments = ["5555555555", "6666666666"]
-
-    if(obj.qHelpers)  this.qInterested = obj.qInterested
-      else            this.qInterested = ["11111", "22222"]
-
-    if(obj.qStatus)   this.qStatus = obj.qStatus
-      else            this.qStatus = "yellow"
+    this.qSubject = obj.qSubject      || "Subject area of question";
+    this.qUserID = obj.qUserID        || "22222";
+    this.qGroupID = obj.qGroupID      || "aaaaaaaaaa";
+    this.qComments = obj.qComments    || ["5555555555", "6666666666"]
+    this.qInterested = obj.qInterested || ["11111", "22222"]
+    this.qStatus = obj.qStatus        || "yellow"
 
     if(obj.qInTime)   this.qInTime = obj.qInTime;
     if(obj.qUUID)     this.qUUID = obj.qUUID;
@@ -42,15 +31,15 @@ class Question {
 
     this.qUser = new User(this.data);
     this.qUser.setUserKey(this.qUserID);
-
     this.qCommentArray = [];
+    
     this.qComments.forEach( cID => {
       var comment = new Comment(this.data);
       comment.setCommentKey(cID);
       this.qCommentArray.push(comment);
     });
 
-  }
+  } //setQuestionObj
 
 
   toString(){
@@ -76,15 +65,9 @@ class User {
 
 
   setUserObj( obj ) {
-    if(obj.uEmail)  this.uEmail = obj.uEmail
-      else          this.uEmail = "user@gmail.com"
-
-    if(obj.uPassword)  this.uPassword = obj.uPassword
-      else             this.uPassword = "password"
-
-    if(obj.uExpertise)  this.uExpertise = obj.uExpertise
-      else              this.uExpertise = ["Javascript", "css"]
-
+    this.uEmail = obj.uEmail || "user@gmail.com"
+    this.uPassword = obj.uPassword || "password"
+    this.uExpertise = obj.uExpertise || ["Javascript", "css"]
     if(obj.uInTime)   this.uInTime = obj.uInTime;
     if(obj.uUUID)     this.uUUID = obj.uUUID;
     }
@@ -114,17 +97,8 @@ class Comment {
 
 
       setCommentObj( obj ) {
-
-        if(obj.cTopic)  this.cTopic = obj.cTopic
-          else this.cTopic = "Mathamatrix"
-
-        if(obj.cUserID)   this.cUserID = obj.cUserID
-          else            this.cUserID = "22222"
-
-        if(obj.cText)    this.cText = obj.cText
-          else           this.cText = "comment"
-
-
+        this.cUserID = obj.cUserID || "22222"
+        this.cText = obj.cText || "comment"
         if(obj.cInTime)   this.cInTime = obj.cInTime;
         if(obj.cUUID)     this.cUUID = obj.cUUID;
       }

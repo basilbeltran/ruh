@@ -37,16 +37,19 @@ var getData = function () {  // read "data" from local storage
 
 ////////////////////////////// write to local storage
 var putData = function () {
-
+  try{
     window.localStorage.setItem('data', JSON.stringify(data));
     data = JSON.parse(window.localStorage.getItem('data'));
-    console.log("wrote localStorage data:", data);
+  }catch(err){
+    console.log("problem writing localStorage data:", data);
+  }
 }
 
 
 
 // a new question is created and put in the data structure
 function addQuestion(questionThis){
+    // getData();                          // ensure data object is available to new visitor
     var q = new Question();             // instanciation - classes in do/classes.js
     q.setQuestionObj(questionThis);     // inflation - with obj from controller or ?
 

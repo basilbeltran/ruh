@@ -60,15 +60,34 @@ io.sockets.on('connection', function(socket) {
   //   mLOG(array);
   // }
 
-
-
   socket.on('message', function(message) {     // log('Client said: ', message);
     socket.broadcast.emit('message', message); // for a real app, would be room-only (not broadcast)
+     console.log('server socket emitting MESSAGE', message);
   });
 
-  socket.on('inquiry', function(room) {
+  socket.on('question', function(room) {
+    socket.join(room);
+    console.log(`question ${socket.id} QUESTIONED ${room}`);
+    socket.emit('created', room, socket.id);
+
+    allInqs.push({"id":socket.id, "room":room});
+    io.sockets.emit('allInqs', allInqs);
+    console.log(allInqs);
+
+  });
+
+  socket.on('answer', function(room) {
+    console.log(`answer ${socket.id} ANSWERED ${room}`)
+    io.sockets.in(room).emit('join', room);
+    socket.join(room);
+    socket.emit('joined', room, socket.id);
+    io.sockets.in(room).emit('ready');
+  });
+
+
+  socket.on('inquiry', function(room) {          ////// INQUIRY
     var numClients = Object.keys(io.sockets.connected).length;
-      console.log(`io.sockets holds ${numClients} connections:`);
+      console.log(`io.sockets HOLDS ${numClients} connections:`);
 
      allInqs.push({"id":socket.id, "room":room});
      io.sockets.emit('allInqs', allInqs);
@@ -76,11 +95,11 @@ io.sockets.on('connection', function(socket) {
 
     if (numClients === 1) {
       socket.join(room);
-      console.log(`${socket.id} created room  ${room}`);
+      console.log(`1 server emits ${socket.id} CREATED ROOM ${room}`);
       socket.emit('created', room, socket.id);
 
     } else if (numClients === 2) {              // log('Client ID ' + socket.id + ' joined room ' + room);
-      console.log(`Client ID ' ${socket.id} joined room ${room}`)
+      console.log(`2 server emits ${socket.id} join/joined/ready ${room}`)
       io.sockets.in(room).emit('join', room);
       socket.join(room);
       socket.emit('joined', room, socket.id);
@@ -95,6 +114,7 @@ io.sockets.on('connection', function(socket) {
     for (var dev in ifaces) {
       ifaces[dev].forEach(function(details) {
         if (details.family === 'IPv4' && details.address !== '127.0.0.1') {
+              console.log(` server emits ipaddr   ${details.address} `)
           socket.emit('ipaddr', details.address);
         }
       });

@@ -7,11 +7,18 @@ class Question {
   }
 
   setQuestionObj(obj) {
-    if(obj.qText)    this.qText = obj.qText // set from obj
-      else           this.qText = "test"   // else a default val
+    if(obj.qText)    this.qText = obj.qText             // set from obj
+      else           this.qText = "I want to know..."   // else a default val
+
+    // if(obj.qProblem)    this.qText = obj.qProblem
+    //   else              this.qText = "what problem trying to solve"
+
+
+    // if(obj.qWillAnswerIn)    this.qWillAnswerIn = obj.qWillAnswerIn
+    //   else                   this.qWillAnswerIn = "minutes until broadcast"
 
     if(obj.qSubject)  this.qSubject = obj.qSubject
-      else this.qSubject = "Mathamatrix"
+      else this.qSubject = "Subject area of question"
 
     if(obj.qUserID)   this.qUserID = obj.qUserID
       else            this.qUserID = "22222"
@@ -22,8 +29,8 @@ class Question {
     if(obj.qComments) this.qComments = obj.qComments
       else            this.qComments = ["5555555555", "6666666666"]
 
-    if(obj.qHelpers)  this.qHelpers = obj.qHelpers
-      else            this.qHelpers = ["11111", "22222"]
+    if(obj.qHelpers)  this.qInterested = obj.qInterested
+      else            this.qInterested = ["11111", "22222"]
 
     if(obj.qStatus)   this.qStatus = obj.qStatus
       else            this.qStatus = "yellow"
@@ -32,9 +39,16 @@ class Question {
     if(obj.qUUID)     this.qUUID = obj.qUUID;
 
 // inflate from foreign keys.....
-    //console.log(this.factory.data);
+
     this.qUser = new User(this.data);
     this.qUser.setUserKey(this.qUserID);
+
+    this.qCommentArray = [];
+    this.qComments.forEach( cID => {
+      var comment = new Comment(this.data);
+      comment.setCommentKey(cID);
+      this.qCommentArray.push(comment);
+    });
 
   }
 
@@ -75,9 +89,9 @@ class User {
     if(obj.uUUID)     this.uUUID = obj.uUUID;
     }
 
-    setUserKey(uuid){
-      var userObj = this.data
-                    .usersData.filter( x  => x.uUUID === uuid );
+    setUserKey(uuid){  // inflates this user from a user UUID
+      var userObj = this.data.usersData
+        .filter( x  => x.uUUID === uuid );
       this.setUserObj( userObj[0] ) ;
     }
 
@@ -92,12 +106,14 @@ class User {
 
 
 class Comment {
-  constructor(factory) {
+  constructor(data) {
     this.cInTime = new Date().getTime(),
-    this.cUUID = randomString(10)
+    this.cUUID = randomString(10),
+    this.data = data
   }
 
-      setComment( obj ) {
+
+      setCommentObj( obj ) {
 
         if(obj.cTopic)  this.cTopic = obj.cTopic
           else this.cTopic = "Mathamatrix"
@@ -113,6 +129,11 @@ class Comment {
         if(obj.cUUID)     this.cUUID = obj.cUUID;
       }
 
+      setCommentKey(uuid){
+        var commentObj = this.data.comments
+          .filter( x  => x.cUUID === uuid );
+        this.setCommentObj( commentObj[0] ) ;
+      }
 
       toString(){
         return `cUserID = ${this.cUserID} \n

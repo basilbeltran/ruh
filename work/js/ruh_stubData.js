@@ -33,19 +33,6 @@ stub.questions = [
   }
 ] // end $scope.questions
 
-stub.comments = [
-  {
-    cUUID:"1111111111",
-    cUserID:"11111",
-    cTopic:"55555qwewe",
-    cText:"Is it a turtle?"
-  },
-  {cUUID:"2222222222", cUserID:"22222", cTopic:"55555qwewe", cText:"Lots and lots of turtles"},
-  {cUUID:"3333333333", cUserID:"22222", cTopic:"12345qwewe", cText:"You a moron?"},
-  {cUUID:"4444444444", cUserID:"11111", cTopic:"12345qwewe", cText:"Yes, I a moron."},
-  {cUUID:"5555555555", cUserID:"11111", cTopic:"qweweqwewe", cText:"Is it ok?"},
-  {cUUID:"6666666666", cUserID:"22222", cTopic:"qweweqwewe", cText:"It's just fine"}
-]
 
 stub.usersData = [
     {
@@ -61,6 +48,23 @@ stub.usersData = [
         uUUID: "11111"
     },
 ];
+
+
+stub.comments = [
+  {
+    cUUID:"1111111111",
+    cUserID:"11111",
+    cTopic:"55555qwewe",
+    cText:"How many turtles?"
+  },
+  {cUUID:"2222222222", cUserID:"22222", cTopic:"55555qwewe", cText:"Lots and lots of turtles"},
+  {cUUID:"3333333333", cUserID:"22222", cTopic:"12345qwewe", cText:"Me a moron?"},
+  {cUUID:"4444444444", cUserID:"11111", cTopic:"12345qwewe", cText:"Yes, I a moron."},
+  {cUUID:"5555555555", cUserID:"11111", cTopic:"qweweqwewe", cText:"Is it ok?"},
+  {cUUID:"6666666666", cUserID:"22222", cTopic:"qweweqwewe", cText:"It's just fine"}
+]
+
+
 
 
 stub.categories = [

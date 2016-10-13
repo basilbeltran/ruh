@@ -7,8 +7,8 @@ angular.module("RuhApp")
     .controller('RuhProfileController', profileController)
     .factory('RuhQuestionFactory', questionFactory)
 
-angular.module('RuhApp')
-        .config(myRouter);
+angular.module('RuhApp').config(myRouter);  // the client side routes are deined immediately below
+
 myRouter.$inject = ['$routeProvider'];
 function myRouter($routeProvider) {
   $routeProvider
@@ -18,6 +18,9 @@ function myRouter($routeProvider) {
   .when('/profile', { templateUrl: '/templates/profile.html', controller: "RuhProfileController as profileMain" })
   .otherwise({ redirectTo: '/'})
 }
+
+
+// minor angular controllers are defined here, larger ones have there own file
 
 function mainController(){     var mainMain = this;
   mainMain.titleLink = "RU Stuck"
@@ -41,7 +44,6 @@ function loginController(){     var loginMain = this;
   }
 }
 
-
 function profileController(){    var profileMain = this;
 
   profileMain.mainText = "Stuck Profile";
@@ -55,72 +57,5 @@ function profileController(){    var profileMain = this;
 
   profileMain.changePassword = function(){
     console.log('password changed');
-  }
-}
-
-
-
-function questionFactory(){
-  var data;
-
-var getData = function () {
-  if(data){
-    console.log(`using questionFactory fresh data`)
-    return data;
-  }
-  console.log(`reading localStorage to questionFactory data`)  // hit on page refresh
-  data = JSON.parse(window.localStorage.getItem('data'));
-  if(! data){
-    console.log(`initialize localStorage from stub file`)  // hit after deleting LS
-    window.localStorage.setItem('data', JSON.stringify(stub));
-    data = JSON.parse(window.localStorage.getItem('data'));
-    return data;
-  }
-  return data;
-}
-
-var putData = function () {
-
-    // var dqs = angular.copy(data.questions); // avoid duplicates
-    // dqs.forEach(function(q){
-    //   delete q.$$hashKey;
-    // });
-    // data.questions = dqs;
-    // decided to implement an alternative ... track by $id($index)
-    //      "q in expertMain.qArray track by $id($index)"
-
-    window.localStorage.setItem('data', JSON.stringify(data));
-    data = JSON.parse(window.localStorage.getItem('data'));
-    console.log("wrote localStorage data:", data);
-}
-
-function addQuestion(questionThis){
-    var q = new question();
-    q.setQuestionObj(questionThis);
-    getData().questions.push( q );
-    // console.log("adding question:", q.toString() );
-    putData();
-}
-
-
-function getQuestions(){
- return getData().questions;
-}
-
-function  getQuestion (questionID){
-  console.log(`looking for ${questionID}`);
-  return getData().questions.filter( q  => q.myUUID === questionID);
-}
-
-// function  getExperts (subject){
-//   console.log(`looking for ${subject}`);
-//   return usersData.filter( x  => x.expertise.includes(subject) )
-// }
-
-  return {
-    getData: getData,
-    getQuestions: getQuestions,
-    getQuestion: getQuestion,
-    addQuestion: addQuestion
   }
 }

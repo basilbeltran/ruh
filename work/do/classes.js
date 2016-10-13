@@ -1,8 +1,9 @@
 
-class question {
-  constructor() {
+class Question {
+  constructor(data) {
     this.qInTime = new Date().getTime(),
-    this.qUUID = randomString(10)
+    this.qUUID = randomString(10),
+    this.data = data
   }
 
   setQuestionObj(obj) {
@@ -29,6 +30,12 @@ class question {
 
     if(obj.qInTime)   this.qInTime = obj.qInTime;
     if(obj.qUUID)     this.qUUID = obj.qUUID;
+
+// inflate from foreign keys.....
+    //console.log(this.factory.data);
+    this.qUser = new User(this.data);
+    this.qUser.setUserKey(this.qUserID);
+
   }
 
 
@@ -46,10 +53,11 @@ class question {
 } //question
 
 
-class user {
-  constructor() {
+class User {
+  constructor(data) {
     this.uInTime = new Date().getTime(),
-    this.uUUID = randomString(10)
+    this.uUUID = randomString(10),
+    this.data = data
   }
 
 
@@ -67,18 +75,24 @@ class user {
     if(obj.uUUID)     this.uUUID = obj.uUUID;
     }
 
+    setUserKey(uuid){
+      var userObj = this.data
+                    .usersData.filter( x  => x.uUUID === uuid );
+      this.setUserObj( userObj[0] ) ;
+    }
 
     toString(){
       return `uEmail = ${this.uEmail} \n
               uPassword = ${this.uPassword}   \n
+              uExpertise = ${this.uExpertise}   \n
               myUUID = ${this.uUUID} \n `
     }
 } //user
 
 
 
-class comment {
-  constructor() {
+class Comment {
+  constructor(factory) {
     this.cInTime = new Date().getTime(),
     this.cUUID = randomString(10)
   }

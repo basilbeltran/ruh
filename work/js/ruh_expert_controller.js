@@ -6,33 +6,33 @@ angular.module("RuhApp")
   expertController.$inject = ['RuhQuestionFactory'];
 
 function expertController(RuhQuestionFactory){
-  var expertMain = this;
+  var expertThis = this;
   var loggedText = "Logged in as You";
-  // expertMain.users = RuhUserFactory.users;
+  // expertThis.users = RuhUserFactory.users;
 
 
-  expertMain.qArray = RuhQuestionFactory.getQuestions();   // an error here stops the page painting
-  // console.log(expertMain.qArray);
+  expertThis.qArray = RuhQuestionFactory.getQuestions();   // an error here stops the page painting
+  //console.log(expertThis.qArray);
 
   // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
 
 
-  expertMain.showProfile = function(){
-    // expertMain.isProfileShown = true;
-    if(expertMain.isProfileShown){
-      expertMain.isProfileShown = false;
+  expertThis.showProfile = function(){
+    // expertThis.isProfileShown = true;
+    if(expertThis.isProfileShown){
+      expertThis.isProfileShown = false;
     } else{
-      expertMain.isProfileShown = true;
+      expertThis.isProfileShown = true;
     }
   }
 
-  expertMain.makeStatusRed = function(){
-    expertMain.qStatus = "statusRed";
+  expertThis.makeStatusRed = function(){
+    expertThis.qStatus = "statusRed";
     console.log('makeStatusRed called');
   }
 
-  expertMain.makeStatusGreen = function(){
-    expertMain.qStatus = "statusGreen";
+  expertThis.makeStatusGreen = function(){
+    expertThis.qStatus = "statusGreen";
     console.log('makeStatusGreen called');
   }
 

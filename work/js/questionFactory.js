@@ -24,7 +24,7 @@ var getData = function () {  // read "data" from local storage
     // "object-ify" (and inflate) the stub data
     var objects = [];
     data.questions.forEach( q => {
-      var nq = new Question(data);
+      var nq = new Question();
       nq.setQuestionObj(q);
       objects.push(nq);
     });
@@ -52,7 +52,6 @@ function addQuestion(questionThis){
     // getData();                          // ensure data object is available to new visitor
     var q = new Question();             // instanciation - classes in do/classes.js
     q.setQuestionObj(questionThis);     // inflation - with obj from controller or ?
-
     getData().questions.push( q );      // merging into memory based data
     putData();                          // write to local browser storage
 }

@@ -2,7 +2,6 @@
 stub = {};
 stub.questions = [
   { "qUUID":"qweweqwewe",
-    "qGroupID":"aaaaaaaaaa",
     "qStatus":"yellow",
     "qSubject": "javascript",
     "qUserID":"11111",
@@ -11,7 +10,6 @@ stub.questions = [
     "qText":"where to merge the data, above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
   },
   { "qUUID":"12345qwewe",
-    "qGroupID":"bbbbbbbbbb",
     "qStatus":"red",
     "qSubject": "dev-ops",
     "qUserID":"22222",
@@ -20,7 +18,6 @@ stub.questions = [
     "qText":"how do I migrate from cloud9 to a local"
   },
   { "qUUID":"55555qwewe",
-    "qGroupID":"cccccccccc",
     "qStatus":"orange",
     "qSubject": "css",
     "qUserID":"11111",

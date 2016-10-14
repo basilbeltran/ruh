@@ -2,8 +2,7 @@
 class Question {
   constructor() {
     this.qInTime = new Date().getTime(),
-    this.qUUID = randomString(10),
-    this.data = data
+    this.qUUID = randomString(10)
   }
 
   setQuestionObj(obj) {
@@ -29,12 +28,12 @@ class Question {
 
 // inflate from foreign keys.....
 
-    this.qUser = new User(this.data);
+    this.qUser = new User();
     this.qUser.setUserKey(this.qUserID);
     this.qCommentArray = [];
-    
+
     this.qComments.forEach( cID => {
-      var comment = new Comment(this.data);
+      var comment = new Comment();
       comment.setCommentKey(cID);
       this.qCommentArray.push(comment);
     });
@@ -57,10 +56,9 @@ class Question {
 
 
 class User {
-  constructor(data) {
+  constructor() {
     this.uInTime = new Date().getTime(),
-    this.uUUID = randomString(10),
-    this.data = data
+    this.uUUID = randomString(10)
   }
 
 
@@ -73,7 +71,7 @@ class User {
     }
 
     setUserKey(uuid){  // inflates this user from a user UUID
-      var userObj = this.data.usersData
+      var userObj = stub.usersData           //TODO REMOVE  REFERENCE TO STUB
         .filter( x  => x.uUUID === uuid );
       this.setUserObj( userObj[0] ) ;
     }
@@ -89,10 +87,9 @@ class User {
 
 
 class Comment {
-  constructor(data) {
+  constructor() {
     this.cInTime = new Date().getTime(),
-    this.cUUID = randomString(10),
-    this.data = data
+    this.cUUID = randomString(10)
   }
 
 
@@ -104,7 +101,7 @@ class Comment {
       }
 
       setCommentKey(uuid){
-        var commentObj = this.data.comments
+        var commentObj = stub.comments      //TODO REMOVE  REFERENCE TO STUB
           .filter( x  => x.cUUID === uuid );
         this.setCommentObj( commentObj[0] ) ;
       }

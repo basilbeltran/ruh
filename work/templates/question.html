@@ -4,36 +4,29 @@
 
                     <form ng-submit="questionMain.addQuestion()">
 
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">describe the problem</h4>
-                        </div>
+                        <div >
+                            <input type="text"
+                                    class="questionText"
+                                    ng-model="questionMain.qTrying"
+                                    placeholder="What are you trying to achieve?" />
 
-                        <div class="modal-body">
                             <input type="text"
                                     class="questionText"
                                     ng-model="questionMain.qText"
                                     placeholder="enter a summary of the problem..." />
+
+                            <input type="text"
+                                    class="questionText"
+                                    ng-model="questionMain.qTried"
+                                    placeholder="What have you tried so far" />
+                            <select ng-model="questionMain.selectedCat" ng-options="x.subjectName for x in questionMain.data.categories">
+                            </select>
                         </div>
 
-                        <!-- <button>
-                            <div class="">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> SUBJECT
-                      <strong class="caret"></strong></a>
-                                    <ul class="dropdown-menu">
-                                        <li ng-repeat="cat in questionMain.data.categories">
-                                            {{cat.subjectName}}
-                                        </li>
-                                    </ul>
-                                </li>
-                            </div>
-                        </button> -->
-
-
-
                         <div class="modal-footer">
-                            <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
                             <button type="submit" class="btn btn-primary">Submit Question</button>
+                            <button ng-click="questionMain.makeOffer()" id="callButton">Connect</button>
+
                         </div>
 
                     </form>

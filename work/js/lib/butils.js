@@ -8,3 +8,8 @@ randomString = function(length) {
     }
     return text;
 }
+
+var trace = (text) => {
+  // $scope.message = text;
+  console.log((window.performance.now() / 1000).toFixed(3) + ': ' + text);
+}

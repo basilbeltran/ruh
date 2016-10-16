@@ -54,9 +54,9 @@ form {
 }
 
 .questionText {
-    height: 70px;
+    height: 30px;
     width: 90%;
-    margin: 20px 20px;
+    margin: 5px 5px;
 }
 
 video {

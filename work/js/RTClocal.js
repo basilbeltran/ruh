@@ -1,16 +1,18 @@
 //////////////////////////////////////////
   var pc1, pc2, startTime, localStream;
-  var localVideo = document.getElementById('localVideo');
+  //var localVideo = document.getElementById("myView").getElementsByClassName("localVideo")[0];
+  var localVideo = document.getElementById('localVideo')
   var remoteVideo = document.getElementById('remoteVideo');
-  var mediaConstraints = { audio: false, video: true };
-  var offerOptions = { offerToReceiveAudio: 1, offerToReceiveVideo: 1 };
+  // var mediaConstraints = { audio: false, video: true };
+  // var offerOptions = { offerToReceiveAudio: 1, offerToReceiveVideo: 1 };
 
   //$scope.start = function() {
-  function start() {
-    navigator.mediaDevices.getUserMedia(mediaConstraints)
-    .then(  (stream) => localVideo.srcObject = localStream = stream)
-    .catch( (e) => trace(`GUM error: ${e.name}`) );
-  }
+  // function start() {
+  //   navigator.mediaDevices.getUserMedia(mediaConstraints)
+  //   .then(  (stream) => localVideo.src = window.URL.createObjectURL(stream))
+  //   .catch( (e) => console.log(`GUM error: ${e}`) );
+  // }
+
 
   function makeOffer() {
     var servers = null;

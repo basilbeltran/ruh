@@ -42,7 +42,7 @@ setInterval(function(){
 }, 60000);
 
 
-//START EXPRESS LISTENING
+// //START EXPRESS LISTENING
 // var server = app.listen(port, () => {
 //     mLOG(port +' Listening for %s', name);
 // });

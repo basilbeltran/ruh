@@ -41,7 +41,16 @@
         <a id="main-menu-button" href="#" data-state="open" class="menu-button menu-button-open"></a>
     </nav>
 
-<ng-view> </ng-view>
+<ng-view id="myView"> </ng-view>
+
+
+<div class="container-fluid video-container">
+    <div class="row">
+        <video id="localVideo" class="col-md-6" autoplay></video>
+
+        <video id="remoteVideo" class="col-md-6" autoplay></video>
+    </div>
+</div>
 
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <script src="js/jquery.min.js"></script>
@@ -57,6 +66,6 @@
   <script src="js/ruh_question_controller.js"></script>
   <script src="js/ruh_expert_controller.js"></script>
 
-  <script src="js/ruh_question_localRTC.js"></script>
+  <script src="js/RTClocal.js"></script>
 </body>
 </html>

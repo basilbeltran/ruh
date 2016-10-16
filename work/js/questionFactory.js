@@ -49,7 +49,6 @@ var putData = function () {
 
 // a new question is created and put in the data structure
 function addQuestion(questionThis){
-    // getData();                          // ensure data object is available to new visitor
     var q = new Question();             // instanciation - classes in do/classes.js
     q.setQuestionObj(questionThis);     // inflation - with obj from controller or ?
     getData().questions.push( q );      // merging into memory based data

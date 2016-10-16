@@ -1,25 +1,18 @@
 
 
-    <div class="container-fluid ">
-        <div class=" question-container">
-            <h3> {{questionMain.message}} </h3>
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                Compose a Question
-            </button>
-        </div>
+    <div id="question-container" class="container-fluid ">
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
                     <form ng-submit="questionMain.addQuestion()">
 
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">describe the problem</h4>
                         </div>
 
                         <div class="modal-body">
-                            <input type="text" class="questionText" ng-model="questionMain.qText" placeholder="enter a summary of the problem..." />
+                            <input type="text"
+                                    class="questionText"
+                                    ng-model="questionMain.qText"
+                                    placeholder="enter a summary of the problem..." />
                         </div>
 
                         <!-- <button>
@@ -44,21 +37,13 @@
                         </div>
 
                     </form>
-                </div>
-            </div>
-        </div>
 
-        <div class="container-fluid video-container">
-            <div class="row">
-                <video id="localVideo" autoplay></video>
-                <video id="remoteVideo" autoplay></video>
-            </div>
-        </div>
+          </div>
 
-        <div class="container-fluid">
+        <!-- <div class="container-fluid">
             <div class="row">
-                <button onclick="start()" id="startButton">Start</button>
-                <button onclick="makeOffer()" id="callButton">Call</button>
+                <button ng-click="questionMain.start()" id="startButton">Start</button>
+                <button ng-click="questionMain.makeOffer()" id="callButton">Call</button>
                 <button onclick="hangup()" id="hangupButton">Hang Up</button>
             </div>
-        </div>
+        </div> -->

@@ -1,8 +1,9 @@
 
+    <link href="css/ruh_question.css" rel="stylesheet">
 
     <div id="question-container" class="container-fluid ">
 
-                    <form ng-submit="questionMain.addQuestion()">
+                    <form ng-submit="questionMain.addQuestion()" >
 
                         <div >
                             <input type="text"
@@ -19,24 +20,16 @@
                                     class="questionText"
                                     ng-model="questionMain.qTried"
                                     placeholder="What have you tried so far" />
+                            </br>
                             <select ng-model="questionMain.selectedCat" ng-options="x.subjectName for x in questionMain.data.categories">
                             </select>
                         </div>
 
-                        <div class="modal-footer">
+                        <div>
                             <button type="submit" class="btn btn-primary">Submit Question</button>
+                          </br>
                             <button ng-click="questionMain.makeOffer()" id="callButton">Connect</button>
-
                         </div>
-
                     </form>
 
-          </div>
-
-        <!-- <div class="container-fluid">
-            <div class="row">
-                <button ng-click="questionMain.start()" id="startButton">Start</button>
-                <button ng-click="questionMain.makeOffer()" id="callButton">Call</button>
-                <button onclick="hangup()" id="hangupButton">Hang Up</button>
-            </div>
-        </div> -->
+    </div>

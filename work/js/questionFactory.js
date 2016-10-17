@@ -14,6 +14,7 @@ var getData = function () {  // read "data" from local storage
 // expect hit if page refreshed
   console.log(`reading localStorage to questionFactory data`)
   data = JSON.parse(window.localStorage.getItem('data'));
+  console.log(data);
 
 // hit after deleting LocalStorage
   if(! data){
@@ -45,7 +46,18 @@ var putData = function () {
   }
 }
 
+// ensures the data structure is fresh and returns the questions array
+function getQuestions(){
+ return getData().questions;
+}
 
+function getUsers(){
+ return getData().usersData;
+}
+
+function getComments(){
+ return getData().comments;
+}
 
 // a new question is created and put in the data structure
 function addQuestion(questionThis){
@@ -55,12 +67,6 @@ function addQuestion(questionThis){
     putData();                          // write to local browser storage
     console.log(q.toString());
     return q;
-}
-
-
-// ensures the data structure is fresh and returns the questions array
-function getQuestions(){
- return getData().questions;
 }
 
 function  getQuestion (questionID){

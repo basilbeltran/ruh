@@ -71,8 +71,7 @@ class User {
     }
 
     setUserKey(uuid){  // inflates this user from a user UUID
-      var userObj = stub.usersData           //TODO REMOVE  REFERENCE TO STUB
-        .filter( x  => x.uUUID === uuid );
+      var userObj = getUsers().filter( x  => x.uUUID === uuid ); //TODO REMOVE  REFERENCE TO STUB
       this.setUserObj( userObj[0] ) ;
     }
 
@@ -101,8 +100,7 @@ class Comment {
       }
 
       setCommentKey(uuid){
-        var commentObj = stub.comments      //TODO REMOVE  REFERENCE TO STUB
-          .filter( x  => x.cUUID === uuid );
+        var commentObj = getComments().filter( x  => x.cUUID === uuid );   //TODO REMOVE  REFERENCE TO STUB
         this.setCommentObj( commentObj[0] ) ;
       }
 

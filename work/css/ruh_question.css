@@ -1,0 +1,140 @@
+/*
+h4 {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}*/
+
+
+#main-nav{
+  position:fixed;
+  width: 100%;
+  top: 0;
+  border-bottom-color: rgb(252,182,20);
+}
+
+
+#question-container{
+  text-align: center;
+  margin: 60px 20px;
+  padding: 20px 20px;
+  border-radius: 5px;
+  border-style: double;
+  border-color: black
+}
+
+form {
+  text-align: center;
+  margin: 0px 20px;
+  padding: 20px 20px;
+  border-radius: 5px;
+  border-style: double;
+  border-color: black
+}
+
+.mButton {
+  background-color: rgb(252,182,20);
+}
+
+
+
+
+
+
+
+.video-container{
+  text-align: center;
+  margin: 20px 20px;
+  padding: 20px 20px;
+  border-radius: 5px;
+  border-style: double;
+  border-color: black
+}
+
+.questionText {
+    height: 30px;
+    width: 90%;
+    margin: 5px 5px;
+}
+
+video {
+  max-width:64rem;
+  width:100%;
+  max-height:30.875rem;
+  border-radius: 5px;
+  border-style: double;
+  border-color: rgb(252,182,20);
+}
+
+figure {
+   max-width:64rem;
+   width:100%;
+   max-height:30.875rem;
+   height:100%;
+   margin:1.25rem auto;
+   padding:1.051%;
+   background-color:#666;
+}
+
+
+
+
+
+button {
+    margin: 10px;
+    padding:10px;
+    background-color: rgb(252,182,20); /* rgb(248,248,248);*/
+    border-radius: 5px;
+    border-style: double;
+    border-color: black
+}
+
+
+
+
+
+
+
+
+
+
+
+.outerBox{
+  margin: 50px 20px 10px;
+  padding:10px;
+  border-radius: 5px;
+  border-style: double;
+  border-color: red
+}
+
+.buttonsBox{
+  margin: 10px;
+  padding:10px;
+  border-radius: 5px;
+  border-style: double;
+  border-color: green
+}
+
+#questionBox {
+    margin: 10px;
+    padding:10px;
+    border-radius: 5px;
+    border-style: double;
+    border-color: blue
+}
+
+#questionText {
+    height: 70px;
+}
+
+.statusRed {
+    color: red;
+    font-weight: bold;
+}
+
+.statusGreen {
+    color: green;
+    font-weight: bold;
+}

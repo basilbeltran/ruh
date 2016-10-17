@@ -50,14 +50,14 @@ var putData = function () {
 function getQuestions(){
  return getData().questions;
 }
-
-function getUsers(){
- return getData().usersData;
-}
-
-function getComments(){
- return getData().comments;
-}
+// 
+// function getUsers(){
+//  return getData().usersData;
+// }
+//
+// function getComments(){
+//  return getData().comments;
+// }
 
 // a new question is created and put in the data structure
 function addQuestion(questionThis){
@@ -83,6 +83,6 @@ function  getQuestion (questionID){
     getData: getData,
     getQuestions: getQuestions,
     getQuestion: getQuestion,
-    addQuestion: addQuestion
+    addQuestion: addQuestion,
   }
 }

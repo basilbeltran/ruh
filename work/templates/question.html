@@ -1,35 +1,45 @@
 
-    <link href="css/ruh_question.css" rel="stylesheet">
 
-    <div id="question-container" class="container-fluid ">
+<div id="question" class="container-fluid ">
+<form>
+    <div class="row">
+        <div class="form-group col-sm-4" ng-submit="questionMain.addQuestion()">
+            <label for="trying1">"What is the big goal?" </label> </br>
+            <textarea
+                    class="questionText"
+                    ng-model="questionMain.qTrying"
+                    placeholder="I expect to..." />
+            </textarea>
+        </div>
 
-                    <form ng-submit="questionMain.addQuestion()" >
+        <div class="form-group col-sm-4">
+            <label for="qText">"What is the current problem?" </label> </br>
+            <textarea
+                    class="questionText"
+                    ng-model="questionMain.qText"
+                    placeholder="How do I ..." />
+            </textarea>
+        </div>
 
-                        <div >
-                            <input type="text"
-                                    class="questionText"
-                                    ng-model="questionMain.qTrying"
-                                    placeholder="What are you trying to achieve?" />
-
-                            <input type="text"
-                                    class="questionText"
-                                    ng-model="questionMain.qText"
-                                    placeholder="enter a summary of the problem..." />
-
-                            <input type="text"
-                                    class="questionText"
-                                    ng-model="questionMain.qTried"
-                                    placeholder="What have you tried so far" />
-                            </br>
-                            <select ng-model="questionMain.selectedCat" ng-options="x.subjectName for x in questionMain.data.categories">
-                            </select>
-                        </div>
-
-                        <div>
-                            <button type="submit" class="btn btn-primary">Submit Question</button>
-                          </br>
-                            <button ng-click="questionMain.makeOffer()" id="callButton">Connect</button>
-                        </div>
-                    </form>
-
+        <div class="form-group col-sm-4">
+            <label for="qText">"What have you done?" </label> </br>
+            <textarea
+                    class="questionText"
+                    ng-model="questionMain.qText"
+                    placeholder="I have tried..." />
+            </textarea>
+        </div>
     </div>
+
+    <div class="row">
+        <select ng-model="questionMain.selectedCat" ng-options="x.subjectName for x in questionMain.data.categories">
+        </select>
+      </div>
+</br>
+      <div class="row">
+        <button ng-click="questionMain.addQuestion()" class="btn btn-primary" id="addButton">Submit Question</button>
+
+        <button ng-click="questionMain.makeOffer()" class="btn btn-primary" id="callButton">Connect</button>
+    </div>
+</form>
+</div>

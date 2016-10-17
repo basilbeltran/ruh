@@ -26,6 +26,7 @@ var remoteVideo = document.getElementById('remoteVideo');
 var remotePeer, localPeer;
 var questionObj; //send the factory fields, get object back
 
+
 questionThis.addQuestion = function(){
 // put the question fields in the "database"
     questionObj = RuhQuestionFactory.addQuestion(questionThis);
@@ -36,22 +37,28 @@ questionThis.addQuestion = function(){
 
 //obtain localMedia stream
     navigator.mediaDevices.getUserMedia(mediaConstraints)
-    .then(  (stream) => {
+    .then((stream) => {
       questionThis.data.localStream = stream;         //////localStream
       localVideo.src = window.URL.createObjectURL(stream);
     })
     .catch( (e) => console.log(`GUM error: ${e}`) );
 } // addQuestion
 
+
+
 //an indication the server has processed question
   socket.on('asked', function(inqsObj) {
-  console.log(` ${inqsObj.id} registered ${inqsObj.question.qUUID}` );
+  console.log(`#> ${inqsObj.id} registered ${inqsObj.question.qUUID}` );
 });
+
+
 
 //a question has been asked (should be filtered)
   socket.on('allInqs', function(allInqs) {
-  console.dir(`# new questions: ` + allInqs );
+  console.dir(`#> new questions: ` + allInqs );
 });
+
+
 
 //TODO finish this
 // an expert has connected to a question

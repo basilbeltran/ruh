@@ -71,7 +71,7 @@ class User {
     }
 
     setUserKey(uuid){  // inflates this user from a user UUID
-      var userObj = getUsers().filter( x  => x.uUUID === uuid ); //TODO REMOVE  REFERENCE TO STUB
+      var userObj = stub.usersData.filter( x  => x.uUUID === uuid ); //TODO REMOVE  REFERENCE TO STUB
       this.setUserObj( userObj[0] ) ;
     }
 
@@ -91,7 +91,6 @@ class Comment {
     this.cUUID = randomString(10)
   }
 
-
       setCommentObj( obj ) {
         this.cUserID = obj.cUserID || "22222"
         this.cText = obj.cText || "comment"
@@ -100,7 +99,7 @@ class Comment {
       }
 
       setCommentKey(uuid){
-        var commentObj = getComments().filter( x  => x.cUUID === uuid );   //TODO REMOVE  REFERENCE TO STUB
+        var commentObj = stub.comments.filter( x  => x.cUUID === uuid );   //TODO REMOVE  REFERENCE TO STUB
         this.setCommentObj( commentObj[0] ) ;
       }
 

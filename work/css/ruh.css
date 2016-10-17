@@ -1,11 +1,4 @@
-button {
-    margin: 10px;
-    padding:10px;
-    background-color: rgb(252,182,20); /* rgb(248,248,248);*/
-    border-radius: 5px;
-    border-style: double;
-    border-color: black
-}
+
 
 figure {
    max-width:64rem;
@@ -16,17 +9,6 @@ figure {
    padding:1.051%;
    background-color:#666;
 }
-
-
-form {
-  text-align: center;
-  margin: 0px 20px;
-  padding: 20px 20px;
-  border-radius: 5px;
-  border-style: double;
-  border-color: black
-}
-
 
 h4 {
   text-align: center;
@@ -59,13 +41,6 @@ video {
   border-color: black
 }
 
-.questionText {
-    height: 30px;
-    width: 90%;
-    margin: 5px 5px;
-}
-
-
 .outerBox{
   margin: 50px 20px 10px;
   padding:10px;
@@ -93,8 +68,6 @@ video {
     font-weight: bold;
 }
 
-
-
 #main-nav{
   position:fixed;
   width: 100%;
@@ -102,24 +75,26 @@ video {
   border-bottom-color: rgb(252,182,20);
 }
 
-#questionBox {
-    margin: 10px;
-    padding:10px;
-    border-radius: 5px;
-    border-style: double;
-    border-color: blue
-}
-
-
-#question-container{
+#question{
   text-align: center;
   margin: 60px 20px;
-  padding: 20px 20px;
+  padding: 10px 20px;
   border-radius: 5px;
   border-style: double;
-  border-color: black
+  border-color: rgb(252,182,20)
 }
 
-#questionText {
-    height: 70px;
+#question.questionText {
+    height: 30px;
+    margin: 5px 5px;
+}
+
+#question textarea {
+  text-align: center;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border-style: double;
+  border-color: red
+
+  width: 100%;
 }

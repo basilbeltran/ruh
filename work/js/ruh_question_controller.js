@@ -23,11 +23,16 @@ var mediaConstraints = { audio: false, video: true };
 var offerOptions = { offerToReceiveAudio: 1, offerToReceiveVideo: 1 };
 var localVideo = document.getElementById('localVideo')
 var remoteVideo = document.getElementById('remoteVideo');
+var remotePeer, localPeer;
+var questionObj; //send the factory fields, get object back
 
 questionThis.addQuestion = function(){
 // put the question fields in the "database"
-    RuhQuestionFactory.addQuestion(questionThis);
-    trace(questionThis.selectedCat.subjectName );
+    questionObj = RuhQuestionFactory.addQuestion(questionThis);
+    console.dir(questionObj);
+
+//send the question to the server
+    socket.emit('question', questionObj);
 
 //obtain localMedia stream
     navigator.mediaDevices.getUserMedia(mediaConstraints)
@@ -35,73 +40,91 @@ questionThis.addQuestion = function(){
       questionThis.data.localStream = stream;         //////localStream
       localVideo.src = window.URL.createObjectURL(stream);
     })
-    .catch( (e) => trace(`GUM error: ${e}`) );
+    .catch( (e) => console.log(`GUM error: ${e}`) );
 } // addQuestion
+
+//an indication the server has processed question
+  socket.on('asked', function(inqsObj) {
+  console.log(` ${inqsObj.id} registered ${inqsObj.question.qUUID}` );
+});
+
+//a question has been asked (should be filtered)
+  socket.on('allInqs', function(allInqs) {
+  console.dir(`# new questions: ` + allInqs );
+});
+
+//TODO finish this
+// an expert has connected to a question
+  socket.on('joined', function(room) {
+    //give a learner the option to listen in
+  });
+
+
+
 
 
 questionThis.makeOffer = function(){
     var servers = null;
 
-     questionThis.data.remotePeer = new RTCPeerConnection(servers);
-     questionThis.data.remotePeer.onicecandidate = e => onIceCandidate(remotePeer, e);
-     questionThis.data.remotePeer.oniceconnectionstatechange = e => onIceStateChange(remotePeer, e);
-     /////////////////////////////////////////////////////
-     questionThis.data.remotePeer.onaddstream = e => remoteVideo.srcObject = e.stream;
-     /////////////////////////////////////////////////////
+         remotePeer = new RTCPeerConnection(servers);
+         remotePeer.onicecandidate = e => onIceCandidate(remotePeer, e);
+         remotePeer.oniceconnectionstatechange = e => onIceStateChange(remotePeer, e);
+         /////////////////////////////////////////////////////
+         remotePeer.onaddstream = e => remoteVideo.srcObject = e.stream;
+         /////////////////////////////////////////////////////
 
-    questionThis.data.localPeer = new RTCPeerConnection(servers);
-    questionThis.data.localPeer.onicecandidate = e => onIceCandidate(questionThis.data.localPeer, e);
-    questionThis.data.localPeer.oniceconnectionstatechange = e => onIceStateChange(questionThis.data.localPeer, e);
-    questionThis.data.localPeer.addStream(questionThis.data.localStream);        //////add localStream to localPeer
-    questionThis.data.localPeer.createOffer(offerOptions)
+    localPeer = new RTCPeerConnection(servers);
+    localPeer.onicecandidate = e => onIceCandidate(localPeer, e);
+    localPeer.oniceconnectionstatechange = e => onIceStateChange(localPeer, e);
+    localPeer.addStream(questionThis.data.localStream);        //////add localStream to localPeer
+    localPeer.createOffer(offerOptions)
     .then(
       onCreateOfferSuccess,
       onSdpError
     );
   } //makeOffer
 
-  function onIceCandidate(pc, event) {  /// if pc is data.localPeer this adds event.candidate to remote
-      if (event.candidate) {
-        var candidate = new RTCIceCandidate(event.candidate);
-        getOtherPc(pc).addIceCandidate(candidate)
-        .then( (pc) => trace(` ${getName(pc)}  added ICE Candidate`),
-          (pc, err) => trace(` ${getName(pc)}  add Candidate err: ${error.toString()} `)
-        );
-        console.log(event.candidate);
-      }
-  } //onIceCandidate
-
 
   function onCreateOfferSuccess(desc) {
-    questionThis.data.localPeer.setLocalDescription(desc)
-    .then( ()=> trace( `${getName(questionThis.data.localPeer)}  setLocal complete`), onSdpError);
-    questionThis.data.remotePeer.setRemoteDescription(desc)
-    .then( () => trace( `${getName(questionThis.data.remotePeer)}  setRemote complete`), onSdpError);
+    localPeer.setLocalDescription(desc)  // calls onIceCandidate
+    .then( ()=> console.log( `${getName(localPeer)} setLocal `), onSdpError);
+    remotePeer.setRemoteDescription(desc)
+    .then( () => console.log( `${getName(remotePeer)} setRemote `), onSdpError);
 
-  // THIS IS ARTIFICIALLY TRIGGERED IN TEST
-    questionThis.data.remotePeer.createAnswer()
+  //THIS IS ARTIFICIALLY TRIGGERED IN TEST
+    remotePeer.createAnswer()
     .then( onCreateAnswerSuccess, onSdpError);  /// call onCreateAnswerSuccess
   }
 
   function onCreateAnswerSuccess(desc) {
-    questionThis.data.localPeer.setRemoteDescription(desc)
-    .then( () => trace(`${getName(questionThis.data.localPeer)}  setRemote complete`), onSdpError);
-    questionThis.data.remotePeer.setLocalDescription(desc)
-    .then(() => trace(`${getName(questionThis.data.remotePeer)}  setLocal complete`), onSdpError);
+    localPeer.setRemoteDescription(desc)
+    .then( () => console.log(`${getName(localPeer)} setRemote `), onSdpError);
+    remotePeer.setLocalDescription(desc)
+    .then(() => console.log(`${getName(remotePeer)} setLocal `), onSdpError);
   }
+
+  function onIceCandidate(pc, event) {  /// if pc is data.localPeer this adds event.candidate to remote
+      if (event.candidate) {
+        var candidate = new RTCIceCandidate(event.candidate);
+        getOtherPc(pc).addIceCandidate(candidate)
+        .then( (pc) => console.log(` ${getName(pc)}  added Candidate`),
+               (pc) => console.log(` ${getName(pc)}  add Candidate err`)
+        );
+        console.log(event.candidate.sdpMid);
+      }
+  } //onIceCandidate
 
   var  onIceStateChange = (pc, event) => {
-    if(pc){trace(getName(pc) + ' ' + pc.iceConnectionState );}
+    if(pc){console.log(getName(pc) + ' ' + pc.iceConnectionState );}
   }
 
-
-  var  onSdpError = (error) => trace('SDP error: ' + error.toString());
-  var  getName = pc =>  (pc === questionThis.data.localPeer) ? 'questionThis.data.localPeer' : 'questionThis.data.remotePeer';
-  var  getOtherPc = pc => (pc === questionThis.data.localPeer) ? questionThis.data.remotePeer : questionThis.data.localPeer;
+  var  onSdpError = (error) => console.log('SDP error: ' + error.toString());
+  var  getName = pc =>  (pc === localPeer) ? 'localPeer' : 'remotePeer';
+  var  getOtherPc = pc => (pc === localPeer) ? remotePeer : localPeer;
 
   var hangup = () => {
   try{
-      questionThis.data.localPeer.close();  questionThis.data.remotePeer.close();  questionThis.data.localPeer = null;  questionThis.data.remotePeer = null;
+      localPeer.close();  remotePeer.close();  localPeer = null;  remotePeer = null;
     }catch(err){ }
   }
 

@@ -1,3 +1,18 @@
+var pcConfig = {
+  'iceServers': [{
+    'url': 'stun:stun.l.google.com:19302'
+  }]
+};
+
+var sdpConstraints = {
+  'mandatory': {
+    'OfferToReceiveAudio': true,
+    'OfferToReceiveVideo': true
+  }
+};
+
+var socket = io.connect();
+
 
 
 randomString = function(length) {

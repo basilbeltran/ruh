@@ -65,12 +65,12 @@ io.sockets.on('connection', function(socket) {
      console.log('server socket emitting MESSAGE', message);
   });
 
-  socket.on('question', function(room) {
-    socket.join(room);
-    console.log(`question ${socket.id} QUESTIONED ${room}`);
-    socket.emit('created', room, socket.id);
+  socket.on('question', function(questionObj) {
+    allInqs.push({"id":socket.id, "question":questionObj});
+    socket.join(questionObj.qUUID);
+    console.log(`socket.join ${socket.id} qUUID: ${questionObj.qUUID}`);
+    socket.emit('asked', allInqs[allInqs.length -1], socket.id); // like created
 
-    allInqs.push({"id":socket.id, "room":room});
     io.sockets.emit('allInqs', allInqs);
     console.log(allInqs);
 
@@ -88,10 +88,6 @@ io.sockets.on('connection', function(socket) {
   socket.on('inquiry', function(room) {          ////// INQUIRY
     var numClients = Object.keys(io.sockets.connected).length;
       console.log(`io.sockets HOLDS ${numClients} connections:`);
-
-     allInqs.push({"id":socket.id, "room":room});
-     io.sockets.emit('allInqs', allInqs);
-     console.log(allInqs);
 
     if (numClients === 1) {
       socket.join(room);

@@ -43,10 +43,6 @@ function expertController(RuhQuestionFactory){
 
 
 
-
-
-
-
 ////////////////// answerQuestion
   expertThis.answerQuestion = function(){
   //join the room
@@ -99,11 +95,12 @@ function expertController(RuhQuestionFactory){
 
 
   function gotStream(stream) {
+    sendMessage('got user media');
     console.log('Adding local stream.');
     localVideo.src = window.URL.createObjectURL(stream);
-    questionThis.data.localStream = stream;
+    // questionThis.data.localStream = stream;
     localStream = stream;
-    sendMessage('got user media');
+
     if (isInitiator) {
             console.log('I NOT initiator, NO maybestart()');
       maybeStart();
@@ -152,7 +149,7 @@ function expertController(RuhQuestionFactory){
 
   // This client receives a message
   socket.on('message', function(message) {
-    console.log('received message with', message);
+    console.log('received message with', message.type);
     if (message === 'got user media') {
       maybeStart();
     } else if (message.type === 'offer') {
@@ -173,12 +170,6 @@ function expertController(RuhQuestionFactory){
       handleRemoteHangup();
     }
   });
-
-  ////////////////////////////////////////////////////
-  //
-  // var localVideo = document.querySelector('#localVideo');
-  // var remoteVideo = document.querySelector('#remoteVideo');
-  //
 
 
   var constraints = {
@@ -307,7 +298,7 @@ function expertController(RuhQuestionFactory){
   }
 
   function handleRemoteStreamAdded(event) {
-    console.log('Remote stream added.');
+  console.log('*************REMOTE STREAM EVENT.');
     remoteVideo.src = window.URL.createObjectURL(event.stream);
     remoteStream = event.stream;
   }

@@ -17,7 +17,7 @@
                         ng-mouseenter="expertMain.makeStatusRed()"
                         ng-mouseleave="expertMain.makeStatusGreen()"
                         href="#">{{q.qStatus}}</button>
-                <button class="button ">{{q.qInTime}}</button>
+                <button ng-click="expertMain.answerQuestion()" class="button ">{{q.qInTime}}</button>
                 <button class="button ">{{q.qUserID}}</button>
                 <button class="button ">{{q.qGroupID}}</button>
                 <button class="button ">{{q.qSubject}}</button>

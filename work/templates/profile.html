@@ -1,38 +1,37 @@
 <div id="profile" class="container-fluid ">
+<h2>{{profileMain.mainText}}</h2>
+
 <form>
 <div class="row">
   <header class="formHeader">
-      <h2>{{profileMain.mainText}}</h2>
+
       <h5>{{profileMain.subText}}</h5>
   </header>
             <div class="form-group col-sm-3">
-                <label for="pOldPass>"Old Password </label>
-                </br>
+                <label for="pOldPass">Enter current password</label>
                 <input type="text"
                         id="pOldPass"
                         class="questionText"
                         ng-model="profileMain.pOldPass"
-                        placeholder={{profileMain.oldPasswordText}} />
+                        placeholder={{profileMain.oldPasswordText}} >
             </div>
 
             <div class="form-group col-sm-3">
-                <label for="pNewPass>"Old Password </label>
-                </br>
+                <label for="pNewPass">Enter New Password </label>
                 <input type="text"
                         id="pNewPass"
                         class="questionText"
                         ng-model="profileMain.pNewPass"
-                        placeholder={{profileMain.newPasswordText}} />
+                        placeholder={{profileMain.newPasswordText}} >
             </div>
 
             <div class="form-group col-sm-3">
-                <label for="pPassCheck>"Old Password </label>
-                </br>
+                <label for="pPassCheck">ReEnter New Password </label>
                 <input type="text"
                         id="pPassCheck"
                         class="questionText"
                         ng-model="profileMain.pPassCheck"
-                        placeholder={{profileMain.checkPasswordText}} />
+                        placeholder={{profileMain.checkPasswordText}} >
             </div>
 
 </br>

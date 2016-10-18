@@ -46,12 +46,12 @@ setInterval(function(){
 // var server = app.listen(port, () => {
 //     mLOG(port +' Listening for %s', name);
 // });
+
 var first = true;
 var allInqs = [];
 var io = socketIO.listen(httpsServer);
 
 io.sockets.on('connection', function(socket) {
-
 
   socket.on('message', function(message) { // log('Client said: ', message);
       socket.broadcast.emit('message', message); // for a real app, would be room-only (not broadcast)
@@ -68,61 +68,61 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('inquiry', function(room) {          ////// INQUIRY
 
-console.log(`first is ${first} `);
-    if (first) {
-      socket.join(room);
-      console.log(`${socket.id} CREATED ROOM ${room}`);
-      socket.emit('created', room, socket.id);
-      first = false;
-//    } else if (numClients === 2) {              // log('Client ID ' + socket.id + ' joined room ' + room);
-    } else {
-      console.log(`${socket.id} joined ${room}`)
-      io.sockets.in(room).emit('join', room);
-      socket.join(room);
-      socket.emit('joined', room, socket.id);
-      io.sockets.in(room).emit('ready');
-    }
-    // else { // max two clients
-    //   socket.emit('full', room);
-    // }
-  });
+    console.log(`first is ${first} `);
+        if (first) {
+          socket.join(room);
+          console.log(`${socket.id} CREATED ROOM ${room}`);
+          socket.emit('created', room, socket.id);
+          first = false;
+    //    } else if (numClients === 2) {              // log('Client ID ' + socket.id + ' joined room ' + room);
+        } else {
+          console.log(`${socket.id} joined ${room}`)
+          io.sockets.in(room).emit('join', room);
+          socket.join(room);
+          socket.emit('joined', room, socket.id);
+          io.sockets.in(room).emit('ready');
+        }
+        // else { // max two clients
+        //   socket.emit('full', room);
+        // }
+      });
 
   socket.on('ipaddr', function() {
     var ifaces = os.networkInterfaces();
     for (var dev in ifaces) {
       ifaces[dev].forEach(function(details) {
         if (details.family === 'IPv4' && details.address !== '127.0.0.1') {
-              console.log(` server emits ipaddr   ${details.address} `)
+              console.log(` server emits IPADDR   ${details.address} `)
           socket.emit('ipaddr', details.address);
         }
       });
     }
   });
 
+//new code
+  socket.on('question', function(questionObj) {
+// add the question object with a key of the socketID
+    allInqs.push({"id":socket.id, "question":questionObj});
+    socket.join(questionObj.qUUID);
+    console.log(`socket.join ${socket.id} qUUID: ${questionObj.qUUID}`);
 
-    socket.on('question', function(questionObj) {
+// ping back to questioner  (was "created")
+    socket.emit('asked', allInqs[allInqs.length -1], socket.id);
 
-      allInqs.push({"id":socket.id, "question":questionObj});
-      socket.join(questionObj.qUUID);
-      console.log(`socket.join ${socket.id} qUUID: ${questionObj.qUUID}`);
+//  send the array of inquiries back to everyone
+    io.sockets.emit('allInqs', allInqs);
+    //console.log(allInqs);
 
-  // was "created" send back to questioner
-      socket.emit('asked', allInqs[allInqs.length -1], socket.id);
+  });
 
-  //  send the array of inquiries back to everyone
-      io.sockets.emit('allInqs', allInqs);
-      //console.log(allInqs);
-
-    });
-
-    socket.on('answer', function(room) {
-      console.log(`answer ${socket.id} ANSWERED ${room}`)
-      io.sockets.in(room).emit('join', room);
-      socket.join(room);
-      socket.emit('joined', room, socket.id);
-      io.sockets.in(room).emit('ready');
-    });
+  socket.on('answer', function(room) {
+    console.log(`answer ${socket.id} ANSWERED ${room}`)
+    io.sockets.in(room).emit('join', room);
+    socket.join(room);
+    socket.emit('joined', room, socket.id);
+    io.sockets.in(room).emit('ready');
+  });
 
 
 
-});
+});  // sockets on

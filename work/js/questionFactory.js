@@ -50,7 +50,7 @@ var putData = function () {
 function getQuestions(){
  return getData().questions;
 }
-// 
+//
 // function getUsers(){
 //  return getData().usersData;
 // }
@@ -65,7 +65,7 @@ function addQuestion(questionThis){
     q.setQuestionObj(questionThis);     // inflation - with obj from controller or ?
     getData().questions.push( q );      // merging into memory based data
     putData();                          // write to local browser storage
-    console.log(q.toString());
+    //console.log(q.toString());
     return q;
 }
 

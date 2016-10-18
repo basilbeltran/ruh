@@ -85,6 +85,13 @@ video {
   border-color: rgb(252,182,20)
 }
 
+#profile form{
+  border-radius: 5px;
+  border-style: double;
+  border-color: black
+}
+
+
 #question{
   text-align: center;
   margin: 60px 20px;

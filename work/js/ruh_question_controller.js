@@ -35,6 +35,7 @@ questionThis.addQuestion = function(){
 //send the question to the server
     socket.emit('question', questionObj);
 
+
 //obtain localMedia stream
     navigator.mediaDevices.getUserMedia(mediaConstraints)
     .then((stream) => {
@@ -52,12 +53,10 @@ questionThis.addQuestion = function(){
 });
 
 
-
 //a question has been asked (should be filtered)
   socket.on('allInqs', function(allInqs) {
   console.dir(`#> new questions: ` + allInqs );
 });
-
 
 
 //TODO finish this

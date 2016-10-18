@@ -1,5 +1,3 @@
-
-
 <div class="container-fluid">
     <div class="row">
         <!-- <h1 ng-show="expertMain.isProfileShown"> {{loggedText}} </h1> -->
@@ -10,30 +8,31 @@
 
 <div class="container-fluid">
     <div class="row outerBox">
-        <div ng-repeat="q in expertMain.qArray track by $id($index)" id="question" class="col-md-12">
+        <div ng-repeat="q in expertMain.qArray track by $id($index)"
+             id="question"
+             class="col-md-12">
 
-          <div class="buttonsBox">
-            <button
-                ng-class="expertMain.qStatus"
-                ng-mouseenter="expertMain.makeStatusRed()"
-                ng-mouseleave="expertMain.makeStatusGreen()"
-                href="#">{{q.qStatus}}</button>
-            <button class="button ">{{q.qInTime}}</button>
-            <button class="button ">{{q.qUserID}}</button>
-            <button class="button ">{{q.qGroupID}}</button>
-            <button class="button ">{{q.qSubject}}</button>
-            <button class="button ">{{q.qUser.uEmail}}</button>
-            <button class="button ">{{q.qCommentArray[0].cText}}</button>
+            <div class="buttonsBox">
+                <button ng-class="expertMain.qStatus"
+                        ng-mouseenter="expertMain.makeStatusRed()"
+                        ng-mouseleave="expertMain.makeStatusGreen()"
+                        href="#">{{q.qStatus}}</button>
+                <button class="button ">{{q.qInTime}}</button>
+                <button class="button ">{{q.qUserID}}</button>
+                <button class="button ">{{q.qGroupID}}</button>
+                <button class="button ">{{q.qSubject}}</button>
+                <button class="button ">{{q.qUser.uEmail}}</button>
+                <button class="button ">{{q.qCommentArray[0].cText}}</button>
 
 
-            <div class="row">
-                <div class="col-md-12">
-                    <p id="questionBox">
-                        {{q.qText}}
-                    </p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p id="questionBox">
+                            {{q.qText}}
+                        </p>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>   <!-- ng-repeat -->
     </div>
 </div>

@@ -1,15 +1,19 @@
 'use strict';
 
 angular.module("RuhApp", ['ngRoute']);
+
 angular.module("RuhApp")
     .controller('RuhMainController', mainController)
     .controller('RuhLoginController', loginController)
     .controller('RuhProfileController', profileController)
     .factory('RuhQuestionFactory', questionFactory)
 
-angular.module('RuhApp').config(myRouter);  // the client side routes are deined immediately below
+    profileController.$inject = ['RuhQuestionFactory'];
+
+angular.module('RuhApp').config(myRouter);  // the client side routes are defined immediately below
 
 myRouter.$inject = ['$routeProvider'];
+
 function myRouter($routeProvider) {
   $routeProvider
   .when('/', { templateUrl: '/templates/login.html', controller: "RuhLoginController as loginMain" })
@@ -22,40 +26,44 @@ function myRouter($routeProvider) {
 
 // minor angular controllers are defined here, larger ones have there own file
 
-function mainController(){     var mainMain = this;
-  mainMain.titleLink = "RU Stuck"
-  mainMain.profileLink = "Profile"
-  mainMain.questionLink = "I'm Stuck"
-  mainMain.expertLink = "I'll Help"
+function mainController(){
+  var mainThis = this;
+  mainThis.titleLink = "RU Stuck"
+  mainThis.profileLink = "Profile"
+  mainThis.questionLink = "I'm Stuck"
+  mainThis.expertLink = "I'll Help"
 }
 
 
-function loginController(){     var loginMain = this;
+function loginController(){
+  var loginThis = this;
 
-  loginMain.mainText = "Sign in to RU Stuck";
-  loginMain.subText = "Enter your email address and password.";
-  loginMain.keepText = "Keep me signed in";
-  loginMain.forgotText = "I forgot my password";
-  loginMain.emailText = "you@domain.com";
-  loginMain.passwordText = "password";
+  loginThis.mainText = "Sign in to RU Stuck";
+  loginThis.subText = "Enter your email address and password.";
+  loginThis.keepText = "Keep me signed in";
+  loginThis.forgotText = "I forgot my password";
+  loginThis.emailText = "you@domain.com";
+  loginThis.passwordText = "password";
 
-  loginMain.login = function(){
+  loginThis.login = function(){
     console.log('logged in maybe');
   }
 }
 
-function profileController(){    var profileMain = this;
+function profileController(RuhQuestionFactory){
+  var profileThis = this;
+  profileThis.data = RuhQuestionFactory.getData();
 
-  profileMain.mainText = "Stuck Profile";
-  profileMain.subText = "Change your password.";
-  profileMain.oldPasswordText = "old password";
-  profileMain.newPasswordText = "new password";
-  profileMain.checkPasswordText = "retype password";
+  profileThis.mainText = "Stuck Profile";
+  profileThis.subText = "Change your password.";
+  profileThis.oldPasswordText = "old password";
+  profileThis.newPasswordText = "new password";
+  profileThis.checkPasswordText = "retype password";
 
-  profileMain.addText = "Add subjects you're willing to field questions on";
-  profileMain.addButtonText = "Add";
+  profileThis.addText = "Add subjects you're willing to field questions on";
+  profileThis.addButtonText = "Add";
 
-  profileMain.changePassword = function(){
+  profileThis.changePassword = function(){
     console.log('password changed');
   }
 }

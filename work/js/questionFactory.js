@@ -66,7 +66,7 @@ function addQuestion(questionThis){
     getData().questions.push( q );      // merging into memory based data
     putData();                          // write to local browser storage
     //console.log(q.toString());
-    return q;
+    return data.questions;
 }
 
 function  getQuestion (questionID){

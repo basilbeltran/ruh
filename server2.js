@@ -107,6 +107,9 @@ io.sockets.on('connection', function(socket) {
   });
 
 //new code
+
+
+
   socket.on('question', function(questionObj) {
 // add the question object with a key of the socketID
     allInqs.push({"id":socket.id, "question":questionObj});
@@ -114,7 +117,7 @@ io.sockets.on('connection', function(socket) {
     console.log(`socket.join ${socket.id} qUUID: ${questionObj.qUUID}`);
 
 // ping back to questioner  (was "created")
-    socket.emit('asked', allInqs[allInqs.length -1], socket.id);
+    socket.emit('asked', allInqs[allInqs.length -1], socket.id);  // or pass all inqs?
 
 //  send the array of inquiries back to everyone
     io.sockets.emit('allInqs', allInqs);
@@ -123,11 +126,11 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('answer', function(room) {
-    console.log(`answer ${socket.id} ANSWERED ${room}`)
-    io.sockets.in(room).emit('join', room);
     socket.join(room);
-    socket.emit('joined', room, socket.id);
-    io.sockets.in(room).emit('ready');
+    console.log(`answer ${socket.id} ANSWERED ${room}`)
+
+    io.sockets.in(room).emit('join', room);   // broadcast to room set isChannelReady
+    socket.emit('joined', room, socket.id);   // back to new peer  set isChannelReady
   });
 
 

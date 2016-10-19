@@ -8,7 +8,7 @@ questionController.$inject = ['RuhQuestionFactory'];
 
 function questionController(RuhQuestionFactory){
   var questionThis = this;
-  var questionObj; //send the factory fields, get object back
+  var questionObjs; //send the factory fields, get object back
 
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
@@ -28,7 +28,8 @@ function questionController(RuhQuestionFactory){
 
 questionThis.addQuestion = function() {
         // put the question fields in the "database"
-        questionObj = RuhQuestionFactory.addQuestion(questionThis); //console.dir(questionObj);
+        questionObjs = RuhQuestionFactory.addQuestion(questionThis); //console.dir(questionObj);
+        console.dir(questionObjs);
 
         //send the question to the server
         //questionThis.socket.emit('question', questionObj); //TODO use the question UUID
@@ -79,16 +80,18 @@ function gotStream(stream) {
   localVideo.src = window.URL.createObjectURL(stream);
   localStream = stream;
   sendMessage(questionThis, 'got user media');
-  if (isInitiator) {
-      console.log('I think I the initiator, so maybeStart()');
-    maybeStart();                                               // why would this ever work?
-  }
+  // if (isInitiator) {
+  //     console.log('I think I the initiator, so maybeStart()');
+  //   maybeStart();                                               // why would this ever work? channels not ready
+  // }
 }
 
 function maybeStart() {
 
   console.log(`maybeStart() isStarted is ${isStarted} isChannelReady is ${isChannelReady}` );
+
   if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
+
     console.log(' maybeStart() creating peer connection');
     createPeerConnection();
     questionThis.pc.addStream(localStream);
@@ -148,13 +151,15 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
   }
 
   if (message === 'got user media') {
-    maybeStart();                                   /////////////  MAYBE START ///////////
+    maybeStart();                                   ///////////// peer joined so  MAYBE START ///////////
 
 
-  } else if (message.type === 'offer') {
+  } else if (message.type === 'offer') {    // if i get an offer start? set remote & answer
     if (!isInitiator && !isStarted) {
+
       maybeStart();
     }
+
     questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
     doAnswer();
 
@@ -186,7 +191,7 @@ questionThis.socket.on('created', room => {     ////////////////////////  CREATE
   isInitiator = true;
 });
 
-questionThis.socket.on('join', room =>{        ////////////////////////  JOIN
+questionThis.socket.on('join', room =>{        ////////////////////////  JOIN (tell client peer joined)
   console.log(`ON join - set Channel Ready  ${room}`);
   isChannelReady = true;
 });

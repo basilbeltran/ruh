@@ -59,9 +59,9 @@ var turnReady;
 
 
 function gotStream(stream) {
-  console.log('Adding local stream.');
+  console.log('Adding local stream to tag.');
   localVideo.src = window.URL.createObjectURL(stream);
-  questionThis.data.localStream = stream;
+  //questionThis.data.localStream = stream;               ///DONT NEED THIS?
   localStream = stream;
   sendMessage(questionThis, 'got user media');
   if (isInitiator) {
@@ -69,63 +69,6 @@ function gotStream(stream) {
     maybeStart();
   }
 }
-
-
-
-questionThis.socket.on('created', room => {
-  console.log(`received created with room ${room}`);
-  isInitiator = true;
-});
-
-questionThis.socket.on('full', room => {
-  console.log(`received  full with ${room} `);
-});
-
-questionThis.socket.on('join', room =>{
-  console.log(`received join with  ${room}`);
-  isChannelReady = true;
-});
-
-questionThis.socket.on('joined', room =>{
-  console.log(`received joined with  ${room}`);
-  isChannelReady = true;
-});
-
-questionThis.socket.on('log', array => {
-  console.log(`received log with ...`);
-  console.log.apply(console, array);
-});
-
-questionThis.socket.on('allInqs', inq => {
-  console.dir(inq);
-});
-////////////////////////////////////////////////
-
-
-// This client receives a message
-questionThis.socket.on('message', function(message) {
-  console.log('received message with', message.type);
-  if (message === 'got user media') {
-    maybeStart();
-  } else if (message.type === 'offer') {
-    if (!isInitiator && !isStarted) {
-      maybeStart();
-    }
-    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
-    doAnswer();
-  } else if (message.type === 'answer' && isStarted) {
-    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
-  } else if (message.type === 'candidate' && isStarted) {
-    var candidate = new RTCIceCandidate({
-      sdpMLineIndex: message.label,
-      candidate: message.candidate
-    });
-    questionThis.pc.addIceCandidate(candidate);
-  } else if (message === 'bye' && isStarted) {
-    handleRemoteHangup();
-  }
-});
-
 
 
 function maybeStart() {
@@ -143,11 +86,6 @@ function maybeStart() {
   }
 }
 
-window.onbeforeunload = function() {
-  sendMessage(questionThis, 'bye');
-};
-
-/////////////////////////////////////////////////////////
 
 function createPeerConnection() {
   try {
@@ -161,26 +99,6 @@ function createPeerConnection() {
     alert('Cannot create RTCPeerConnection object.');
     return;
   }
-}
-
-function handleIceCandidate(event) {
-  console.log('icecandidate event: ', event.type);
-  if (event.candidate) {
-    sendMessage(questionThis, {
-      type: 'candidate',
-      label: event.candidate.sdpMLineIndex,
-      id: event.candidate.sdpMid,
-      candidate: event.candidate.candidate
-    });
-  } else {
-    console.log('End of candidates.');
-  }
-}
-
-function handleRemoteStreamAdded(event) {
-  console.log('*************REMOTE STREAM EVENT.');
-  remoteVideo.src = window.URL.createObjectURL(event.stream);
-  remoteStream = event.stream;
 }
 
 
@@ -218,12 +136,85 @@ function onCreateSessionDescriptionError(error) {
 
 
 
+/////////////// This client receives socket events //////////////////////////
+questionThis.socket.on('message', function(message) {  /////////////  MESSAGE ///////////
+  console.log('received message with', message.type);
+  if (message === 'got user media') {
+    maybeStart();                                   /////////////  MAYBE START ///////////
+  } else if (message.type === 'offer') {
+    if (!isInitiator && !isStarted) {
+      maybeStart();
+    }
+    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
+    doAnswer();
+  } else if (message.type === 'answer' && isStarted) {
+    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
+  } else if (message.type === 'candidate' && isStarted) {
+    var candidate = new RTCIceCandidate({
+      sdpMLineIndex: message.label,
+      candidate: message.candidate
+    });
+    questionThis.pc.addIceCandidate(candidate);
+  } else if (message === 'bye' && isStarted) {
+    handleRemoteHangup();
+  }
+});
+
+questionThis.socket.on('created', room => {     ////////////////////////  CREATED
+  console.log(`IO received created with room ${room}`);
+  isInitiator = true;
+});
+
+questionThis.socket.on('full', room => {       ////////////////////////  FULL
+  console.log(`IO received  full with ${room} `);
+});
+
+questionThis.socket.on('join', room =>{        ////////////////////////  JOIN
+  console.log(`IO received join with  ${room}`);
+  isChannelReady = true;
+});
+
+questionThis.socket.on('joined', room =>{     ////////////////////////  JOINED
+  console.log(`IO received joined with  ${room}`);
+  isChannelReady = true;
+});
+
+// questionThis.socket.on('log', array => {                  ///DONT NEED THIS?
+//   console.log(`IO received log with ...`);
+//   console.log.apply(console, array);
+// });
+
+questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
+  console.dir(`IO all inqueries ` +inq);
+});
 
 
 
+/////////////////////////////////////////////////////////
 
 
 
+function handleIceCandidate(event) {
+  console.log('icecandidate event: ', event.type);
+  if (event.candidate) {
+    sendMessage(questionThis, {
+      type: 'candidate',
+      label: event.candidate.sdpMLineIndex,
+      id: event.candidate.sdpMid,
+      candidate: event.candidate.candidate
+    });
+  } else {
+    console.log('End of candidates.');
+  }
+}
+
+
+
+function handleRemoteStreamAdded(event) {
+  console.log('*************REMOTE STREAM EVENT.');   /// *******REMOTE STREAM EVENT ****** !!!!
+  remoteVideo.src = window.URL.createObjectURL(event.stream);
+  remoteStream = event.stream;
+}
 
 function handleRemoteStreamRemoved(event) {
   console.log('Remote stream removed. Event: ', event);
@@ -241,6 +232,9 @@ function handleRemoteHangup() {
   isInitiator = false;
 }
 
+window.onbeforeunload = function() {
+  sendMessage(questionThis, 'bye');
+};
 
 ////////////////////////////////////////////////////////
 } //END qMainController

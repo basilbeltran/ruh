@@ -10,15 +10,22 @@ function questionController(RuhQuestionFactory){
   var questionThis = this;
   var questionObj; //send the factory fields, get object back
 
-  questionThis.token = "questionController";
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
   questionThis.data = RuhQuestionFactory.getData();
 
+
+
+
+// These are assigned to questionThis so butils.js can hold shared code
+  questionThis.token = "questionController";
   questionThis.socket = io.connect();
   questionThis.pc;
 
-////////////////// addQuestion
+
+
+////////////////// addQuestion  ng-click
+
 questionThis.addQuestion = function() {
         // put the question fields in the "database"
         questionObj = RuhQuestionFactory.addQuestion(questionThis); //console.dir(questionObj);
@@ -26,7 +33,7 @@ questionThis.addQuestion = function() {
         //send the question to the server
         //questionThis.socket.emit('question', questionObj);
         //questionThis.socket.emit('inquiry', questionObj );
-        questionThis.socket.emit('inquiry', "test"); //TODO use the question UUID
+        questionThis.socket.emit('inquiry', "test");              //TODO use the question UUID
 
         navigator.mediaDevices.getUserMedia({
                 audio: false,
@@ -39,8 +46,16 @@ questionThis.addQuestion = function() {
 
     } ////////////////// addQuestion
 
-
+//GUM >>
 //////////////////////////////////////////////////////////// SHARED LOGIC
+// gotStream >>
+  // maybeStart >>
+    // createPeerConnection >> addStream
+      //pc.onicecandidate = handleIceCandidate;
+      //pc.onaddstream = handleRemoteStreamAdded;
+      //pc.onremovestream
+
+
 //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
 //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
 //var mediaConstraints = { audio: false, video: true };
@@ -61,7 +76,6 @@ var turnReady;
 function gotStream(stream) {
   console.log('Adding local stream to tag.');
   localVideo.src = window.URL.createObjectURL(stream);
-  //questionThis.data.localStream = stream;               ///DONT NEED THIS?
   localStream = stream;
   sendMessage(questionThis, 'got user media');
   if (isInitiator) {
@@ -69,7 +83,6 @@ function gotStream(stream) {
     maybeStart();
   }
 }
-
 
 function maybeStart() {
 
@@ -79,36 +92,11 @@ function maybeStart() {
     createPeerConnection();
     questionThis.pc.addStream(localStream);
     isStarted = true;
-    console.log('isInitiator', isInitiator);
+
     if (isInitiator) {
       doOffer(questionThis);
     }
   }
-}
-
-
-function createPeerConnection() {
-  try {
-    questionThis.pc = new RTCPeerConnection(null);
-    questionThis.pc.onicecandidate = handleIceCandidate;
-    questionThis.pc.onaddstream = handleRemoteStreamAdded;
-    questionThis.pc.onremovestream = handleRemoteStreamRemoved;
-    console.log('Created RTCPeerConnnection');
-  } catch (e) {
-    console.log('Failed to create PeerConnection, exception: ' + e.message);
-    alert('Cannot create RTCPeerConnection object.');
-    return;
-  }
-}
-
-
-////////////////////////////// ANSWER ///////////////////////////
-function doAnswer() {
-  console.log('************ DO ANSWER');
-  questionThis.pc.createAnswer().then(
-    setLocalAndSendMessage,
-    onCreateSessionDescriptionError
-  );
 }
 
 //////////////////////////////OFFER ///////////////////////////
@@ -119,6 +107,16 @@ function doOffer() {
 
 function handleCreateOfferError(event) {
   console.log('createOffer() error: ', event);
+}
+
+
+////////////////////////////// ANSWER ///////////////////////////
+function doAnswer() {
+  console.log('************ DO ANSWER');
+  questionThis.pc.createAnswer().then(
+    setLocalAndSendMessage,
+    onCreateSessionDescriptionError
+  );
 }
 
 function setLocalAndSendMessage(sessionDescription) {
@@ -136,29 +134,45 @@ function onCreateSessionDescriptionError(error) {
 
 
 
-/////////////// This client receives socket events //////////////////////////
+/////////////// SOCKET EVENTS  //////////////////////////
+
+
 questionThis.socket.on('message', function(message) {  /////////////  MESSAGE ///////////
   console.log('received message with', message.type);
+
   if (message === 'got user media') {
     maybeStart();                                   /////////////  MAYBE START ///////////
+
+
   } else if (message.type === 'offer') {
     if (!isInitiator && !isStarted) {
       maybeStart();
     }
     questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
     doAnswer();
+
+
   } else if (message.type === 'answer' && isStarted) {
     questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
+
+
   } else if (message.type === 'candidate' && isStarted) {
     var candidate = new RTCIceCandidate({
       sdpMLineIndex: message.label,
       candidate: message.candidate
     });
     questionThis.pc.addIceCandidate(candidate);
+
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
   }
 });
+
+
+
+// questionThis.socket.on(eventName, function (obj) {
+//   processSocketEvent(obj,  eventName, questionThis);
+// });
 
 questionThis.socket.on('created', room => {     ////////////////////////  CREATED
   console.log(`IO received created with room ${room}`);
@@ -179,10 +193,6 @@ questionThis.socket.on('joined', room =>{     ////////////////////////  JOINED
   isChannelReady = true;
 });
 
-// questionThis.socket.on('log', array => {                  ///DONT NEED THIS?
-//   console.log(`IO received log with ...`);
-//   console.log.apply(console, array);
-// });
 
 questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
   console.dir(`IO all inqueries ` +inq);
@@ -190,12 +200,24 @@ questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
 
 
 
-/////////////////////////////////////////////////////////
+//////////////////////  ICE    //////////////////////////
 
-
+function createPeerConnection() {
+  try {
+    questionThis.pc = new RTCPeerConnection(null);
+    questionThis.pc.onicecandidate = handleIceCandidate;
+    questionThis.pc.onaddstream = handleRemoteStreamAdded;
+    questionThis.pc.onremovestream = handleRemoteStreamRemoved;
+    console.log('Created RTCPeerConnnection');
+  } catch (e) {
+    console.log('Failed to create PeerConnection, exception: ' + e.message);
+    alert('Cannot create RTCPeerConnection object.');
+    return;
+  }
+}
 
 function handleIceCandidate(event) {
-  console.log('icecandidate event: ', event.type);
+  console.log('ICE CANDIDATE event: ', event.type);
   if (event.candidate) {
     sendMessage(questionThis, {
       type: 'candidate',
@@ -208,28 +230,29 @@ function handleIceCandidate(event) {
   }
 }
 
-
-
+//////////////////////  REMOTE STREAM    //////////////////////////
 function handleRemoteStreamAdded(event) {
-  console.log('*************REMOTE STREAM EVENT.');   /// *******REMOTE STREAM EVENT ****** !!!!
+  console.log('*************REMOTE STREAM EVENT.');
   remoteVideo.src = window.URL.createObjectURL(event.stream);
   remoteStream = event.stream;
 }
 
+//////////////////////  GOODBYES
+
 function handleRemoteStreamRemoved(event) {
   console.log('Remote stream removed. Event: ', event);
-}
-
-function hangup() {
-  console.log('*************  Hanging up.');
-  stop(questionThis);
-  sendMessage(questionThis, 'bye');
 }
 
 function handleRemoteHangup() {
   console.log('************ handleRemoteHangup');
   stop(questionThis);
   isInitiator = false;
+}
+
+function hangup() {
+  console.log('*************  Hanging up.');
+  stop(questionThis);
+  sendMessage(questionThis, 'bye');
 }
 
 window.onbeforeunload = function() {

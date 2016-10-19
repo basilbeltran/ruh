@@ -8,78 +8,54 @@ questionController.$inject = ['RuhQuestionFactory'];
 
 function questionController(RuhQuestionFactory){
   var questionThis = this;
+  var questionObj; //send the factory fields, get object back
+
   questionThis.token = "questionController";
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
   questionThis.data = RuhQuestionFactory.getData();
 
-//////////////////////////////////////////////////////////////////////////
-
-var questionObj; //send the factory fields, get object back
-
-
-questionThis.socket = io.connect();
-questionThis.pc;
-
+  questionThis.socket = io.connect();
+  questionThis.pc;
 
 ////////////////// addQuestion
-questionThis.addQuestion = function(){
-// put the question fields in the "database"
-    questionObj = RuhQuestionFactory.addQuestion(questionThis);     //console.dir(questionObj);
+questionThis.addQuestion = function() {
+        // put the question fields in the "database"
+        questionObj = RuhQuestionFactory.addQuestion(questionThis); //console.dir(questionObj);
 
-//send the question to the server
-//questionThis.socket.emit('question', questionObj);
-//questionThis.socket.emit('inquiry', questionObj );
-questionThis.socket.emit('inquiry', "test" );   //TODO use the question UUID
+        //send the question to the server
+        //questionThis.socket.emit('question', questionObj);
+        //questionThis.socket.emit('inquiry', questionObj );
+        questionThis.socket.emit('inquiry', "test"); //TODO use the question UUID
 
+        navigator.mediaDevices.getUserMedia({
+                audio: false,
+                video: true
+            })
+            .then(gotStream)
+            .catch(function(e) {
+                alert('getUserMedia() error: ' + e.name);
+            });
 
-navigator.mediaDevices.getUserMedia({
-  audio: false,
-  video: true
-})
-.then(gotStream)
-.catch(function(e) {
-  alert('getUserMedia() error: ' + e.name);
-});
-
-} ////////////////// addQuestion
+    } ////////////////// addQuestion
 
 
 //////////////////////////////////////////////////////////// SHARED LOGIC
-var mediaConstraints = { audio: false, video: true };
+//var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
+//var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
+//var mediaConstraints = { audio: false, video: true };
+//var constraints = { video: true};
+
 var localStream;
 var remoteStream;
 var localVideo = document.getElementById('localVideo')
 var remoteVideo = document.getElementById('remoteVideo');
 
 var isInitiator = false;
+var isChannelReady = false;
 var isStarted = false;
 var offerOptions = { offerToReceiveAudio: 1, offerToReceiveVideo: 1 };
-var isChannelReady = false;
 var turnReady;
-
-var constraints = {
-  video: true
-};
-
-var pcConfig = {
-  'iceServers': [{
-    'url': 'stun:stun.l.google.com:19302'
-  }]
-};
-
-// Set up audio and video regardless of what devices are present.
-var sdpConstraints = {
-  'mandatory': {
-    'OfferToReceiveAudio': true,
-    'OfferToReceiveVideo': true
-  }
-};
-
-function report(str){
-  console.log(str);
-  // document.getElementById("roomText").innerHTML = str;
-}
 
 
 function gotStream(stream) {
@@ -97,26 +73,26 @@ function gotStream(stream) {
 
 
 questionThis.socket.on('created', room => {
-  report(`received created with room ${room}`);
+  console.log(`received created with room ${room}`);
   isInitiator = true;
 });
 
 questionThis.socket.on('full', room => {
-  report(`received  full with ${room} `);
+  console.log(`received  full with ${room} `);
 });
 
 questionThis.socket.on('join', room =>{
-  report(`received join with  ${room}`);
+  console.log(`received join with  ${room}`);
   isChannelReady = true;
 });
 
 questionThis.socket.on('joined', room =>{
-  report(`received joined with  ${room}`);
+  console.log(`received joined with  ${room}`);
   isChannelReady = true;
 });
 
 questionThis.socket.on('log', array => {
-  report(`received log with ...`);
+  console.log(`received log with ...`);
   console.log.apply(console, array);
 });
 

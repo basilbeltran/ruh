@@ -4,13 +4,15 @@ angular.module("RuhApp")
   .controller('RuhExpertController', expertController);
 expertController.$inject = ['RuhQuestionFactory'];
 
+
+
 function expertController(RuhQuestionFactory){
   var expertThis = this;
   var loggedText = "Logged in as You";
+  expertThis.token = "expertController";
   // expertThis.users = RuhUserFactory.users;
-
   expertThis.qArray = RuhQuestionFactory.getQuestions();   // an error here stops the page painting
-  //console.log(expertThis.qArray);
+  // console.log(expertThis.qArray);
   // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
 
 
@@ -34,15 +36,6 @@ function expertController(RuhQuestionFactory){
   }
 
 
-  //////////////////////////////////////////////////////////////////////////
-  var socket = io.connect();
-  var localVideo = document.getElementById('localVideo')
-  var remoteVideo = document.getElementById('remoteVideo');
-  var mediaConstraints = { audio: false, video: true };
-  var offerOptions = { offerToReceiveAudio: 1, offerToReceiveVideo: 1 };
-
-
-
 ////////////////// answerQuestion
   expertThis.answerQuestion = function(){
   //join the room
@@ -61,10 +54,15 @@ function expertController(RuhQuestionFactory){
 
   } ///////////////// answerQuestion
 
-  /////////////////////////////////////////////////////////////////
-  ////////////////////////////main.js//////////////////////////////
-  /////////////////////////////////////////////////////////////////
 
+///////////////// ///////////////// ///////////////// /////////////////
+
+
+  var socket = io.connect();
+  var localVideo = document.getElementById('localVideo')
+  var remoteVideo = document.getElementById('remoteVideo');
+  var mediaConstraints = { audio: false, video: true };
+  var offerOptions = { offerToReceiveAudio: 1, offerToReceiveVideo: 1 };
   var isChannelReady = false;
   var isInitiator = false;
   var isStarted = false;

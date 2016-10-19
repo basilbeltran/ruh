@@ -53,13 +53,14 @@ var io = socketIO.listen(httpsServer);
 
 io.sockets.on('connection', function(socket) {
 
-  socket.on('message', function(message) { // log('Client said: ', message);
+  //messages are simply broadcast to all sockets
+  socket.on('message', function(message) {
       socket.broadcast.emit('message', message); // for a real app, would be room-only (not broadcast)
 
       if (typeof message === "string") {
-          console.log(`BROADCASTING ${socket.id} MESSAGE ` + message);
+          console.log(`BC MESSAGE ${message} FROM ${socket.id}  ` );
       } else {
-          console.log(`BROADCASTING ${socket.id} MESSAGE ` + message.type);
+          console.log(`BC MESSAGE ${message.type}FROM ${socket.id}  ` );
       }
   });
 
@@ -72,15 +73,21 @@ io.sockets.on('connection', function(socket) {
         if (first) {
           socket.join(room);
           console.log(`${socket.id} CREATED ROOM ${room}`);
-          socket.emit('created', room, socket.id);
+
+          socket.emit('created', room, socket.id);            // back to client as initiator
           first = false;
-    //    } else if (numClients === 2) {              // log('Client ID ' + socket.id + ' joined room ' + room);
-        } else {
-          console.log(`${socket.id} joined ${room}`)
-          io.sockets.in(room).emit('join', room);
+                            // } else if (numClients === 2) {   // log('Client ID ' + socket.id + ' joined room ' + room);
+        }
+
+        else {
           socket.join(room);
-          socket.emit('joined', room, socket.id);
-          io.sockets.in(room).emit('ready');
+          console.log(`${socket.id} joined ${room}`)
+
+          socket.emit('joined', room, socket.id);           // back to new peer  set isChannelReady
+          io.sockets.in(room).emit('join', room);           // broadcast to room set isChannelReady
+
+
+          // io.sockets.in(room).emit('ready');             // broadcast to room NOT USED
         }
         // else { // max two clients
         //   socket.emit('full', room);

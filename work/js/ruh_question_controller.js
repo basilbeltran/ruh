@@ -31,9 +31,10 @@ questionThis.addQuestion = function() {
         questionObj = RuhQuestionFactory.addQuestion(questionThis); //console.dir(questionObj);
 
         //send the question to the server
-        //questionThis.socket.emit('question', questionObj);
-        //questionThis.socket.emit('inquiry', questionObj );
-        questionThis.socket.emit('inquiry', "test");              //TODO use the question UUID
+        //questionThis.socket.emit('question', questionObj); //TODO use the question UUID
+
+
+        questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
 
         navigator.mediaDevices.getUserMedia({
                 audio: false,
@@ -48,9 +49,9 @@ questionThis.addQuestion = function() {
 
 //GUM >>
 //////////////////////////////////////////////////////////// SHARED LOGIC
-// gotStream >>
-  // maybeStart >>
-    // createPeerConnection >> addStream
+// gotStream >sends GUM>>
+  // maybeStart  if ChannelReady>>
+    // createPeerConnection >> addStream (so isStarted = true;)
       //pc.onicecandidate = handleIceCandidate;
       //pc.onaddstream = handleRemoteStreamAdded;
       //pc.onremovestream
@@ -74,13 +75,13 @@ var turnReady;
 
 
 function gotStream(stream) {
-  console.log('Adding local stream to tag.');
+  console.log('gotStream adding local stream to tag.');
   localVideo.src = window.URL.createObjectURL(stream);
   localStream = stream;
   sendMessage(questionThis, 'got user media');
   if (isInitiator) {
-      console.log('I think I the initiator, so maybestart()');
-    maybeStart();
+      console.log('I think I the initiator, so maybeStart()');
+    maybeStart();                                               // why would this ever work?
   }
 }
 
@@ -138,7 +139,13 @@ function onCreateSessionDescriptionError(error) {
 
 
 questionThis.socket.on('message', function(message) {  /////////////  MESSAGE ///////////
-  console.log('received message with', message.type);
+
+
+  if(message.type) {
+      console.log('received message with', message.type);
+  } else {
+      console.log('received message with', message);
+  }
 
   if (message === 'got user media') {
     maybeStart();                                   /////////////  MAYBE START ///////////
@@ -175,27 +182,28 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
 // });
 
 questionThis.socket.on('created', room => {     ////////////////////////  CREATED
-  console.log(`IO received created with room ${room}`);
+  console.log(`ON created -  set initiator  ${room}`);
   isInitiator = true;
 });
 
-questionThis.socket.on('full', room => {       ////////////////////////  FULL
-  console.log(`IO received  full with ${room} `);
-});
-
 questionThis.socket.on('join', room =>{        ////////////////////////  JOIN
-  console.log(`IO received join with  ${room}`);
+  console.log(`ON join - set Channel Ready  ${room}`);
   isChannelReady = true;
 });
 
 questionThis.socket.on('joined', room =>{     ////////////////////////  JOINED
-  console.log(`IO received joined with  ${room}`);
+  console.log(`ON joined - set Channel Ready  ${room}`);
   isChannelReady = true;
 });
 
 
+
+questionThis.socket.on('full', room => {       ////////////////////////  FULL
+  console.log(`ON  full with ${room} `);
+});
+
 questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
-  console.dir(`IO all inqueries ` +inq);
+  console.dir(`ON all inqueries ` +inq);
 });
 
 

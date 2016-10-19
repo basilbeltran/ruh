@@ -33,14 +33,16 @@
     </div>
 
     <div class="row">
-        <select ng-model="questionMain.selectedCat" ng-options="x.subjectName for x in questionMain.data.categories">
+        <select ng-model="questionMain.selectedCat"
+                ng-options="x.subjectName for x in questionMain.data.categories">
         </select>
       </div>
 </br>
       <div class="row">
-        <button ng-click="questionMain.addQuestion()" class="btn btn-primary" id="addButton">Submit Question</button>
+        <button ng-click="questionMain.addQuestion()"
+                class="btn btn-primary"
+                id="addButton">Submit Question</button>
 
-        <button ng-click="questionMain.makeOffer()" class="btn btn-primary" id="callButton">Connect</button>
     </div>
 </form>
 </div>

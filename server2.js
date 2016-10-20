@@ -94,6 +94,11 @@ io.sockets.on('connection', function(socket) {
         // }
       });
 
+
+
+
+
+
   socket.on('ipaddr', function() {
     var ifaces = os.networkInterfaces();
     for (var dev in ifaces) {
@@ -110,14 +115,21 @@ io.sockets.on('connection', function(socket) {
 
 
 
-  socket.on('question', function(questionObj) {
-// add the question object with a key of the socketID
-    allInqs.push({"id":socket.id, "question":questionObj});
-    socket.join(questionObj.qUUID);
-    console.log(`socket.join ${socket.id} qUUID: ${questionObj.qUUID}`);
+  socket.on('question', function(questionObjs) {
 
-// ping back to questioner  (was "created")
-    socket.emit('asked', allInqs[allInqs.length -1], socket.id);  // or pass all inqs?
+    // add the question object with a key of the socketID
+    //allInqs.push({"id":socket.id, "question":questionObj});
+
+    // here we get all the questions
+    allInqs = questionObjs;
+    var newQuestion = allInqs[allInqs.length -1]
+
+    // create the room with the new question UUID
+    socket.join( newQuestion.qUUID );
+        console.log(`${socket.id} IS ASKING ${newQuestion.qUUID}`);
+
+    // ping back to questioner  (was "created")  send back the new question object
+    socket.emit('created', newQuestion.qUUID, socket.id);  // client sets "initiator"
 
 //  send the array of inquiries back to everyone
     io.sockets.emit('allInqs', allInqs);
@@ -125,14 +137,17 @@ io.sockets.on('connection', function(socket) {
 
   });
 
-  socket.on('answer', function(room) {
-    socket.join(room);
-    console.log(`answer ${socket.id} ANSWERED ${room}`)
-
-    io.sockets.in(room).emit('join', room);   // broadcast to room set isChannelReady
-    socket.emit('joined', room, socket.id);   // back to new peer  set isChannelReady
+  socket.on('getAllQuestions', function() {
+     socket.emit('allQuestions', allInqs, socket.id);
   });
 
+  socket.on('answer', function(qUUID) {
+    socket.join(qUUID);
+    console.log(` ${socket.id} IS ANSWERING ${qUUID}`)
+
+    io.sockets.in(qUUID).emit('join', qUUID);   // broadcast to room set isChannelReady
+    socket.emit('joined', qUUID, socket.id);   // back to new peer  set isChannelReady
+  });
 
 
 });  // sockets on

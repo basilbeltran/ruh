@@ -8,6 +8,10 @@ questionController.$inject = ['RuhQuestionFactory'];
 
 function questionController(RuhQuestionFactory){
   var questionThis = this;
+  // These are assigned to questionThis so butils.js can hold shared code
+  questionThis.token = "questionController";
+  questionThis.socket = io.connect();
+  questionThis.pc;
   var questionObjs; //send the factory fields, get object back
 
   questionThis.selectedCat;
@@ -17,10 +21,7 @@ function questionController(RuhQuestionFactory){
 
 
 
-// These are assigned to questionThis so butils.js can hold shared code
-  questionThis.token = "questionController";
-  questionThis.socket = io.connect();
-  questionThis.pc;
+
 
 
 
@@ -28,14 +29,11 @@ function questionController(RuhQuestionFactory){
 
 questionThis.addQuestion = function() {
         // put the question fields in the "database"
-        questionObjs = RuhQuestionFactory.addQuestion(questionThis); //console.dir(questionObj);
-        console.dir(questionObjs);
+        questionObjs = RuhQuestionFactory.addQuestion(questionThis); //returns ALL questions
 
-        //send the question to the server
-        //questionThis.socket.emit('question', questionObj); //TODO use the question UUID
-
-
-        questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
+        //send the questionS  to the server
+        questionThis.socket.emit('question', questionObjs);
+        //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
 
         navigator.mediaDevices.getUserMedia({
                 audio: false,
@@ -208,7 +206,7 @@ questionThis.socket.on('full', room => {       ////////////////////////  FULL
 });
 
 questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
-  console.dir(`ON all inqueries ` +inq);
+  console.dir("ON all inqueries " +inq);
 });
 
 

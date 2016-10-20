@@ -2,50 +2,37 @@
 
 angular.module("RuhApp")
   .controller('RuhExpertController', expertController);
-expertController.$inject = ['RuhQuestionFactory'];
+expertController.$inject = ['RuhQuestionFactory', '$scope'];
 
 
-
-function expertController(RuhQuestionFactory){
+//function expertController($scope, RuhQuestionFactory){
+function expertController(RuhQuestionFactory, $scope){
   var expertThis = this;
-  var loggedText = "Logged in as You";
-
-  // expertThis.users = RuhUserFactory.users;
-  expertThis.qArray = RuhQuestionFactory.getQuestions();   // an error here stops the page painting
-  // console.log(expertThis.qArray);
-  // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
-
-
-  expertThis.showProfile = function(){
-    // expertThis.isProfileShown = true;
-    if(expertThis.isProfileShown){
-      expertThis.isProfileShown = false;
-    } else{
-      expertThis.isProfileShown = true;
-    }
-  }
-
-  expertThis.makeStatusRed = function(){
-    expertThis.qStatus = "statusRed";
-    console.log('makeStatusRed called');
-  }
-
-  expertThis.makeStatusGreen = function(){
-    expertThis.qStatus = "statusGreen";
-    console.log('makeStatusGreen called');
-  }
-
-
+  // These are assigned to questionThis so butils.js can hold shared code
   expertThis.token = "expertController";
   expertThis.socket = io.connect();
   expertThis.pc;
 
 
+  var loggedText = "Logged in as You";
+
+  expertThis.qArray = RuhQuestionFactory.getQuestions();   // First Get questions locally
+// then refresh questions from the server instead
+  expertThis.socket.emit('getAllQuestions'); //TODO how to do this callback properly
+  expertThis.socket.on('allQuestions', questions => {       ////////////////////////  FULL
+    expertThis.qArray = questions;
+    $scope.$apply();
+    console.log(`IO RECEIVED QUESTIONS` + expertThis.qArray );
+  });
+
+  // console.log(expertThis.qArray);
+  // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
+
 ////////////////// answerQuestion  ng-click
 
-  expertThis.answerQuestion = function(){
+  expertThis.answerQuestion = function(uuid){
   //join the room
-  expertThis.socket.emit('inquiry', "test" );
+  expertThis.socket.emit('answer', uuid );
 
   //obtain localMedia stream
 
@@ -273,6 +260,32 @@ function expertController(RuhQuestionFactory){
   window.onbeforeunload = function() {
     sendMessage(expertThis, 'bye');
   };
+
+
+
+
+
+////////// END OF webRTC logic  ////////////////
+
+expertThis.showProfile = function(){
+  // expertThis.isProfileShown = true;
+  if(expertThis.isProfileShown){
+    expertThis.isProfileShown = false;
+  } else{
+    expertThis.isProfileShown = true;
+  }
+}
+
+expertThis.makeStatusRed = function(){
+    expertThis.qStatus = "statusRed";
+  console.log('makeStatusRed called');
+}
+
+expertThis.makeStatusGreen = function(){
+  expertThis.qStatus = "statusGreen";
+  console.log('makeStatusGreen called');
+}
+
 
   ////////////////////////////////////////////////////////
   } //END qMainController

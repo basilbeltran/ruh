@@ -39,19 +39,19 @@ function sendMessage(ctrl, message) {
   ctrl.socket.emit('message', message);
 }
 
-function processSocketEvent(ctlr, eventName, obj){
-  switch (eventName) {
-      case "created":
-          console.log(`IO received created with room ${obj}`);
-          ctlr.isInitiator = true;
-          break;
-      case "n":
-          //code block
-          break;
-      default:
-        console.log(`IO `);
-  }
-}
+// function processSocketEvent(ctlr, eventName, obj){
+//   switch (eventName) {
+//       case "created":
+//           console.log(`IO received created with room ${obj}`);
+//           ctlr.isInitiator = true;
+//           break;
+//       case "n":
+//           //code block
+//           break;
+//       default:
+//         console.log(`IO `);
+//   }
+// }
 
 
 ///////////////////////// Turn ///////////////////////////////

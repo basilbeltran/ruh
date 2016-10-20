@@ -13,11 +13,16 @@
              class="col-md-12">
 
             <div class="buttonsBox">
+
                 <button ng-class="expertMain.qStatus"
                         ng-mouseenter="expertMain.makeStatusRed()"
                         ng-mouseleave="expertMain.makeStatusGreen()"
                         href="#">{{q.qStatus}}</button>
-                <button ng-click="expertMain.answerQuestion()" class="button ">{{q.qInTime}}</button>
+
+                <button ng-click="expertMain.answerQuestion(q.qUUID)"
+                class="button ">{{q.qUUID}}</button>
+
+                <button class="button ">{{q.qInTime}}</button>
                 <button class="button ">{{q.qUserID}}</button>
                 <button class="button ">{{q.qGroupID}}</button>
                 <button class="button ">{{q.qSubject}}</button>

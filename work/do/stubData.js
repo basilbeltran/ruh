@@ -7,7 +7,7 @@ stub.questions = [
     "qUserID":"11111",
     "qInterested":["22222", "11111"],
     "qComments":["5555555555", "6666666666"],
-    "qText":"where to merge the data, above angular because it needs to use ng-repeat. Since mongo is a document db I will proceed on the assumption that it all goes into one big document. But that is silly. User info is certainly in its own table. Right?"
+    "qText":"Who put the bullet hole in Peggys kitchen wall?"
   },
   { "qUUID":"12345qwewe",
     "qStatus":"red",
@@ -15,7 +15,7 @@ stub.questions = [
     "qUserID":"22222",
     "qInterested":["22222", "11111"],
     "qComments":["3333333333", "4444444444"],
-    "qText":"how do I migrate from cloud9 to a local"
+    "qText":"What is the air-speed velocity of an unladen swallow?"
   },
   { "qUUID":"55555qwewe",
     "qStatus":"orange",

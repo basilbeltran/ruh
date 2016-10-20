@@ -1,15 +1,5 @@
 
 
-figure {
-   max-width:64rem;
-   width:100%;
-   max-height:30.875rem;
-   height:100%;
-   margin:1.25rem auto;
-   padding:1.051%;
-   background-color:#666;
-}
-
 h4 {
   text-align: center;
 }
@@ -22,9 +12,9 @@ video {
   max-width:64rem;
   width:100%;
   max-height:30.875rem;
-  border-radius: 5px;
+  /*border-radius: 5px;
   border-style: double;
-  border-color: rgb(252,182,20);
+  border-color: rgb(252,182,20);*/
 }
 
 
@@ -34,7 +24,7 @@ video {
 
 .video-container{
   text-align: center;
-  margin: 20px 20px;
+  margin: 60px 20px 20px 20px;
   padding: 20px 20px;
   border-radius: 5px;
   border-style: double;
@@ -87,6 +77,7 @@ video {
 #profile form{
   display: inline-block;
   padding: 10px 20px;
+  margin: 20px 0px;
   border-radius: 5px;
   border-style: double;
   border-color: black
@@ -95,14 +86,13 @@ video {
 #profile .formBody{
   display: inline-flex;
   padding: 10px 20px;
-  border-radius: 5px;
+  /*border-radius: 5px;
   border-style: double;
-  border-color: red
+  border-color: red*/
 }
 
 #profile .checkWrapper{
   margin: 10px 20px;
-
 }
 
 

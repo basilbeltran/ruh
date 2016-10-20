@@ -7,7 +7,7 @@ stub.questions = [
     "qUserID":"11111",
     "qInterested":["22222", "11111"],
     "qComments":["5555555555", "6666666666"],
-    "qText":"Who put the bullet hole in Peggys kitchen wall?"
+    "qText":"How can I get the angular data to refresh after updating the controller"
   },
   { "qUUID":"12345qwewe",
     "qStatus":"red",
@@ -15,7 +15,7 @@ stub.questions = [
     "qUserID":"22222",
     "qInterested":["22222", "11111"],
     "qComments":["3333333333", "4444444444"],
-    "qText":"What is the air-speed velocity of an unladen swallow?"
+    "qText":"How can I get the checkboxes to align horizontally after ng-repreat?"
   },
   { "qUUID":"55555qwewe",
     "qStatus":"orange",
@@ -23,7 +23,7 @@ stub.questions = [
     "qUserID":"11111",
     "qInterested":["22222", "11111"],
     "qComments":["1111111111", "2222222222"],
-    "qText":"How many turtles are there?"
+    "qText":"How can I read a stub data file into local storage?"
   }
 ] // end $scope.questions
 

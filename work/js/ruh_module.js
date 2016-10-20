@@ -16,7 +16,7 @@ var app = angular.module("RuhApp")
       };
     });
 
-    // the "non-callback" option show below is used throughout this application
+    // the "non-call back" option show below is used throughout this application
     function ruhReverse_B(){
       return function(items) {
         return items.slice().reverse();

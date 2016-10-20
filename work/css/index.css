@@ -26,6 +26,7 @@ video {
   text-align: center;
   margin: 60px 20px 20px 20px;
   padding: 20px 20px;
+  /*background-color: black;*/
   border-radius: 5px;
   border-style: double;
   border-color: black
@@ -36,7 +37,7 @@ video {
   padding:10px;
   border-radius: 5px;
   border-style: double;
-  border-color: red
+  border-color: rgb(252,182,20)
 }
 
 .buttonsBox{
@@ -49,12 +50,12 @@ video {
 
 
 .statusGreen {
-    color: green;
+    background-color: green;
     font-weight: bold;
 }
 
 .statusRed {
-    color: red;
+    background-color: red;
     font-weight: bold;
 }
 
@@ -99,11 +100,11 @@ video {
 
 #question{
   text-align: center;
-  margin: 60px 20px;
+  margin: 10px 10px;
   padding: 10px 20px;
   border-radius: 5px;
   border-style: double;
-  border-color: rgb(252,182,20)
+  border-color: black
 }
 
 #question.questionText {
@@ -114,9 +115,22 @@ video {
 #question textarea {
   text-align: center;
   padding: 10px 10px;
-  border-radius: 5px;
+  /*border-radius: 5px;
   border-style: double;
-  border-color: red
+  border-color: red*/
 
   width: 100%;
 }
+
+/*#localVideo{
+background-color: white;
+}
+
+#remoteVideo{
+background-color: black;
+}
+
+body{
+background-color: black;
+color: white;
+}*/

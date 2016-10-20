@@ -36,7 +36,7 @@ questionThis.addQuestion = function() {
         //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
 
         navigator.mediaDevices.getUserMedia({
-                audio: false,
+                audio: true,
                 video: true
             })
             .then(gotStream)

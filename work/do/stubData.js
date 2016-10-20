@@ -30,13 +30,13 @@ stub.questions = [
 
 stub.usersData = [
     {
-        uEmail: "basil.beltran@gmail.com",
+        uEmail: "basil.beltran@tinkermill.org",
         uPassword: "12345678",
         uExpertise: ["javascript", "devops"],
         uUUID: "22222"
     },
     {
-        uEmail: "basil.beltran@tinkermill.org",
+        uEmail: "basil.beltran@gmail.com",
         uPassword: "asdf09",
         uExpertise: ["css", "node"],
         uUUID: "11111"

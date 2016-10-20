@@ -15,8 +15,12 @@ class Question {
 
     // if(obj.qWillAnswerIn)    this.qWillAnswerIn = obj.qWillAnswerIn
     //   else                   this.qWillAnswerIn = "minutes until broadcast"
-
-    this.qSubject = obj.qSubject      || "Subject area of question";
+try{
+    this.qSubject = obj.selectedCat.subjectName      || "Subject area of question";
+  }catch(err){
+      this.qSubject = obj.qSubject;
+      console.log("Forget about it");
+  }
     this.qUserID = obj.qUserID        || "22222";
     this.qGroupID = obj.qGroupID      || "aaaaaaaaaa";
     this.qComments = obj.qComments    || ["5555555555", "6666666666"]

@@ -12,35 +12,32 @@
              id="question"
              class="col-md-12">
 
-            <div class="buttonsBox">
 
 <div class="row displayBox">
+
                 <button ng-class="expertMain.qStatus"
-                        ng-mouseenter="expertMain.makeStatusRed()"
-                        ng-mouseleave="expertMain.makeStatusGreen()"
-                        href="#">{{q.qStatus}}</button>
+                        ng-click="expertMain.answerQuestion(q.qUUID)" //send question UUID
+                        class="button ">{{q.qInTime | date:'MM/dd/yyyy @ h:mma'}}</button>
 
-                <button ng-click="expertMain.answerQuestion(q.qUUID)" //send question UUID
-                class="button ">{{q.qInTime | date:'MM/dd/yyyy @ h:mma'}}</button>
-
-                <button class="button ">{{q.qSubject}}</button>
                 <button class="button ">{{q.qUser.uEmail}}</button>
-                <button class="button ">{{q.qCommentArray[0].cText}}</button>
+                <button class="button ">{{q.qSubject}}</button>
+
+                <button class="button"
+                ng-mouseenter="expertMain.makeStatusRed()"
+                ng-mouseleave="expertMain.makeStatusGreen()"
+                >Comments</button> <!--  {{q.qCommentArray[0].cText}} -->
 </div>
-<div class="row debugBox">
-              <button class="button ">{{q.qUserID}}</button>
+<!-- <div class="row debugBox">
+                <button class="button ">{{q.qUserID}}</button>
                 <button class="button ">{{q.qGroupID}}</button>
-</div>
+                <button class="button ">{{q.qStatus}}</button>
+</div> -->
 
-                <div class="row">
+<div class="row">
                     <div class="col-md-12">
-                        <p id="questionBox">
-                            {{q.qText}}
-                        </p>
+                        <p id="questionBox">{{q.qText}} </p>
                     </div>
-                </div>
-
-            </div>
+</div>
         </div>   <!-- ng-repeat -->
     </div>
 </div>

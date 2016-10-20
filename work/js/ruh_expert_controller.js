@@ -39,7 +39,7 @@ function expertController(RuhQuestionFactory, $scope){
   //obtain localMedia stream
 
       navigator.mediaDevices.getUserMedia({
-        audio: false,
+        audio: true,
         video: true
       })
       .then(gotStream)
@@ -272,8 +272,8 @@ expertThis.showProfile = function(){
   }
 }
 
-expertThis.makeStatusRed = function(){
-    expertThis.qStatus = "statusRed";
+expertThis.makeStatusRed = function(){  // dynamically assign class name
+    expertThis.qStatus = "statusRed";  //statusRed is a css class in index.css
   console.log('makeStatusRed called');
 }
 

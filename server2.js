@@ -61,7 +61,7 @@ var io = socketIO.listen(httpsServer);
         if (typeof message === "string") {
             console.log(`BC MESSAGE ${message} FROM ${socket.id}  ` );
         } else {
-            if(message.type !== "candidate"){
+            if(message.type !== "candidate"  &&  message !== "bye"  ){
             console.log(`BC MESSAGE ${message.type} FROM ${socket.id}  ` );
           }
         }

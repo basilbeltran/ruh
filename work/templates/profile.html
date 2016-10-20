@@ -1,14 +1,14 @@
 <div id="profile" class="container-fluid ">
 <h2>{{profileMain.mainText}}</h2>
-
-<form>
 <div class="row">
+<form>
+
   <header class="formHeader">
 
-      <h5>{{profileMain.subText}}</h5>
+      <h4>{{profileMain.subText}}</h4>
   </header>
             <div class="form-group col-sm-3">
-                <label for="pOldPass">Enter current password</label>
+                <label for="pOldPass"> current password</label>
                 <input type="text"
                         id="pOldPass"
                         class="questionText"
@@ -17,7 +17,7 @@
             </div>
 
             <div class="form-group col-sm-3">
-                <label for="pNewPass">Enter New Password </label>
+                <label for="pNewPass"> new password </label>
                 <input type="text"
                         id="pNewPass"
                         class="questionText"
@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-group col-sm-3">
-                <label for="pPassCheck">ReEnter New Password </label>
+                <label for="pPassCheck">retype password </label>
                 <input type="text"
                         id="pPassCheck"
                         class="questionText"
@@ -36,29 +36,32 @@
 
 </br>
             <button ng-click="profileMain.changePassword()" class="btn btn-primary mButton">Change Password</button>
-</div>
+
 </form>
+</div>
 
-
-
-    <form class="ruhProfile" ng-submit="profileMain.changePassword()">
+<div class="row">
+    <form class="form-group col-sm-12"
+    ng-submit="profileMain.changePassword()">
 
         <header class="formHeader">
             <h4>{{profileMain.addText}}</h4>
         </header>
 
-<section class="formBody">
-          <div ng-repeat="x in profileMain.data.categories">
-          <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox1" value="option1">{{x.subjectName}}</label>
-          </div>
-</section>
+        <section class="formBody">
+            <div class="checkWrapper" ng-repeat="x in profileMain.data.categories">
+                <label class="checkbox-inline">
+                    <input type="checkbox"
+                            id="inlineCheckbox1"
+                            value="option1">{{x.subjectName}}</label>
+            </div>
+        </section>
 
 
         <footer class="formFooter">
             <button type="submit" class="btn btn-primary mButton">{{profileMain.addButtonText}}</button>
         </footer>
     </form>
-
+</div>
 
 </div>

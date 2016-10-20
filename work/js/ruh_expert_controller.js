@@ -23,7 +23,8 @@ function expertController(RuhQuestionFactory, $scope){
   expertThis.socket.on('allQuestions', questions => {       ////////////////////////  FULL
     expertThis.qArray = questions;
     $scope.$apply();
-    console.log(`IO RECEIVED QUESTIONS` + expertThis.qArray );
+    console.dir("IO RECEIVED QUESTIONS" );
+        console.dir( expertThis.qArray );
   });
 
   // console.log(expertThis.qArray);

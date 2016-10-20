@@ -19,6 +19,7 @@ function expertController(RuhQuestionFactory, $scope){
   expertThis.qArray = RuhQuestionFactory.getQuestions();   // First Get questions locally
 // then refresh questions from the server instead
   expertThis.socket.emit('getAllQuestions'); //TODO how to do this callback properly
+
   expertThis.socket.on('allQuestions', questions => {       ////////////////////////  FULL
     expertThis.qArray = questions;
     $scope.$apply();
@@ -194,12 +195,6 @@ function expertController(RuhQuestionFactory, $scope){
     console.log(`IO received joined with  ${room}`);
     isChannelReady = true;
   });
-
-
-  expertThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
-    console.dir(`IO all inqueries ` +inq);
-  });
-
 
 
   //////////////////////  ICE    //////////////////////////

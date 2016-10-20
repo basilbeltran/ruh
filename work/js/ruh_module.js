@@ -2,18 +2,30 @@
 
 angular.module("RuhApp", ['ngRoute']);
 
-angular.module("RuhApp")
+var app = angular.module("RuhApp")
     .controller('RuhMainController', mainController)
     .controller('RuhLoginController', loginController)
     .controller('RuhProfileController', profileController)
     .factory('RuhQuestionFactory', questionFactory)
+    .filter('RuhReverse', ruhReverse_B)
 
-    profileController.$inject = ['RuhQuestionFactory'];
+    // things can be defined like this is you declare a variable "app" as above
+    app.filter('ruhReverse', function() {
+      return function(items) {
+        return items.slice().reverse();
+      };
+    });
+
+    // the "non-callback" option show below is used throughout this application
+    function ruhReverse_B(){
+      return function(items) {
+        return items.slice().reverse();
+      };
+    }
+
 
 angular.module('RuhApp').config(myRouter);  // the client side routes are defined immediately below
-
 myRouter.$inject = ['$routeProvider'];
-
 function myRouter($routeProvider) {
   $routeProvider
   .when('/', { templateUrl: '/templates/login.html', controller: "RuhLoginController as loginMain" })
@@ -49,6 +61,9 @@ function loginController(){
     console.log('logged in maybe');
   }
 }
+
+
+profileController.$inject = ['RuhQuestionFactory'];
 
 function profileController(RuhQuestionFactory){
   var profileThis = this;

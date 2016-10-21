@@ -45,11 +45,10 @@
 </div>
 
 <div class="row">
-    <form class="form-group col-sm-12"
-    ng-submit="profileMain.changePassword()">
+    <form class="form-group col-sm-12">
 
         <header class="formHeader">
-            <h4>{{profileMain.addText}}</h4>
+            <h4>{{profileMain.addExpertice}}</h4>
         </header>
 
         <section class="formBody">
@@ -63,7 +62,30 @@
 
 
         <footer class="col-md-4 text-center" >
-            <button type="submit" class="btn btn-primary mButton">{{profileMain.addButtonText}}</button>
+            <button type="submit" class="btn btn-primary mButton">{{profileMain.addExperticeBtn}}</button>
+        </footer>
+    </form>
+</div>
+
+<div class="row">
+    <form class="form-group col-sm-12">
+
+        <header class="formHeader">
+            <h4>{{profileMain.addInterests}}</h4>
+        </header>
+
+        <section class="formBody">
+            <div class="checkWrapper" ng-repeat="x in profileMain.data.categories">
+                <label class="checkbox-inline">
+                    <input type="checkbox"
+                            id="inlineCheckbox1"
+                            value="option1">{{x.subjectName}}</label>
+            </div>
+        </section>
+
+
+        <footer class="col-md-4 text-center" >
+            <button type="submit" class="btn btn-primary mButton">{{profileMain.addInterestsBtn}}</button>
         </footer>
     </form>
 </div>

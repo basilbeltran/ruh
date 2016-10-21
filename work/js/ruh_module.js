@@ -75,8 +75,12 @@ function profileController(RuhQuestionFactory){
   profileThis.newPasswordText = "new password";
   profileThis.checkPasswordText = "retype password";
 
-  profileThis.addText = "Add subjects you're willing to field questions on";
-  profileThis.addButtonText = "Add";
+  profileThis.addExpertice = "Add subjects you're willing to field questions on";
+  profileThis.addExperticeBtn = "Add Expertice";
+
+  profileThis.addInterests = "Add subjects you want answers on";
+  profileThis.addInterestsBtn = "Add Interests";
+
 
   profileThis.changePassword = function(){
     console.log('password changed');

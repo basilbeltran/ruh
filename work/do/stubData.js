@@ -2,7 +2,7 @@
 stub = {};
 stub.questions = [
   { "qUUID":"qweweqwewe",
-    "qStatus":"yellow",
+    "qStatus":"green",
     "qSubject": "javascript",
     "qUserID":"11111",
     "qInterested":["22222", "11111"],

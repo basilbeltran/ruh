@@ -1,7 +1,6 @@
 <div class="container-fluid">
     <div class="row">
         <!-- <h1 ng-show="expertMain.isProfileShown"> {{loggedText}} </h1> -->
-        <h1> {{loggedText}} </h1>
     </div>
 </div>
 
@@ -16,7 +15,7 @@
 <div class="row displayBox">
 
                 <button ng-class="q.qStatus"
-                        ng-click="expertMain.answerQuestion(q.qUUID)" //send question UUID
+                        ng-click="expertMain.answerQuestion(q.qUUID)"
                         class="button ">{{q.qInTime | date:'MM/dd/yyyy @ h:mma'}}</button>
 
                 <button class="button "
@@ -31,19 +30,19 @@
                 <button class="button"
                     ng-mouseenter="expertMain.showCommentArray()"
                     ng-mouseleave="expertMain.hideCommentArray()">Comments</button>
-                     <!--  {{q.qCommentArray[0].cText}} -->
 </div>
-<!-- <div class="row debugBox">
-                <button class="button ">{{q.qUserID}}</button>
-                <button class="button ">{{q.qGroupID}}</button>
-                <button class="button ">{{q.qStatus}}</button>
-</div> -->
 
 <div class="row">
                     <div class="col-md-12">
                         <p id="questionBox">{{q.qText}} </p>
                     </div>
 </div>
+
+<div class="row" ng-show="expertMain.isCommentsShown">
+   {{q.qCommentArray[0].cText}}
+</div>
+
+
         </div>   <!-- ng-repeat -->
     </div>
 </div>

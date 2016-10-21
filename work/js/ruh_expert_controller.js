@@ -35,7 +35,7 @@ function expertController(RuhQuestionFactory, $scope){
   expertThis.answerQuestion = function(uuid){
   //join the room
   expertThis.socket.emit('answer', uuid );
-
+  expertThis.qStatus = "orange";
   //obtain localMedia stream
 
       navigator.mediaDevices.getUserMedia({
@@ -258,58 +258,36 @@ function expertController(RuhQuestionFactory, $scope){
   };
 
 
-
-
-
 ////////// END OF webRTC logic  ////////////////
 
-    expertThis.showProfile = function(){
-      // expertThis.isProfileShown = true;
-      if(expertThis.isProfileShown){
-        expertThis.isProfileShown = false;
-      } else{
-        expertThis.isProfileShown = true;
-      }
-    }
+
 
     expertThis.showQuestionDetails = function(){
-
       console.log('showQuestionDetails called');
     }
 
     expertThis.hideQuestionDetails = function(){
-
       console.log('hideQuestionDetails called');
     }
 
-    expertThis.showCommentArray = function(){
 
-      console.log('showCommentArray called');
-    }
-
-    expertThis.hideCommentArray = function(){
-
-      console.log('hideCommentArray called');
-    }
 
     expertThis.showUserDetails = function(){
-expertThis.makeStatusGreen();
       console.log('showUserDetails called');
     }
 
     expertThis.hideUserDetails = function(){
-expertThis.makeStatusRed();
       console.log('hideUserDetails called');
     }
 
-    expertThis.makeStatusRed = function(){  // dynamically assign class name
-        expertThis.qStatus = "red";  //statusRed is a css class in index.css
-      console.log('makeStatusRed called');
+
+
+    expertThis.showCommentArray = function(){
+      expertThis.isCommentsShown = true;
     }
 
-    expertThis.makeStatusGreen = function(){
-      expertThis.qStatus = "green";
-      console.log('makeStatusGreen called');
+    expertThis.hideCommentArray = function(){
+      expertThis.isCommentsShown = false;
     }
 
   ////////////////////////////////////////////////////////

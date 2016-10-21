@@ -263,25 +263,54 @@ function expertController(RuhQuestionFactory, $scope){
 
 ////////// END OF webRTC logic  ////////////////
 
-expertThis.showProfile = function(){
-  // expertThis.isProfileShown = true;
-  if(expertThis.isProfileShown){
-    expertThis.isProfileShown = false;
-  } else{
-    expertThis.isProfileShown = true;
-  }
-}
+    expertThis.showProfile = function(){
+      // expertThis.isProfileShown = true;
+      if(expertThis.isProfileShown){
+        expertThis.isProfileShown = false;
+      } else{
+        expertThis.isProfileShown = true;
+      }
+    }
 
-expertThis.makeStatusRed = function(){  // dynamically assign class name
-    expertThis.qStatus = "statusRed";  //statusRed is a css class in index.css
-  console.log('makeStatusRed called');
-}
+    expertThis.showQuestionDetails = function(){
 
-expertThis.makeStatusGreen = function(){
-  expertThis.qStatus = "statusGreen";
-  console.log('makeStatusGreen called');
-}
+      console.log('showQuestionDetails called');
+    }
 
+    expertThis.hideQuestionDetails = function(){
+
+      console.log('hideQuestionDetails called');
+    }
+
+    expertThis.showCommentArray = function(){
+
+      console.log('showCommentArray called');
+    }
+
+    expertThis.hideCommentArray = function(){
+
+      console.log('hideCommentArray called');
+    }
+
+    expertThis.showUserDetails = function(){
+expertThis.makeStatusGreen();
+      console.log('showUserDetails called');
+    }
+
+    expertThis.hideUserDetails = function(){
+expertThis.makeStatusRed();
+      console.log('hideUserDetails called');
+    }
+
+    expertThis.makeStatusRed = function(){  // dynamically assign class name
+        expertThis.qStatus = "red";  //statusRed is a css class in index.css
+      console.log('makeStatusRed called');
+    }
+
+    expertThis.makeStatusGreen = function(){
+      expertThis.qStatus = "green";
+      console.log('makeStatusGreen called');
+    }
 
   ////////////////////////////////////////////////////////
-  } //END qMainController
+} //END qMainController

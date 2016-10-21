@@ -49,13 +49,23 @@ video {
 }
 
 
-.statusGreen {
+.green {
     background-color: green;
     font-weight: bold;
 }
 
-.statusRed {
+.red {
     background-color: red;
+    font-weight: bold;
+}
+
+.yellow {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+.orange {
+    background-color: orange;
     font-weight: bold;
 }
 

@@ -15,17 +15,23 @@
 
 <div class="row displayBox">
 
-                <button ng-class="expertMain.qStatus"
+                <button ng-class="q.qStatus"
                         ng-click="expertMain.answerQuestion(q.qUUID)" //send question UUID
                         class="button ">{{q.qInTime | date:'MM/dd/yyyy @ h:mma'}}</button>
 
-                <button class="button ">{{q.qUser.uEmail}}</button>
-                <button class="button ">{{q.qSubject}}</button>
+                <button class="button "
+                ng-mouseenter="expertMain.showUserDetails()"
+                ng-mouseleave="expertMain.hideUserDetails()">{{q.qUser.uEmail}}</button>
+
+
+                <button class="button "
+                    ng-mouseenter="expertMain.showQuestionDetails()"
+                    ng-mouseleave="expertMain.hideQuestionDetails()">{{q.qSubject}}</button>
 
                 <button class="button"
-                ng-mouseenter="expertMain.makeStatusRed()"
-                ng-mouseleave="expertMain.makeStatusGreen()"
-                >Comments</button> <!--  {{q.qCommentArray[0].cText}} -->
+                    ng-mouseenter="expertMain.showCommentArray()"
+                    ng-mouseleave="expertMain.hideCommentArray()">Comments</button>
+                     <!--  {{q.qCommentArray[0].cText}} -->
 </div>
 <!-- <div class="row debugBox">
                 <button class="button ">{{q.qUserID}}</button>

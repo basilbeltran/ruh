@@ -36,6 +36,7 @@ function expertController(RuhQuestionFactory, $scope){
   //join the room
   expertThis.socket.emit('answer', uuid );
   expertThis.qStatus = "orange";
+
   //obtain localMedia stream
 
       navigator.mediaDevices.getUserMedia({

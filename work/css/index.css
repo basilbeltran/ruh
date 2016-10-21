@@ -1,4 +1,7 @@
-
+body{
+background-color: grey;
+color: black;
+}
 
 h4 {
   text-align: center;
@@ -137,6 +140,12 @@ video {
   width: 100%;
 }
 
+#login label{
+  text-align: center;
+
+}
+
+
 /*#localVideo{
 background-color: white;
 }
@@ -145,8 +154,3 @@ background-color: white;
 background-color: black;
 }
 */
-
-body{
-background-color: grey;
-color: black;
-}

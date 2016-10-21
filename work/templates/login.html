@@ -3,7 +3,7 @@
 
 <form ng-submit="loginMain.login()">
 <div class="row">
-          <div class="form-group col-sm-6">
+          <div class="form-group col-sm-offset-4 col-sm-2">
              <label for="lUserName"> User</label>
               <input type="text"
                       id="lUserName"
@@ -13,7 +13,7 @@
           </div>
 </div>
 <div class="row">
-          <div class="form-group col-sm-6">
+          <div class="form-group col-sm-offset-4 col-sm-2">
              <label for="lPassword"> Password</label>
               <input type="text"
                       id="lPassword"
@@ -22,7 +22,7 @@
                       placeholder={{loginMain.passwordText}} />
           </div>
 </div>
-          <div class="login-footer">
+          <div class="form-group col-sm-offset-4 col-sm-4">
               <button type="submit" class="btn btn-primary mButton">Login</button>
           <h5>{{loginMain.keepText}}</h5>
           <h5>{{loginMain.forgotText}}</h5>

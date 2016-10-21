@@ -75,10 +75,10 @@ function profileController(RuhQuestionFactory){
   profileThis.newPasswordText = "new password";
   profileThis.checkPasswordText = "retype password";
 
-  profileThis.addExpertice = "Add subjects you're willing to field questions on";
+  profileThis.addExpertice = "Areas of Expertice";
   profileThis.addExperticeBtn = "Add Expertice";
 
-  profileThis.addInterests = "Add subjects you want answers on";
+  profileThis.addInterests = "Areas of Interest";
   profileThis.addInterestsBtn = "Add Interests";
 
 

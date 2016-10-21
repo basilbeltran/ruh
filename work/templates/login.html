@@ -1,32 +1,32 @@
-<div>
+<div id="login" class="container-fluid ">
+<h2>{{loginMain.mainText}}</h2>
 
-  <div class="container-fluid ">
-
-      <form ng-submit="loginMain.login()">
-          <div class="login-header">
-              <h2>{{loginMain.mainText}}</h2>
-              <h5>{{loginMain.subText}}</h5>
-          </div>
-
-          <div class="login-body">
+<form ng-submit="loginMain.login()">
+<div class="row">
+          <div class="form-group col-sm-6">
+             <label for="lUserName"> User</label>
               <input type="text"
+                      id="lUserName"
                       class="questionText"
-                      ng-model="loginMain.uname"
+                      ng-model="loginMain.lUserName"
                       placeholder={{loginMain.emailText}} />
-
-              <input type="text"
-                      class="questionText"
-                      ng-model="loginMain.pwd"
-                      placeholder={{loginMain.passwordText}} />
-
           </div>
-
+</div>
+<div class="row">
+          <div class="form-group col-sm-6">
+             <label for="lPassword"> Password</label>
+              <input type="text"
+                      id="lPassword"
+                      class="questionText"
+                      ng-model="loginMain.lPassword"
+                      placeholder={{loginMain.passwordText}} />
+          </div>
+</div>
           <div class="login-footer">
               <button type="submit" class="btn btn-primary mButton">Login</button>
           <h5>{{loginMain.keepText}}</h5>
           <h5>{{loginMain.forgotText}}</h5>
         </div>
-      </form>
-  </div>
+</form>
 
 </div>

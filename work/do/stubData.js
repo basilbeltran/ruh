@@ -15,7 +15,7 @@ stub.questions = [
     "qUserID":"22222",
     "qInterested":["22222", "11111"],
     "qComments":["3333333333", "4444444444"],
-    "qText":"How can I get the checkboxes to align horizontally after ng-repreat?"
+    "qText":"How can I get the checkboxes to align horizontally ?"
   },
   { "qUUID":"55555qwewe",
     "qStatus":"orange",

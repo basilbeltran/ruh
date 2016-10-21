@@ -8,6 +8,10 @@ h3 {
   text-align: center;
 }
 
+h2 {
+  text-align: center;
+}
+
 video {
   max-width:64rem;
   width:100%;
@@ -20,6 +24,7 @@ video {
 
 .mButton {
   background-color: rgb(252,182,20);
+  color: black;
 }
 
 .video-container{
@@ -35,9 +40,9 @@ video {
 .outerBox{
   margin: 50px 20px 10px;
   padding:10px;
-  border-radius: 5px;
+  /*border-radius: 5px;
   border-style: double;
-  border-color: rgb(252,182,20)
+  border-color: rgb(252,182,20)*/
 }
 
 .buttonsBox{
@@ -80,9 +85,9 @@ video {
 #profile{
   margin: 60px 20px;
   padding: 10px 20px;
-  border-radius: 5px;
+  /*border-radius: 5px;
   border-style: double;
-  border-color: rgb(252,182,20)
+  border-color: black*/
 }
 
 #profile form{
@@ -91,7 +96,7 @@ video {
   margin: 20px 0px;
   border-radius: 5px;
   border-style: double;
-  border-color: black
+  border-color: rgb(252,182,20)
 }
 
 #profile .formBody{
@@ -139,8 +144,9 @@ background-color: white;
 #remoteVideo{
 background-color: black;
 }
+*/
 
 body{
-background-color: black;
-color: white;
-}*/
+background-color: grey;
+color: black;
+}

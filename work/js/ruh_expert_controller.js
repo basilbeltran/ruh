@@ -30,22 +30,39 @@ function expertController(RuhQuestionFactory, $scope){
   // console.log(expertThis.qArray);
   // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
 
+
+  //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
+  //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
+  //var mediaConstraints = { audio: false, video: true };
+  var constraints = {
+      video: {
+          mandatory: {
+              minAspectRatio: 1.777,
+              maxAspectRatio: 1.778
+          },
+          optional: [{
+              maxWidth: 640
+          }, {
+              maxHeigth: 480
+          }]
+      },
+      audio: false
+  }
+
+
 ////////////////// answerQuestion  ng-click
 
   expertThis.answerQuestion = function(uuid){
   //join the room
   expertThis.socket.emit('answer', uuid );
-  expertThis.qStatus = "orange";
+  expertThis.qArray[expertThis.qArray.length -1].qStatus = "orange";
 
   //obtain localMedia stream
 
-      navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true
-      })
+      navigator.mediaDevices.getUserMedia(constraints)
       .then(gotStream)
       .catch(function(e) {
-        alert('getUserMedia() error: ' + e.name);
+        alert('getUserMedia() error: ' + e);
       });
 
   } ///////////////// answerQuestion
@@ -60,11 +77,6 @@ function expertController(RuhQuestionFactory, $scope){
         //pc.onaddstream = handleRemoteStreamAdded;
         //pc.onremovestream
 
-
-  //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
-  //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
-  //var mediaConstraints = { audio: false, video: true };
-  //var constraints = { video: true};
 
   var localStream;
   var remoteStream;

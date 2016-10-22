@@ -50,7 +50,7 @@ function mainController(){
 function loginController(){
   var loginThis = this;
 
-  loginThis.mainText = "Sign in to RU Stuck";
+  loginThis.mainText = "Sign in ...";
   loginThis.subText = "Enter your email address and password.";
   loginThis.keepText = "Keep me signed in";
   loginThis.forgotText = "I forgot my password";
@@ -74,6 +74,9 @@ function profileController(RuhQuestionFactory){
   profileThis.oldPasswordText = "old password";
   profileThis.newPasswordText = "new password";
   profileThis.checkPasswordText = "retype password";
+  
+    profileThis.addPhoto = "Your Photo";
+    profileThis.addPhotoBtn = "Take Photo";
 
   profileThis.addExpertice = "Areas of Expertice";
   profileThis.addExperticeBtn = "Add Expertice";

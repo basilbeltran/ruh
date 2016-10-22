@@ -22,7 +22,23 @@ function questionController(RuhQuestionFactory){
 
 
 
-
+  //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
+  //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
+  //var mediaConstraints = { audio: false, video: true };
+  var constraints = {
+      video: {
+          mandatory: {
+              minAspectRatio: 1.777,
+              maxAspectRatio: 1.778
+          },
+          optional: [{
+              maxWidth: 640
+          }, {
+              maxHeigth: 480
+          }]
+      },
+      audio: false
+  }
 
 
 ////////////////// addQuestion  ng-click
@@ -35,13 +51,10 @@ questionThis.addQuestion = function() {
         questionThis.socket.emit('question', questionObjs);
         //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
 
-        navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: true
-            })
+        navigator.mediaDevices.getUserMedia(constraints)
             .then(gotStream)
             .catch(function(e) {
-                alert('getUserMedia() error: ' + e.name);
+                alert('getUserMedia() error: ' + e);
             });
 
     } ////////////////// addQuestion
@@ -56,10 +69,9 @@ questionThis.addQuestion = function() {
       //pc.onremovestream
 
 
-//var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
-//var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
-//var mediaConstraints = { audio: false, video: true };
-//var constraints = { video: true};
+
+
+
 
 var localStream;
 var remoteStream;

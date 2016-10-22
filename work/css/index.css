@@ -3,6 +3,10 @@ background-color: grey;
 color: black;
 }
 
+a {
+  color:black;
+}
+
 h4 {
   text-align: center;
 }
@@ -114,7 +118,13 @@ video {
   margin: 10px 20px;
 }
 
-
+#profile canvas{
+  margin:0;
+  padding: 0;
+  border-radius: 5px;
+  border-style: double;
+  border-color: black
+}
 
 #question{
   text-align: center;
@@ -140,10 +150,14 @@ video {
   width: 100%;
 }
 
-#login label{
-  text-align: center;
-
+#login .questionText{
+  text-align: right;
 }
+
+#login label{
+margin: auto;
+}
+
 
 
 /*#localVideo{

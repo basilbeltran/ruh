@@ -7,7 +7,7 @@
 
       <h4>{{profileMain.subText}}</h4>
   </header>
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
                 <label for="pOldPass"> old password</label>
                 <input type="text"
                         id="pOldPass"
@@ -16,7 +16,7 @@
                         placeholder={{profileMain.oldPasswordText}} >
             </div>
 
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
                 <label for="pNewPass"> new password </label>
                 <input type="text"
                         id="pNewPass"
@@ -25,7 +25,7 @@
                         placeholder={{profileMain.newPasswordText}} >
             </div>
 
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
                 <label for="pPassCheck">retype password </label>
                 <input type="text"
                         id="pPassCheck"
@@ -88,6 +88,25 @@
             <button type="submit" class="btn btn-primary mButton">{{profileMain.addInterestsBtn}}</button>
         </footer>
     </form>
+</div>
+
+<div class="canvas-group" >
+  <header class="formHeader">
+      <h4>{{profileMain.takePhoto}}</h4>
+  </header>
+    <div  class="row">
+        <canvas col-sm-3>
+        </canvas>
+        <canvas col-sm-3>
+        </canvas>
+        <canvas col-sm-3>
+        </canvas>
+        <canvas col-sm-3>
+        </canvas>
+    </div>
+    <footer class="col-md-4 text-center" >
+        <button type="submit" class="btn btn-primary mButton">{{profileMain.takePhotoBtn}}</button>
+    </footer>
 </div>
 
 </div>

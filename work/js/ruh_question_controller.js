@@ -16,6 +16,9 @@ function questionController(RuhQuestionFactory){
 
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
+  questionThis.addPhoto = "Your Photo";
+  questionThis.takePhotoBtn = "Take Photo";
+
   questionThis.data = RuhQuestionFactory.getData();
 
 
@@ -77,6 +80,7 @@ var localStream;
 var remoteStream;
 var localVideo = document.getElementById('localVideo')
 var remoteVideo = document.getElementById('remoteVideo');
+var canvas = document.getElementById('canvas1');
 
 var isInitiator = false;
 var isChannelReady = false;
@@ -87,8 +91,9 @@ var turnReady;
 
 function gotStream(stream) {
   console.log('gotStream adding local stream to tag.');
-  localVideo.src = window.URL.createObjectURL(stream);
-  localStream = stream;
+  localVideo.src = stream = window.URL.createObjectURL(stream);
+
+
   sendMessage(questionThis, 'got user media');
   // if (isInitiator) {
   //     console.log('I think I the initiator, so maybeStart()');

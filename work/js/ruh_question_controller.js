@@ -17,7 +17,7 @@ function questionController(RuhQuestionFactory){
   // These are assigned to questionThis so butils.js can hold shared code
 
 
-  questionThis.localPc;
+  RuhQuestionFactory.current.localPc;
   var questionObjs; //send the factory fields, get object back
 
   questionThis.selectedCat;
@@ -107,7 +107,7 @@ function maybeStart() {
 
     console.log(' maybeStart() creating peer connection');
     createPeerConnection();
-    questionThis.localPc.addStream(localStream);
+    RuhQuestionFactory.current.localPc.addStream(localStream);
     isStarted = true;
 
     if (isInitiator) {
@@ -119,7 +119,7 @@ function maybeStart() {
 //////////////////////////////OFFER ///////////////////////////
 function doOffer() {
   console.log('************ DO OFFER');
-  questionThis.localPc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+  RuhQuestionFactory.current.localPc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
 }
 
 function handleCreateOfferError(event) {
@@ -130,7 +130,7 @@ function handleCreateOfferError(event) {
 ////////////////////////////// ANSWER ///////////////////////////
 function doAnswer() {
   console.log('************ DO ANSWER');
-  questionThis.localPc.createAnswer().then(
+  RuhQuestionFactory.current.localPc.createAnswer().then(
     setLocalAndSendMessage,
     onCreateSessionDescriptionError
   );
@@ -140,7 +140,7 @@ function setLocalAndSendMessage(sessionDescription) {
   console.log('************ SET LOCAL');
   // Set Opus as the preferred codec in SDP if Opus is present.
   //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
-  questionThis.localPc.setLocalDescription(sessionDescription);
+  RuhQuestionFactory.current.localPc.setLocalDescription(sessionDescription);
   console.log('setLocalAndSendMessage sending message', sessionDescription.type);
   sendMessage(questionThis, sessionDescription);
 }
@@ -173,12 +173,12 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
       maybeStart();
     }
 
-    questionThis.localPc.setRemoteDescription(new RTCSessionDescription(message));
+    RuhQuestionFactory.current.localPc.setRemoteDescription(new RTCSessionDescription(message));
     doAnswer();
 
 
   } else if (message.type === 'answer' && isStarted) {
-    questionThis.localPc.setRemoteDescription(new RTCSessionDescription(message));
+    RuhQuestionFactory.current.localPc.setRemoteDescription(new RTCSessionDescription(message));
 
 
   } else if (message.type === 'candidate' && isStarted) {
@@ -186,7 +186,7 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
       sdpMLineIndex: message.label,
       candidate: message.candidate
     });
-    questionThis.localPc.addIceCandidate(candidate);
+    RuhQuestionFactory.current.localPc.addIceCandidate(candidate);
 
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
@@ -230,10 +230,10 @@ questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
 
 function createPeerConnection() {
   try {
-    questionThis.localPc = new RTCPeerConnection(null);
-    questionThis.localPc.onicecandidate = handleIceCandidate;
-    questionThis.localPc.onaddstream = handleRemoteStreamAdded;
-    questionThis.localPc.onremovestream = handleRemoteStreamRemoved;
+    RuhQuestionFactory.current.localPc = new RTCPeerConnection(null);
+    RuhQuestionFactory.current.localPc.onicecandidate = handleIceCandidate;
+    RuhQuestionFactory.current.localPc.onaddstream = handleRemoteStreamAdded;
+    RuhQuestionFactory.current.localPc.onremovestream = handleRemoteStreamRemoved;
     console.log('Created RTCPeerConnnection');
   } catch (e) {
     console.log('Failed to create PeerConnection, exception: ' + e.message);

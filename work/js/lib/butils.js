@@ -99,8 +99,8 @@ function stop(ctrl) {
   isStarted = false;
   // isAudioMuted = false;
   // isVideoMuted = false;
-  ctrl.pc.close();
-  ctrl.pc = null;
+  ctrl.localPc.close();
+  ctrl.localPc = null;
 }
 
 

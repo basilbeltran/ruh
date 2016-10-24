@@ -1,66 +1,32 @@
-<div id="question" class="container-fluid ">
+<div id="office" class="container-fluid ">
 <div class="row">
   <div class="canvas-group" >
     <header class="formHeader">
-        <h4>{{questionMain.takePhoto}}</h4>
+        <h4>{{officeMain.takePhoto}}</h4>
     </header>
       <div  class="row">
           <canvas id="canvas1" class="sepia">
           </canvas>
           <canvas id="canvas2" >
           </canvas>
-
       </div>
-      <footer class="col-md-4 text-center" >
-          <button   ng-click="questionMain.snap()"
-                    class="btn btn-primary mButton">{{questionMain.takePhotoBtn}}</button>
-      </footer>
   </div>
 </div>
-<form>
-    <div class="row">
-        <div class="form-group col-sm-4">
-            <label for="qGoal">"What is the big goal?" </label> </br>
-            <textarea
-                    id="qGoal"
-                    class="questionText"
-                    ng-model="questionMain.qGoal"
-                    placeholder="I expect to..." />
-            </textarea>
-        </div>
 
-        <div class="form-group col-sm-4">
-            <label for="qText">"What is the current problem?" </label> </br>
-            <textarea
-                    id="qText"
-                    class="questionText"
-                    ng-model="questionMain.qText"
-                    placeholder="How do I ..." />
-            </textarea>
-        </div>
+<div class="row">
 
-        <div class="form-group col-sm-4">
-            <label for="qTrying">"What have you done?" </label> </br>
-            <textarea
-                    id="qTrying"
-                    class="questionText"
-                    ng-model="questionMain.qTrying"
-                    placeholder="I have tried..." />
-            </textarea>
-        </div>
-    </div>
+      <button class="col-sm-3 btn btn-primary mButton"
+                ng-click="officeMain.start()">
+                {{officeMain.startBtn}}</button>
 
-    <div class="row">
-        <select ng-model="questionMain.selectedCat"
-                ng-options="x.subjectName for x in questionMain.data.categories">
-        </select>
-      </div>
-</br>
-      <div class="row">
-        <button ng-click="questionMain.addQuestion()"
-                class="btn btn-primary"
-                id="addButton">Submit Question</button>
+      <button  class="col-sm-3 btn btn-primary mButton"
+                ng-click="officeMain.send()">
+                {{officeMain.sendBtn}}</button>
 
-    </div>
-</form>
+      <button  class="col-sm-3 btn btn-primary mButton"
+                ng-click="officeMain.close()">
+                {{officeMain.closeBtn}}</button>
+</div>
+
+
 </div>

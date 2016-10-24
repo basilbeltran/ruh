@@ -4,6 +4,7 @@
 
 function questionFactory(){
   var data;
+  var current = {};
 
 var getData = function () {  // read "data" from local storage
   if(data){
@@ -84,5 +85,6 @@ function  getQuestion (questionID){
     getQuestions: getQuestions,
     getQuestion: getQuestion,
     addQuestion: addQuestion,
+    current: current
   }
 }

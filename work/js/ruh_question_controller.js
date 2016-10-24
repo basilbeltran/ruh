@@ -7,23 +7,22 @@ questionController.$inject = ['RuhQuestionFactory'];
 
 
 function questionController(RuhQuestionFactory){
+
   var questionThis = this;
-  // These are assigned to questionThis so butils.js can hold shared code
   questionThis.token = "questionController";
-  questionThis.socket = io.connect();
-  questionThis.pc;
+  questionThis.data = RuhQuestionFactory.getData();
+  questionThis.socket = RuhQuestionFactory.current.socket = RuhQuestionFactory.current.socket || io.connect();
+
+  console.log(RuhQuestionFactory.current.socket);
+  // These are assigned to questionThis so butils.js can hold shared code
+
+
+  questionThis.localPc;
   var questionObjs; //send the factory fields, get object back
 
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
-  questionThis.addPhoto = "Your Photo";
-  questionThis.takePhotoBtn = "Take Photo";
-
   questionThis.data = RuhQuestionFactory.getData();
-
-
-
-
 
   //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
   //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
@@ -49,7 +48,8 @@ function questionController(RuhQuestionFactory){
 questionThis.addQuestion = function() {
         // put the question fields in the "database"
         questionObjs = RuhQuestionFactory.addQuestion(questionThis); //returns ALL questions
-
+        //set CURRRENT question
+        RuhQuestionFactory.current.question =  questionObjs[questionObjs.length-1];
         //send the questionS  to the server
         questionThis.socket.emit('question', questionObjs);
         //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
@@ -73,9 +73,6 @@ questionThis.addQuestion = function() {
 
 
 
-
-
-
 var localStream;
 var remoteStream;
 var localVideo = document.getElementById('localVideo')
@@ -91,8 +88,9 @@ var turnReady;
 
 function gotStream(stream) {
   console.log('gotStream adding local stream to tag.');
-  localVideo.src = stream = window.URL.createObjectURL(stream);
 
+  localVideo.src = window.URL.createObjectURL(stream);
+  localStream = stream;
 
   sendMessage(questionThis, 'got user media');
   // if (isInitiator) {
@@ -109,7 +107,7 @@ function maybeStart() {
 
     console.log(' maybeStart() creating peer connection');
     createPeerConnection();
-    questionThis.pc.addStream(localStream);
+    questionThis.localPc.addStream(localStream);
     isStarted = true;
 
     if (isInitiator) {
@@ -121,7 +119,7 @@ function maybeStart() {
 //////////////////////////////OFFER ///////////////////////////
 function doOffer() {
   console.log('************ DO OFFER');
-  questionThis.pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+  questionThis.localPc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
 }
 
 function handleCreateOfferError(event) {
@@ -132,7 +130,7 @@ function handleCreateOfferError(event) {
 ////////////////////////////// ANSWER ///////////////////////////
 function doAnswer() {
   console.log('************ DO ANSWER');
-  questionThis.pc.createAnswer().then(
+  questionThis.localPc.createAnswer().then(
     setLocalAndSendMessage,
     onCreateSessionDescriptionError
   );
@@ -142,7 +140,7 @@ function setLocalAndSendMessage(sessionDescription) {
   console.log('************ SET LOCAL');
   // Set Opus as the preferred codec in SDP if Opus is present.
   //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
-  questionThis.pc.setLocalDescription(sessionDescription);
+  questionThis.localPc.setLocalDescription(sessionDescription);
   console.log('setLocalAndSendMessage sending message', sessionDescription.type);
   sendMessage(questionThis, sessionDescription);
 }
@@ -175,12 +173,12 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
       maybeStart();
     }
 
-    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
+    questionThis.localPc.setRemoteDescription(new RTCSessionDescription(message));
     doAnswer();
 
 
   } else if (message.type === 'answer' && isStarted) {
-    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
+    questionThis.localPc.setRemoteDescription(new RTCSessionDescription(message));
 
 
   } else if (message.type === 'candidate' && isStarted) {
@@ -188,7 +186,7 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
       sdpMLineIndex: message.label,
       candidate: message.candidate
     });
-    questionThis.pc.addIceCandidate(candidate);
+    questionThis.localPc.addIceCandidate(candidate);
 
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
@@ -232,10 +230,10 @@ questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
 
 function createPeerConnection() {
   try {
-    questionThis.pc = new RTCPeerConnection(null);
-    questionThis.pc.onicecandidate = handleIceCandidate;
-    questionThis.pc.onaddstream = handleRemoteStreamAdded;
-    questionThis.pc.onremovestream = handleRemoteStreamRemoved;
+    questionThis.localPc = new RTCPeerConnection(null);
+    questionThis.localPc.onicecandidate = handleIceCandidate;
+    questionThis.localPc.onaddstream = handleRemoteStreamAdded;
+    questionThis.localPc.onremovestream = handleRemoteStreamRemoved;
     console.log('Created RTCPeerConnnection');
   } catch (e) {
     console.log('Failed to create PeerConnection, exception: ' + e.message);

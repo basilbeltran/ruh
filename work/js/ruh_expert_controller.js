@@ -10,8 +10,8 @@ function expertController(RuhQuestionFactory, $scope){
   var expertThis = this;
   // These are assigned to questionThis so butils.js can hold shared code
   expertThis.token = "expertController";
-  expertThis.socket = io.connect();
-  expertThis.pc;
+  expertThis.socket = RuhQuestionFactory.current.socket = RuhQuestionFactory.current.socket || io.connect();
+  RuhQuestionFactory.current.peer;
 
 
   var loggedText = "Logged in as You";
@@ -67,7 +67,11 @@ function expertController(RuhQuestionFactory, $scope){
 
   } ///////////////// answerQuestion
 
-
+  expertThis.sendText = function(){
+    var data = textIn.value;
+    RuhQuestionFactory.current.dataChannel.send(data);
+    console.log('Sent Data: ' + data);
+  } ///////////////// answerQuestion
   //GUM >>
   //////////////////////////////////////////////////////////// SHARED LOGIC
   // gotStream >>
@@ -82,13 +86,13 @@ function expertController(RuhQuestionFactory, $scope){
   var remoteStream;
   var localVideo = document.getElementById('localVideo')
   var remoteVideo = document.getElementById('remoteVideo');
-
+  var textIn = document.querySelector('textarea#textIn');
+  var textOut = document.querySelector('textarea#textOut');
   var isInitiator = false;
   var isChannelReady = false;
   var isStarted = false;
   var offerOptions = { offerToReceiveAudio: 1, offerToReceiveVideo: 1 };
   var turnReady;
-
 
   function gotStream(stream) {
     console.log('Adding local stream to tag.');
@@ -107,7 +111,7 @@ function expertController(RuhQuestionFactory, $scope){
     if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
       console.log(' maybeStart() creating peer connection');
       createPeerConnection();
-      expertThis.pc.addStream(localStream);
+      RuhQuestionFactory.current.peer.addStream(localStream);
       isStarted = true;
 
       if (isInitiator) {
@@ -119,7 +123,7 @@ function expertController(RuhQuestionFactory, $scope){
   //////////////////////////////OFFER ///////////////////////////
   function doOffer() {
     console.log('************ DO OFFER');
-    expertThis.pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+    RuhQuestionFactory.current.peer.createOffer(setLocalAndSendMessage, handleCreateOfferError);
   }
 
   function handleCreateOfferError(event) {
@@ -130,7 +134,7 @@ function expertController(RuhQuestionFactory, $scope){
   ////////////////////////////// ANSWER ///////////////////////////
   function doAnswer() {
     console.log('************ DO ANSWER');
-    expertThis.pc.createAnswer().then(
+    RuhQuestionFactory.current.peer.createAnswer().then(
       setLocalAndSendMessage,
       onCreateSessionDescriptionError
     );
@@ -140,7 +144,7 @@ function expertController(RuhQuestionFactory, $scope){
     console.log('************ SET LOCAL');
     // Set Opus as the preferred codec in SDP if Opus is present.
     //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
-    expertThis.pc.setLocalDescription(sessionDescription);
+    RuhQuestionFactory.current.peer.setLocalDescription(sessionDescription);
     console.log('setLocalAndSendMessage sending message', sessionDescription.type);
     sendMessage(expertThis, sessionDescription);
   }
@@ -165,12 +169,12 @@ function expertController(RuhQuestionFactory, $scope){
       if (!isInitiator && !isStarted) {
         maybeStart();
       }
-      expertThis.pc.setRemoteDescription(new RTCSessionDescription(message));
+      RuhQuestionFactory.current.peer.setRemoteDescription(new RTCSessionDescription(message));
       doAnswer();
 
 
     } else if (message.type === 'answer' && isStarted) {
-      expertThis.pc.setRemoteDescription(new RTCSessionDescription(message));
+      RuhQuestionFactory.current.peer.setRemoteDescription(new RTCSessionDescription(message));
 
 
     } else if (message.type === 'candidate' && isStarted) {
@@ -178,7 +182,7 @@ function expertController(RuhQuestionFactory, $scope){
         sdpMLineIndex: message.label,
         candidate: message.candidate
       });
-      expertThis.pc.addIceCandidate(candidate);
+      RuhQuestionFactory.current.peer.addIceCandidate(candidate);
 
     } else if (message === 'bye' && isStarted) {
       handleRemoteHangup();
@@ -215,10 +219,10 @@ function expertController(RuhQuestionFactory, $scope){
 
   function createPeerConnection() {
     try {
-      expertThis.pc = new RTCPeerConnection(null);
-      expertThis.pc.onicecandidate = handleIceCandidate;
-      expertThis.pc.onaddstream = handleRemoteStreamAdded;
-      expertThis.pc.onremovestream = handleRemoteStreamRemoved;
+      RuhQuestionFactory.current.peer = new RTCPeerConnection(null);
+      RuhQuestionFactory.current.peer.onicecandidate = handleIceCandidate;
+      RuhQuestionFactory.current.peer.onaddstream = handleRemoteStreamAdded;
+      RuhQuestionFactory.current.peer.onremovestream = handleRemoteStreamRemoved;
       console.log('Created RTCPeerConnnection');
     } catch (e) {
       console.log('Failed to create PeerConnection, exception: ' + e.message);
@@ -238,8 +242,19 @@ function expertController(RuhQuestionFactory, $scope){
       });
     } else {
       console.log('End of candidates.');
+      RuhQuestionFactory.current.dataChannel = RuhQuestionFactory.current.peer.createDataChannel('dataChannel');
+      RuhQuestionFactory.current.dataChannel.onmessage = onMessage;
+      RuhQuestionFactory.current.dataChannel.onopen = function(event) {
+        RuhQuestionFactory.current.dataChannel.send('dataChannel is open');
+      }
     }
   }
+
+  function onMessage(event) {
+    console.log('Received Message');
+    textOut.value = event.data;
+  }
+
 
   //////////////////////  REMOTE STREAM    //////////////////////////
   function handleRemoteStreamAdded(event) {

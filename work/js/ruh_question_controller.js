@@ -248,7 +248,7 @@ function createPeerConnection() {
 }
 
 function receiveChannelCallback(event) {
-      console.log('receiveChannelCallback assigning dataChannel');
+      console.log('!!!!!!  receiveChannelCallback assigning dataChannel');
     RuhQuestionFactory.current.dataChannel = event.channel;
     RuhQuestionFactory.current.dataChannel.onmessage = onMessage;
     RuhQuestionFactory.current.dataChannel.onopen = function(event) {

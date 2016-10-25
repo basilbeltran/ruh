@@ -71,15 +71,7 @@ function expertController(RuhQuestionFactory, $scope){
     var data = textIn.value;
     RuhQuestionFactory.current.dataChannel.send(data);
     console.log('Sent Data: ' + data);
-  } ///////////////// answerQuestion
-  //GUM >>
-  //////////////////////////////////////////////////////////// SHARED LOGIC
-  // gotStream >>
-    // maybeStart >>
-      // createPeerConnection >> addStream
-        //pc.onicecandidate = handleIceCandidate;
-        //pc.onaddstream = handleRemoteStreamAdded;
-        //pc.onremovestream
+  } ///////////////// sendText
 
 
   var localStream;
@@ -220,10 +212,17 @@ function expertController(RuhQuestionFactory, $scope){
   function createPeerConnection() {
     try {
       RuhQuestionFactory.current.peer = new RTCPeerConnection(null);
+      RuhQuestionFactory.current.dataChannel = RuhQuestionFactory.current.peer.createDataChannel('dataChannel');
+      
       RuhQuestionFactory.current.peer.onicecandidate = handleIceCandidate;
       RuhQuestionFactory.current.peer.onaddstream = handleRemoteStreamAdded;
       RuhQuestionFactory.current.peer.onremovestream = handleRemoteStreamRemoved;
       console.log('Created RTCPeerConnnection');
+
+      RuhQuestionFactory.current.dataChannel.onmessage = onMessage;
+      RuhQuestionFactory.current.dataChannel.onopen = function(event) {
+        RuhQuestionFactory.current.dataChannel.send('dataChannel is open');
+      }
     } catch (e) {
       console.log('Failed to create PeerConnection, exception: ' + e.message);
       alert('Cannot create RTCPeerConnection object.');
@@ -242,11 +241,6 @@ function expertController(RuhQuestionFactory, $scope){
       });
     } else {
       console.log('End of candidates.');
-      RuhQuestionFactory.current.dataChannel = RuhQuestionFactory.current.peer.createDataChannel('dataChannel');
-      RuhQuestionFactory.current.dataChannel.onmessage = onMessage;
-      RuhQuestionFactory.current.dataChannel.onopen = function(event) {
-        RuhQuestionFactory.current.dataChannel.send('dataChannel is open');
-      }
     }
   }
 

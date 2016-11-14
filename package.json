@@ -5,6 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "asynch": "0.5.2",
+    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.3.0",
     "body-parser": "1.15.1",
     "cute-stack": "1.4.2",
     "directory": "^0.1.0",

@@ -31,7 +31,6 @@ function myRouter($routeProvider) {
   .when('/', { templateUrl: '/templates/login.html', controller: "RuhLoginController as loginMain" })
   .when('/expert', { templateUrl: '/templates/expert.html', controller: "RuhExpertController as expertMain" })
   .when('/question', { templateUrl: '/templates/question.html', controller: "RuhQuestionController as questionMain" })
-  .when('/office', { templateUrl: '/templates/office.html', controller: "RuhOfficeController as officeMain" })
   .when('/profile', { templateUrl: '/templates/profile.html', controller: "RuhProfileController as profileMain" })
   .otherwise({ redirectTo: '/'})
 }
@@ -45,7 +44,6 @@ function mainController(){
   mainThis.profileLink = "Profile"
   mainThis.questionLink = "I'm Stuck"
   mainThis.expertLink = "I'll Help"
-  mainThis.officeLink = "Office"
 }
 
 
@@ -76,6 +74,9 @@ function profileController(RuhQuestionFactory){
   profileThis.oldPasswordText = "old password";
   profileThis.newPasswordText = "new password";
   profileThis.checkPasswordText = "retype password";
+  
+    profileThis.addPhoto = "Your Photo";
+    profileThis.addPhotoBtn = "Take Photo";
 
   profileThis.addExpertice = "Areas of Expertice";
   profileThis.addExperticeBtn = "Add Expertice";
@@ -87,19 +88,4 @@ function profileController(RuhQuestionFactory){
   profileThis.changePassword = function(){
     console.log('password changed');
   }
-}
-
-function officeController(){
-  var officeThis = this;
-
-  officeThis.snap = function() {
-      console.log('***snap');
-    canvas.width = localVideo.clientWidth;
-    canvas.height = localVideo.clientHeight;
-    var context = canvas.getContext('2d');
-    context.drawImage(localVideo, 0, 0);
-    context.fillStyle = "white";
-    context.fillText("TimeStamp!", 10, 10);
-  }
-
 }

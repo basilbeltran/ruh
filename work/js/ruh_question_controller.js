@@ -7,18 +7,20 @@ questionController.$inject = ['RuhQuestionFactory'];
 
 
 function questionController(RuhQuestionFactory){
-
   var questionThis = this;
+  // These are assigned to questionThis so butils.js can hold shared code
   questionThis.token = "questionController";
-  questionThis.data = RuhQuestionFactory.getData();
-  questionThis.socket = RuhQuestionFactory.current.socket = RuhQuestionFactory.current.socket || io.connect();
-// socket, question and peer are available at RuhQuestionFactory.current.
-
+  questionThis.socket = io.connect();
+  questionThis.pc;
   var questionObjs; //send the factory fields, get object back
 
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
   questionThis.data = RuhQuestionFactory.getData();
+
+
+
+
 
   //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
   //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
@@ -44,8 +46,7 @@ function questionController(RuhQuestionFactory){
 questionThis.addQuestion = function() {
         // put the question fields in the "database"
         questionObjs = RuhQuestionFactory.addQuestion(questionThis); //returns ALL questions
-        //set CURRRENT question
-        RuhQuestionFactory.current.question =  questionObjs[questionObjs.length-1];
+
         //send the questionS  to the server
         questionThis.socket.emit('question', questionObjs);
         //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
@@ -58,13 +59,6 @@ questionThis.addQuestion = function() {
 
     } ////////////////// addQuestion
 
-questionThis.sendText = function(){
-      var data = textIn.value;
-      RuhQuestionFactory.current.dataChannel.send(data);
-      console.log('Sent Data: ' + data);
-    } ///////////////// sendText
-
-
 //GUM >>
 //////////////////////////////////////////////////////////// SHARED LOGIC
 // gotStream >sends GUM>>
@@ -76,13 +70,13 @@ questionThis.sendText = function(){
 
 
 
+
+
+
 var localStream;
 var remoteStream;
 var localVideo = document.getElementById('localVideo')
 var remoteVideo = document.getElementById('remoteVideo');
-var textIn = document.querySelector('textarea#textIn');
-var textOut = document.querySelector('textarea#textOut');
-var canvas = document.getElementById('canvas1');
 
 var isInitiator = false;
 var isChannelReady = false;
@@ -93,10 +87,8 @@ var turnReady;
 
 function gotStream(stream) {
   console.log('gotStream adding local stream to tag.');
-
   localVideo.src = window.URL.createObjectURL(stream);
   localStream = stream;
-
   sendMessage(questionThis, 'got user media');
   // if (isInitiator) {
   //     console.log('I think I the initiator, so maybeStart()');
@@ -112,7 +104,7 @@ function maybeStart() {
 
     console.log(' maybeStart() creating peer connection');
     createPeerConnection();
-    RuhQuestionFactory.current.peer.addStream(localStream);
+    questionThis.pc.addStream(localStream);
     isStarted = true;
 
     if (isInitiator) {
@@ -121,10 +113,10 @@ function maybeStart() {
   }
 }
 
-////////////////////////////// OFFER ///////////////////////////
+//////////////////////////////OFFER ///////////////////////////
 function doOffer() {
   console.log('************ DO OFFER');
-  RuhQuestionFactory.current.peer.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+  questionThis.pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
 }
 
 function handleCreateOfferError(event) {
@@ -135,7 +127,7 @@ function handleCreateOfferError(event) {
 ////////////////////////////// ANSWER ///////////////////////////
 function doAnswer() {
   console.log('************ DO ANSWER');
-  RuhQuestionFactory.current.peer.createAnswer().then(
+  questionThis.pc.createAnswer().then(
     setLocalAndSendMessage,
     onCreateSessionDescriptionError
   );
@@ -145,7 +137,7 @@ function setLocalAndSendMessage(sessionDescription) {
   console.log('************ SET LOCAL');
   // Set Opus as the preferred codec in SDP if Opus is present.
   //  sessionDescription.sdp = preferOpus(sessionDescription.sdp);
-  RuhQuestionFactory.current.peer.setLocalDescription(sessionDescription);
+  questionThis.pc.setLocalDescription(sessionDescription);
   console.log('setLocalAndSendMessage sending message', sessionDescription.type);
   sendMessage(questionThis, sessionDescription);
 }
@@ -178,12 +170,12 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
       maybeStart();
     }
 
-    RuhQuestionFactory.current.peer.setRemoteDescription(new RTCSessionDescription(message));
+    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
     doAnswer();
 
 
   } else if (message.type === 'answer' && isStarted) {
-    RuhQuestionFactory.current.peer.setRemoteDescription(new RTCSessionDescription(message));
+    questionThis.pc.setRemoteDescription(new RTCSessionDescription(message));
 
 
   } else if (message.type === 'candidate' && isStarted) {
@@ -191,7 +183,7 @@ questionThis.socket.on('message', function(message) {  /////////////  MESSAGE //
       sdpMLineIndex: message.label,
       candidate: message.candidate
     });
-    RuhQuestionFactory.current.peer.addIceCandidate(candidate);
+    questionThis.pc.addIceCandidate(candidate);
 
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
@@ -235,30 +227,17 @@ questionThis.socket.on('allInqs', inq => {    ////////////////////////  ALLINQS
 
 function createPeerConnection() {
   try {
-    RuhQuestionFactory.current.peer = new RTCPeerConnection(null);
-    RuhQuestionFactory.current.peer.onicecandidate = handleIceCandidate;
-    RuhQuestionFactory.current.peer.onaddstream = handleRemoteStreamAdded;
-    RuhQuestionFactory.current.peer.onremovestream = handleRemoteStreamRemoved;
-    RuhQuestionFactory.current.peer.ondatachannel = receiveChannelCallback;
+    questionThis.pc = new RTCPeerConnection(null);
+    questionThis.pc.onicecandidate = handleIceCandidate;
+    questionThis.pc.onaddstream = handleRemoteStreamAdded;
+    questionThis.pc.onremovestream = handleRemoteStreamRemoved;
+    console.log('Created RTCPeerConnnection');
   } catch (e) {
     console.log('Failed to create PeerConnection, exception: ' + e.message);
     alert('Cannot create RTCPeerConnection object.');
     return;
   }
 }
-
-function receiveChannelCallback(event) {
-      console.log('!!!!!!  receiveChannelCallback assigning dataChannel');
-    RuhQuestionFactory.current.dataChannel = event.channel;
-    RuhQuestionFactory.current.dataChannel.onmessage = onMessage;
-    RuhQuestionFactory.current.dataChannel.onopen = function(event) {
-      RuhQuestionFactory.current.dataChannel.send('dataChannel is open');
-    }
-    // receiveChannel.onmessage = handleReceiveMessage;
-    // receiveChannel.onopen = handleReceiveChannelStatusChange;
-    // receiveChannel.onclose = handleReceiveChannelStatusChange;
-  }
-
 
 function handleIceCandidate(event) {
   console.log('ICE CANDIDATE event: ', event.type);
@@ -271,7 +250,6 @@ function handleIceCandidate(event) {
     });
   } else {
     console.log('End of candidates.');
-
   }
 }
 

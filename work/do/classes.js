@@ -1,4 +1,7 @@
 
+//these classes were used to stub out question data when no db was available
+//not used in verison 2.0
+
 class Question {
   constructor() {
     this.qInTime = new Date().getTime(),

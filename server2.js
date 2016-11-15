@@ -26,7 +26,7 @@ var credentials = { key: privateKey, cert: certificate };
 var express = require('express')
 let app = express();
 
-var bp =      require('body-parser')
+var bp =      require('body-parser');
 var path =    require('path')
 var serveIndex = require('serve-index')
 var sessions = require('client-sessions')({
@@ -44,7 +44,7 @@ var sessions = require('client-sessions')({
 mongoose.connect('mongodb://localhost/rustuck');
 
 app.use(morgan('dev'));
-// app.use(sessions);
+app.use(sessions);
 
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));

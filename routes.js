@@ -4,13 +4,15 @@ var express =   require('express');
 
 module.exports = (app) =>{
 
-    app.post('/login', Auth.login);
+  // app.get('/register')
+  // http//localhost:3000/register
+  app.post('/register', Auth.register);
+
+  app.post('/login', Auth.login);
     // app.get('/logout', Auth.logout);
 
 
-    // app.get('/register')
-    // http//localhost:3000/register
-    app.post('/register', Auth.register);
+
 
     // app.get('/', Auth.middlewares.session);
 

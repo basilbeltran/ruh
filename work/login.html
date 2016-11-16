@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="module.login">
+<html ng-app="RuhLogin">
 
 <head>
     <meta charset="utf-8">
@@ -16,37 +16,36 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
 </head>
 
-<body ng-controller="controller.login as login">
+<body ng-controller="loginController as loginMain">
 
   <div id="login" class="container-fluid ">
-  <!-- <h2>{{login.mainText}}</h2> -->
+  <h2>{{loginMain.mainText}}</h2>
 
-  <form id="login" ng-submit="login.submit()">
-      <input type="text" ng-model="login.email" placeholder="Email"/>
-      <input type="password" ng-model="login.password" placeholder="Password"/>
+  <!-- <form id="login" ng-submit="loginMain.submit()">
+      <input type="text" ng-model="loginMain.email" placeholder="Email"/>
+      <input type="password" ng-model="loginMain.password" placeholder="Password"/>
       <button type="submit">Login</button>
       <a href="#">Recover Password</a>
-  </form>
+  </form> -->
 
-
-  <!-- <form ng-submit="loginMain.login()">
+  <form id="login" ng-submit="loginMain.submit()">
   <div class="row">
             <div class="form-group col-sm-offset-4 col-sm-2">
                <label for="lUserName"> User</label>
                 <input type="text"
                         id="lUserName"
                         class="questionText"
-                        ng-model="loginMain.lUserName"
+                        ng-model="loginMain.email"
                         placeholder={{loginMain.emailText}} />
             </div>
   </div>
   <div class="row">
             <div class="form-group col-sm-offset-4 col-sm-2">
                <label for="lPassword"> Password</label>
-                <input type="text"
+                <input type="password"
                         id="lPassword"
                         class="questionText"
-                        ng-model="loginMain.lPassword"
+                        ng-model="loginMain.password"
                         placeholder={{loginMain.passwordText}} />
             </div>
   </div>
@@ -56,16 +55,16 @@
             <input type="checkbox"
                     id="keepCheckbox"
                     value="keep"></h5>
-            <h5>{{loginMain.forgotText}}</h5>
             <a href="http://www.w3schools.com">{{loginMain.forgotText}}</a>
           </div>
-  </form> -->
+  </form>
+
 
   </div>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/module.login.js"></script>
+  <script src="js/ruh_login_controller.js"></script>
 
 </body>
 </html>

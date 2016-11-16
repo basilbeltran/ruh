@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="module.login">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RU Stuck</title>
+    <meta name="description" content="RU Remote Help System">
+    <meta name="author" content="Beltran">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
+</head>
+
+<body ng-controller="controller.login as login">
+
+  <div id="login" class="container-fluid ">
+  <h2>{{login.mainText}}</h2>
+
+  <form id="login" ng-submit="login.submit()">
+      <input type="text" ng-model="login.email" placeholder="Email"/>
+      <input type="password" ng-model="login.password" placeholder="Password"/>
+      <button type="submit">Login</button>
+      <a href="#">Recover Password</a>
+  </form>
+
+
+  <!-- <form ng-submit="loginMain.login()">
+  <div class="row">
+            <div class="form-group col-sm-offset-4 col-sm-2">
+               <label for="lUserName"> User</label>
+                <input type="text"
+                        id="lUserName"
+                        class="questionText"
+                        ng-model="loginMain.lUserName"
+                        placeholder={{loginMain.emailText}} />
+            </div>
+  </div>
+  <div class="row">
+            <div class="form-group col-sm-offset-4 col-sm-2">
+               <label for="lPassword"> Password</label>
+                <input type="text"
+                        id="lPassword"
+                        class="questionText"
+                        ng-model="loginMain.lPassword"
+                        placeholder={{loginMain.passwordText}} />
+            </div>
+  </div>
+            <div class="form-group col-sm-offset-4 col-sm-6">
+                <button type="submit" class="btn btn-primary mButton">Login</button>
+            <h5>{{loginMain.keepText}}
+            <input type="checkbox"
+                    id="keepCheckbox"
+                    value="keep"></h5>
+            <h5>{{loginMain.forgotText}}</h5>
+            <a href="http://www.w3schools.com">{{loginMain.forgotText}}</a>
+          </div>
+  </form> -->
+
+  </div>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="/js/module.login.js"></script>
+
+  <!-- <script src="js/RTClocal.js"></script> -->
+</body>
+</html>

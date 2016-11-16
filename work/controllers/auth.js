@@ -3,7 +3,7 @@ var User = require('../do/userModel.js'),
 
 module.exports = {
     login: ( req, res ) => { // POST login
-        console.info('LOGIN::POST::PAYLOAD::', req.body.uEmail);
+        console.info('LOGIN::POST::PAYLOAD::', req.body);
 
         User.findOne({ uEmail: req.body.uEmail }, (err, user) => {
             if( err ) { // this will trigger the error .then callback on the frontend
@@ -33,10 +33,7 @@ module.exports = {
 
         })
     },
-    // logout: (req, res ) => {
-    //     req.session.reset();
-    //     res.redirect('/login.html');
-    // },
+
     register: ( req, res ) => {
 
         var newUser = new User(req.body);
@@ -51,6 +48,11 @@ module.exports = {
             res.send(user);
         });
     },
+    // logout: (req, res ) => {
+    //     req.session.reset();
+    //     res.redirect('/login.html');
+    // },
+
     // middlewares: {
     //     session: (req, res, next) => { // this will be the middleware that checks for a loggedin user
     //         if( req.session.userId ) {

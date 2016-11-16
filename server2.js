@@ -45,7 +45,6 @@ mongoose.connect('mongodb://localhost/rustuck');
 
 app.use(morgan('dev'));
 app.use(sessions);
-
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 

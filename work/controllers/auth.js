@@ -26,6 +26,8 @@ module.exports = {
                     } else {
                         req.session.userId = user._id;
                         res.send({ message: 'Login success!' });
+                        console.log("SESSION ESTABLISHED ", req.session);
+
                         // res.redirect('/');
                     }
                 })
@@ -35,31 +37,30 @@ module.exports = {
     },
 
     register: ( req, res ) => {
-
         var newUser = new User(req.body);
-
         // when this function fires, it is going to hit the pre save middleware
         newUser.save((err, user) => {
             if(err){
                 console.log(`error on save ${err}`);
                 return res.send(err);
             }
-            console.log(`SENDING NEW USER ${user} `);
+            console.log(`ADDED / SENDING NEW USER ${user} `);
             res.send(user);
         });
     },
-    // logout: (req, res ) => {
-    //     req.session.reset();
-    //     res.redirect('/login.html');
-    // },
 
-    // middlewares: {
-    //     session: (req, res, next) => { // this will be the middleware that checks for a loggedin user
-    //         if( req.session.userId ) {
-    //             next();
-    //         } else {
-    //             res.redirect('/login.html');
-    //         }
-    //     }
-    // }
+    logout: (req, res ) => {
+        req.session.reset();
+         res.redirect('/login.html');  
+    },
+
+    middlewares: {
+        session: (req, res, next) => { // this will be the middleware that checks for a loggedin user
+            if( req.session.userId ) {
+                next();
+            } else {
+                res.redirect('/login.html');
+            }
+        }
+    }
 }

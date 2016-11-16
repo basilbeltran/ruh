@@ -28,11 +28,10 @@ angular.module('RuhApp').config(myRouter);  // the client side routes are define
 myRouter.$inject = ['$routeProvider'];
 function myRouter($routeProvider) {
   $routeProvider
-  .when('/', { templateUrl: '/templates/login.html', controller: "RuhLoginController as loginMain" })
+  .when('/profile', { templateUrl: '/templates/profile.html', controller: "RuhProfileController as profileMain" })
   .when('/expert', { templateUrl: '/templates/expert.html', controller: "RuhExpertController as expertMain" })
   .when('/question', { templateUrl: '/templates/question.html', controller: "RuhQuestionController as questionMain" })
-  .when('/profile', { templateUrl: '/templates/profile.html', controller: "RuhProfileController as profileMain" })
-  .otherwise({ redirectTo: '/'})
+  .otherwise({ redirectTo: '/profile'})
 }
 
 
@@ -40,7 +39,7 @@ function myRouter($routeProvider) {
 
 function mainController(){
   var mainThis = this;
-  mainThis.titleLink = "RU Stuck"
+  mainThis.titleLink = "RU Stuck Test"
   mainThis.profileLink = "Profile"
   mainThis.questionLink = "I'm Stuck"
   mainThis.expertLink = "I'll Help"
@@ -74,7 +73,7 @@ function profileController(RuhQuestionFactory){
   profileThis.oldPasswordText = "old password";
   profileThis.newPasswordText = "new password";
   profileThis.checkPasswordText = "retype password";
-  
+
     profileThis.addPhoto = "Your Photo";
     profileThis.addPhotoBtn = "Take Photo";
 
@@ -88,4 +87,6 @@ function profileController(RuhQuestionFactory){
   profileThis.changePassword = function(){
     console.log('password changed');
   }
+
+
 }

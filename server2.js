@@ -6,8 +6,9 @@ debug = require('debug')
 mLOG = debug('server:log')
 mINFO = debug('server:info')
 mERROR = debug('server:error')
-
 mINFO(process.env)  // DEBUG=mINFO
+
+
 
 var morgan = require('morgan');
 var assert = require('assert')
@@ -18,20 +19,14 @@ var https = require('https');
 var fs =      require('fs');
 var Routes = require('./routes.js');
 var mongoose = require('mongoose');
-
-var privateKey  = fs.readFileSync('sslcert/key.pem', 'utf8');
-var certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
-var credentials = { key: privateKey, cert: certificate };
-
-var express = require('express')
-let app = express();
-
+var express = require('express');
 var bp =      require('body-parser');
-var path =    require('path')
-var serveIndex = require('serve-index')
+var path =    require('path');
+var serveIndex = require('serve-index');
+
 var sessions = require('client-sessions')({
-    cookieName: "heroes-session",  // front-end cookie name, currently pulled from package.json, feel free to change
-    secret: 'DR@G0N$',        // the encryption password : keep this safe
+    cookieName: "rustuck-session",  // front-end cookie name, currently pulled from package.json, feel free to change
+    secret: '@NyT1M3',        // the encryption password : keep this safe
     requestKey: 'session',    // req.session,
     duration: (86400 * 1000) * 7, // one week in milliseconds
     cookie: {
@@ -41,8 +36,13 @@ var sessions = require('client-sessions')({
     }
 }); // encrypted cookies!
 
+var privateKey  = fs.readFileSync('sslcert/key.pem', 'utf8');
+var certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
+
 mongoose.connect('mongodb://localhost/rustuck');
 
+let app = express();
 app.use(morgan('dev'));
 app.use(sessions);
 app.use(bp.json());

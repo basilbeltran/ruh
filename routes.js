@@ -8,17 +8,17 @@ module.exports = (app) => {
   // http//localhost:3000/register
   app.post('/register', Auth.register);
   app.post('/login', Auth.login);
+  app.get('/logout', Auth.logout);
 
-    // app.get('/logout', Auth.logout);
-    // app.get('/', Auth.middlewares.session);
+  app.get('/', Auth.middlewares.session);
 
 
     // anythin below line 14 is protected
-    // app.all('/api*', Auth.middlewares.session);
-    //
+    app.all('/api*', Auth.middlewares.session);
+
     app.post('/api/question', Question.create);
-    app.get('/api/heroes', Question.get);
-    app.get('/api/heroes/:id', Question.get);
+    app.get('/api/question', Question.get);
+    app.get('/api/question/:id', Question.get);
 
     app.use(express.static(__dirname + '/work'));
 }

@@ -1,5 +1,15 @@
-angular.module('RuhLogin',[])
-    .controller('loginController',['$http', function($http) {
+// terse style
+// angular.module('RuhLogin',[])
+//     .controller('RuhLoginController',['$http', function($http) {
+
+angular.module('RuhLogin',[]);
+var loginApp = angular.module("RuhLogin")
+    .controller('RuhLoginController', loginController)
+    .factory('RuhQuestionFactory', questionFactory)
+
+loginController.$inject = ['RuhQuestionFactory', '$http'];
+function loginController(RuhQuestionFactory, $http){
+
         var loginThis = this;
 
         loginThis.mainText = "Sign in ...";
@@ -13,7 +23,7 @@ angular.module('RuhLogin',[])
         loginThis.passwordHint = "********";
 
         loginThis.submit = function() {
-            console.log(loginThis);
+            //console.log(loginThis);
 
             $http({
                 method: 'POST',
@@ -23,10 +33,30 @@ angular.module('RuhLogin',[])
                     uPassword: loginThis.password
                 }
             }).then(function(res) {
-                console.info(res.data);
+                console.info("loginThis.SUBMIT: ", res.data);
+                // loginThis.getUser();
+                RuhQuestionFactory.user = res.data;
                 location.href = '/';
             }, function(err) {
                 console.error(err);
             });
         }
-    }]);
+
+        // loginThis.getUser = function() {
+        //     console.log(loginThis);
+        //
+        //     $http({
+        //         method: 'GET',
+        //         url: '/whoami',
+        //     }).then(function(res) {
+        //         console.info("loginThis.getUser: ", res.data);
+        //         location.href = '/';
+        //     }, function(err) {
+        //         console.error(err);
+        //     });
+        // }
+
+
+
+    }; // loginController
+    //}]); // loginController terse form

@@ -7,6 +7,7 @@ questionFactory.$inject = ['$http'];
 function questionFactory($http){
   var data;
   var haveMongo = true;
+  var user;
 
 var getData = function () {  // read "data" from local storage
   if(data){
@@ -100,5 +101,6 @@ function getQuestions(){
     addQuestion: addQuestion,
     haveMongo: haveMongo,
     sendQuestion: sendQuestion,
+    user: user,
   }
 }

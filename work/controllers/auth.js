@@ -25,7 +25,8 @@ module.exports = {
                         res.status(403).json({ message: 'Invalid username or password' });
                     } else {
                         req.session.userId = user._id;
-                        res.send({ message: 'Login success!' });
+                        res.send(user);
+                        // res.send({ message: 'Login success!' });
                         console.log("SESSION ESTABLISHED ", req.session);
 
                         // res.redirect('/');
@@ -51,7 +52,18 @@ module.exports = {
 
     logout: (req, res ) => {
         req.session.reset();
-         res.redirect('/login.html');  
+         res.redirect('/login.html');
+    },
+
+    whoami: (req, res ) => {
+        //res.send(req.session.userId);
+        User.findById(req.session.userId, (err, user) => {
+          if(err){
+            console.error('MongoDB error:', err);
+            res.status(500).json(err);
+          }
+          res.send(user);
+        })
     },
 
     middlewares: {

@@ -45,9 +45,45 @@ io.sockets.on('connection', function(socket) {
           });
 
 
+
+          socket.on('useDatabase', function(newQuestion) {
+            var newDoc = new Question(newQuestion);
+            newDoc.qSubject = newQuestion.selectedCat.subjectName;
+            //TODO newDoc.qUser = req.session.userId;  populate this on the front end :
+            newDoc.save((err, doc)=>{
+                if(err){
+                    console.log("SOCKET ERR SAVING ", newDoc);
+                }
+                    console.log("SOCKET  SAVED ", newDoc);
+            });
+
+
+                  // create the room with the new question UUID
+                  socket.join( newDoc._id );
+                  console.log(`${socket.id} using room ${newDoc._id}`);
+
+                  // ping back to questioner  (was "created")  send back the new question object
+                  socket.emit('created', newDoc._id, socket.id);  // client sets "initiator"
+
+                  // send an array of questions back to everyone
+                  Question.find({}, (err, documents)=>{
+                      if(err){
+                        console.log("Question.find ERR  ", err);
+                      }
+                  //console.log("allQuestions", documents);
+                  socket.broadcast.emit('allQuestions', documents, socket.id);
+                  });
+                });
+
+
     socket.on('getAllQuestions', function() {
-             socket.emit('allQuestions', allInqs, socket.id);
-          });
+      Question.find({}, (err, documents)=>{
+          if(err){
+            console.log("Question.find ERR  ", err);
+          }
+         socket.emit('allQuestions', documents, socket.id);
+      });
+    });
 
     socket.on('answer', function(qUUID) {
             socket.join(qUUID);

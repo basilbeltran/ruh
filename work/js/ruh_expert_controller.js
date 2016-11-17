@@ -16,15 +16,17 @@ function expertController(RuhQuestionFactory, $scope){
 
   var loggedText = "Logged in as You";
 
-  expertThis.qArray = RuhQuestionFactory.getQuestions();   // First Get questions locally
+ expertThis.qArray = RuhQuestionFactory.getQuestions();   // First Get questions locally
 // then refresh questions from the server instead
-  expertThis.socket.emit('getAllQuestions'); //TODO how to do this callback properly
+expertThis.socket.emit('getAllQuestions'); //TODO how to do this callback properly
 
   expertThis.socket.on('allQuestions', questions => {       ////////////////////////  FULL
+
+    console.dir("EXPERT RECEIVED QUESTIONS");
+    console.dir(questions);
     expertThis.qArray = questions;
     $scope.$apply();
-    console.dir("IO RECEIVED QUESTIONS" );
-        console.dir( expertThis.qArray );
+
   });
 
   // console.log(expertThis.qArray);

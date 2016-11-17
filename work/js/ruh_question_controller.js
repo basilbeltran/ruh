@@ -41,19 +41,20 @@ function questionController(RuhQuestionFactory){
 questionThis.addQuestion = function() {
 
         if(!RuhQuestionFactory.haveMongo){   //send all questions to the server
-
-
            // put this questions fields in local storage
-           questionObjs = RuhQuestionFactory.addQuestion(questionThis);
+           questionObjs = RuhQuestionFactory.addQuestion(questionThis.newQuestion);
            //sends ALL questions to prime the server
            questionThis.socket.emit('noDatabase', questionObjs);
 
         } else {  // just send one question
 
-              RuhQuestionFactory.sendQuestion(questionThis.newQuestion)
-                  .then(function(returnData){
-                      console.log('Response from server : ', returnData)
-                  });
+              // RuhQuestionFactory.sendQuestion(questionThis.newQuestion)
+              //     .then(function(returnData){
+              //         console.log('Response from server : ', returnData)
+              //     });
+              
+              //TODO questionThis.newQuestion.qUser = ????
+              questionThis.socket.emit('useDatabase', questionThis.newQuestion);
         }
 
         //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent

@@ -16,7 +16,7 @@ module.exports = (app) => {
 
     app.post('/api/question', Question.create);
     app.get('/api/question', Question.get);
-    // app.get('/api/categories', Categories.get);
+    //TODO app.get('/api/categories', Categories.get);
     app.get('/api/question/:id', Question.get);
     app.use(express.static(__dirname + '/work'));
 }

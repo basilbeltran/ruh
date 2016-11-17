@@ -4,7 +4,6 @@ angular.module("RuhApp", ['ngRoute']);
 
 var app = angular.module("RuhApp")
     .controller('RuhMainController', mainController)
-    .controller('RuhLoginController', loginController)
     .controller('RuhProfileController', profileController)
     .factory('RuhQuestionFactory', questionFactory)
     .filter('RuhReverse', ruhReverse_B)
@@ -16,7 +15,7 @@ var app = angular.module("RuhApp")
       };
     });
 
-    // the "non-call back" option show below is used throughout this application
+    // the "non-call back" option shown below is used throughout this application
     function ruhReverse_B(){
       return function(items) {
         return items.slice().reverse();
@@ -44,23 +43,6 @@ function mainController(){
   mainThis.questionLink = "I'm Stuck"
   mainThis.expertLink = "I'll Help"
 }
-
-
-function loginController(){
-  var loginThis = this;
-
-  loginThis.mainText = "Sign in ...";
-  loginThis.subText = "Enter your email address and password.";
-  loginThis.keepText = "Keep me signed in";
-  loginThis.forgotText = "I forgot my password";
-  loginThis.emailText = "you@domain.com";
-  loginThis.passwordText = "password";
-
-  loginThis.login = function(){
-    console.log('logged in maybe');
-  }
-}
-
 
 profileController.$inject = ['RuhQuestionFactory'];
 

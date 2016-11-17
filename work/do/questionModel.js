@@ -5,7 +5,7 @@ var QuestionSchema = mongoose.Schema({
   //     type : mongoose.schema.Objectid
   //     ref: 'User'
   //   },
-    qUser :     {type : String, default : 'basil8.beltran@gmail.com'},
+    qUser :     {type : String, default : 'default@gmail.com'},
     qText :     {type : String},
     qGoal :     {type : String},
     qTrying :   {type : String},

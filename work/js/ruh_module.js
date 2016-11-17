@@ -44,10 +44,11 @@ function mainController(){
   mainThis.expertLink = "I'll Help"
 }
 
-profileController.$inject = ['RuhQuestionFactory'];
+profileController.$inject = ['RuhQuestionFactory', '$http'];
 
-function profileController(RuhQuestionFactory){
+function profileController(RuhQuestionFactory, $http){
   var profileThis = this;
+
   profileThis.data = RuhQuestionFactory.getData();
 
   profileThis.mainText = "Stuck Profile";

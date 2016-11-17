@@ -34,29 +34,11 @@ function loginController(RuhQuestionFactory, $http){
                 }
             }).then(function(res) {
                 console.info("loginThis.SUBMIT: ", res.data);
-                // loginThis.getUser();
-                RuhQuestionFactory.user = res.data;
                 location.href = '/';
             }, function(err) {
                 console.error(err);
             });
         }
-
-        // loginThis.getUser = function() {
-        //     console.log(loginThis);
-        //
-        //     $http({
-        //         method: 'GET',
-        //         url: '/whoami',
-        //     }).then(function(res) {
-        //         console.info("loginThis.getUser: ", res.data);
-        //         location.href = '/';
-        //     }, function(err) {
-        //         console.error(err);
-        //     });
-        // }
-
-
 
     }; // loginController
     //}]); // loginController terse form

@@ -1,6 +1,7 @@
 var socketIO = require('socket.io');
 var httpsServer = require('../../server2.js');
 var Question = require('../do/questionModel');
+var Admin = require('../do/adminModel');
 
 var io = socketIO.listen(httpsServer);
 var first = true;
@@ -36,7 +37,7 @@ io.sockets.on('connection', function(socket) {
                 console.log(`${socket.id} noDatabase ${newQuestion.qUUID}`);
 
             // ping back to questioner  (was "created")  send back the new question object
-            socket.emit('created', newQuestion.qUUID, socket.id);  // client sets "initiator"
+            socket.emit('created', newQuestion.qUUID, socket.id);
 
             // send the array of inquiries back to everyone
             socket.broadcast.emit('allQuestions', allInqs, socket.id);
@@ -81,7 +82,18 @@ io.sockets.on('connection', function(socket) {
           if(err){
             console.log("Question.find ERR  ", err);
           }
+        //console.log("SENDING QUESTIONS  ", documents);
          socket.emit('allQuestions', documents, socket.id);
+      });
+    });
+
+    socket.on('getAllAdmin', function() {
+      Admin.findOne({}, (err, documents)=>{
+          if(err){
+            console.log("Admin.find ERR  ", err);
+          }
+        //console.log("SENDING ADMIN  ", documents);
+         socket.emit('getAllAdmin', documents, socket.id);
       });
     });
 

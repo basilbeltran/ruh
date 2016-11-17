@@ -2,18 +2,24 @@
 
 angular.module("RuhApp")
   .controller('RuhQuestionController', questionController);
-questionController.$inject = ['RuhQuestionFactory'];
+questionController.$inject = ['RuhQuestionFactory', '$scope'];
 
 
 
-function questionController(RuhQuestionFactory){
+function questionController(RuhQuestionFactory, $scope ){
   var questionThis = this;
   // These are assigned to questionThis so butils.js can hold shared code
   questionThis.token = "questionController";
   questionThis.socket = io.connect();
   questionThis.pc;
+
   var questionObjs; //send the factory fields, get object back
-  questionThis.data = RuhQuestionFactory.getData();
+
+  setTimeout($scope.$apply, 2000);
+  questionThis.data = RuhQuestionFactory.data;
+
+   console.dir("questionController data", questionThis.data );
+
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
 
@@ -40,24 +46,12 @@ function questionController(RuhQuestionFactory){
 
 questionThis.addQuestion = function() {
 
-        if(!RuhQuestionFactory.haveMongo){   //send all questions to the server
-           // put this questions fields in local storage
-           questionObjs = RuhQuestionFactory.addQuestion(questionThis.newQuestion);
-           //sends ALL questions to prime the server
-           questionThis.socket.emit('noDatabase', questionObjs);
-
-        } else {  // just send one question
-
-              // RuhQuestionFactory.sendQuestion(questionThis.newQuestion)
-              //     .then(function(returnData){
-              //         console.log('Response from server : ', returnData)
-              //     });
-              
-              //TODO questionThis.newQuestion.qUser = ????
+              questionThis.newQuestion.qUser = RuhQuestionFactory.user.uEmail;
               questionThis.socket.emit('useDatabase', questionThis.newQuestion);
-        }
 
-        //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
+              // should be triggered by emit('useDatabase'
+              // expertThis.socket.emit('getAllQuestions');
+
 
         navigator.mediaDevices.getUserMedia(constraints)
             .then(gotStream)

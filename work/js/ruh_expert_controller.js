@@ -18,7 +18,7 @@ function expertController(RuhQuestionFactory, $scope){
 
  expertThis.qArray = RuhQuestionFactory.getQuestions();   // First Get questions locally
 // then refresh questions from the server instead
-expertThis.socket.emit('getAllQuestions'); //TODO how to do this callback properly
+
 
   expertThis.socket.on('allQuestions', questions => {       ////////////////////////  FULL
 
@@ -26,7 +26,6 @@ expertThis.socket.emit('getAllQuestions'); //TODO how to do this callback proper
     console.dir(questions);
     expertThis.qArray = questions;
     $scope.$apply();
-
   });
 
   // console.log(expertThis.qArray);

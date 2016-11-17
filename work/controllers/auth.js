@@ -3,7 +3,7 @@ var User = require('../do/userModel.js'),
 
 module.exports = {
     login: ( req, res ) => { // POST login
-        console.info('LOGIN::POST::PAYLOAD::', req.body);
+        //console.info('LOGIN::POST::PAYLOAD::', req.body);
 
         User.findOne({ uEmail: req.body.uEmail }, (err, user) => {
             if( err ) { // this will trigger the error .then callback on the frontend
@@ -27,9 +27,7 @@ module.exports = {
                         req.session.userId = user._id;
                         res.send(user);
                         // res.send({ message: 'Login success!' });
-                        console.log("SESSION ESTABLISHED ", req.session);
-
-                        // res.redirect('/');
+                        console.info('LOGIN::sending user', user);
                     }
                 })
             }

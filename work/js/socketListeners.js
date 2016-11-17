@@ -1,16 +1,17 @@
 var socketIO = require('socket.io');
 var httpsServer = require('../../server2.js');
+var Question = require('../do/questionModel');
 
 var io = socketIO.listen(httpsServer);
 var first = true;
-var allInqs = [];
+var allInqs = [];  // used for testing when database is not available
 
 
 io.sockets.on('connection', function(socket) {
 
     //messages are simply broadcast to all sockets
     socket.on('message', function(message) {
-        socket.broadcast.emit('message', message); // for a real app, would be room-only (not broadcast)
+        socket.broadcast.emit('message', message);
 
         if (typeof message === "string") {
             console.log(`BC MESSAGE ${message} FROM ${socket.id}  ` );
@@ -21,7 +22,7 @@ io.sockets.on('connection', function(socket) {
         }
     });
 
-    socket.on('question', function(questionObjs) {
+    socket.on('noDatabase', function(questionObjs) {
 
             // add the question object with a key of the socketID
             //allInqs.push({"id":socket.id, "question":questionObj});
@@ -32,7 +33,7 @@ io.sockets.on('connection', function(socket) {
 
             // create the room with the new question UUID
             socket.join( newQuestion.qUUID );
-                console.log(`${socket.id} IS ASKING ${newQuestion.qUUID}`);
+                console.log(`${socket.id} noDatabase ${newQuestion.qUUID}`);
 
             // ping back to questioner  (was "created")  send back the new question object
             socket.emit('created', newQuestion.qUUID, socket.id);  // client sets "initiator"
@@ -42,6 +43,7 @@ io.sockets.on('connection', function(socket) {
             //console.log(allInqs);
 
           });
+
 
     socket.on('getAllQuestions', function() {
              socket.emit('allQuestions', allInqs, socket.id);

@@ -20,36 +20,29 @@
 
   <div id="login" class="container-fluid ">
   <h2>{{loginMain.mainText}}</h2>
-
-  <!-- <form id="login" ng-submit="loginMain.submit()">
-      <input type="text" ng-model="loginMain.email" placeholder="Email"/>
-      <input type="password" ng-model="loginMain.password" placeholder="Password"/>
-      <button type="submit">Login</button>
-      <a href="#">Recover Password</a>
-  </form> -->
-
+</br></br></br>
   <form id="login" ng-submit="loginMain.submit()">
   <div class="row">
-            <div class="form-group col-sm-offset-4 col-sm-2">
-               <label for="lUserName"> User</label>
+            <div class="form-group col-sm-offset-5 col-sm-2">
+               <label for="lUserName"> {{loginMain.userText}}</label>
                 <input type="text"
                         id="lUserName"
                         class="questionText"
                         ng-model="loginMain.email"
                         placeholder={{loginMain.emailText}} />
             </div>
-  </div>
+  </div></br>
   <div class="row">
-            <div class="form-group col-sm-offset-4 col-sm-2">
-               <label for="lPassword"> Password</label>
+            <div class="form-group col-sm-offset-5 col-sm-2">
+               <label for="lPassword"> {{loginMain.passwordText}}</label>
                 <input type="password"
                         id="lPassword"
                         class="questionText"
                         ng-model="loginMain.password"
-                        placeholder={{loginMain.passwordText}} />
+                        placeholder={{loginMain.passwordHint}} />
             </div>
-  </div>
-            <div class="form-group col-sm-offset-4 col-sm-6">
+  </div></br></br>
+            <div class="form-group col-sm-offset-5 col-sm-6">
                 <button type="submit" class="btn btn-primary mButton">Login</button>
             <h5>{{loginMain.keepText}}
             <input type="checkbox"

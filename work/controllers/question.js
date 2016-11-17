@@ -2,6 +2,8 @@ var Question = require('../do/questionModel');
 
 function create (req, res) {
     var newDoc = new Question(req.body);
+    console.log("CREATING QUESTION FROM :", req.body);
+    newDoc.qUser = req.session.userId;
     newDoc.save((err, doc)=>{
         if(err){
             return res.send(err);

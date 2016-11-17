@@ -1,9 +1,12 @@
-// manages the "data" object which contains
+//      manages the browser local "data" object which contains
 //     array of questions, users & comments
 //     plus static data (status, groups, categories, etc)
 
-function questionFactory(){
+
+questionFactory.$inject = ['$http'];
+function questionFactory($http){
   var data;
+  var haveMongo = true;
 
 var getData = function () {  // read "data" from local storage
   if(data){
@@ -36,7 +39,7 @@ var getData = function () {  // read "data" from local storage
   return data;
 }
 
-////////////////////////////// write to local storage
+////////////////////////////// write to browser local storage
 var putData = function () {
   try{
     window.localStorage.setItem('data', JSON.stringify(data));
@@ -46,10 +49,7 @@ var putData = function () {
   }
 }
 
-// ensures the data structure is fresh and returns the questions array
-function getQuestions(){
- return getData().questions;
-}
+
 //
 // function getUsers(){
 //  return getData().usersData;
@@ -69,9 +69,23 @@ function addQuestion(questionThis){
     return data.questions;
 }
 
+function sendQuestion(newQuestion){
+  console.log('sendQuestion: ', newQuestion);
+  return $http.post('/api/question', newQuestion)
+}
+
+
 function  getQuestion (questionID){
   console.log(`looking for ${questionID}`);
   return getData().questions.filter( q  => q.myUUID === questionID);
+}
+
+// ensures the data structure is fresh and returns the questions array
+function getQuestions(){
+  if(haveMongo){
+
+  }
+  else return getData().questions;
 }
 
 // function  getExperts (subject){
@@ -84,5 +98,7 @@ function  getQuestion (questionID){
     getQuestions: getQuestions,
     getQuestion: getQuestion,
     addQuestion: addQuestion,
+    haveMongo: haveMongo,
+    sendQuestion: sendQuestion,
   }
 }

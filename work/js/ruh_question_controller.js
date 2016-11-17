@@ -13,14 +13,9 @@ function questionController(RuhQuestionFactory){
   questionThis.socket = io.connect();
   questionThis.pc;
   var questionObjs; //send the factory fields, get object back
-
+  questionThis.data = RuhQuestionFactory.getData();
   questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
-  questionThis.data = RuhQuestionFactory.getData();
-
-
-
-
 
   //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
   //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };
@@ -44,11 +39,23 @@ function questionController(RuhQuestionFactory){
 ////////////////// addQuestion  ng-click
 
 questionThis.addQuestion = function() {
-        // put the question fields in the "database"
-        questionObjs = RuhQuestionFactory.addQuestion(questionThis); //returns ALL questions
 
-        //send the questionS  to the server
-        questionThis.socket.emit('question', questionObjs);
+        if(!RuhQuestionFactory.haveMongo){   //send all questions to the server
+
+
+           // put this questions fields in local storage
+           questionObjs = RuhQuestionFactory.addQuestion(questionThis);
+           //sends ALL questions to prime the server
+           questionThis.socket.emit('noDatabase', questionObjs);
+
+        } else {  // just send one question
+
+              RuhQuestionFactory.sendQuestion(questionThis.newQuestion)
+                  .then(function(returnData){
+                      console.log('Response from server : ', returnData)
+                  });
+        }
+
         //questionThis.socket.emit('inquiry', "test");   //since first, create msg sent
 
         navigator.mediaDevices.getUserMedia(constraints)

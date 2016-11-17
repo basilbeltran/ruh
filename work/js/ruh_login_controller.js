@@ -3,11 +3,14 @@ angular.module('RuhLogin',[])
         var loginThis = this;
 
         loginThis.mainText = "Sign in ...";
+        loginThis.userText = "Email";
+
         loginThis.subText = "Enter your email address and password.";
         loginThis.keepText = "Keep me signed in";
         loginThis.forgotText = "I forgot my password";
         loginThis.emailText = "you@domain.com";
         loginThis.passwordText = "password";
+        loginThis.passwordHint = "********";
 
         loginThis.submit = function() {
             console.log(loginThis);

@@ -61,11 +61,5 @@ Routes(app);
 httpServer.listen(port);
 httpsServer.listen(sslport);
 
-
-// //START EXPRESS LISTENING
-// var server = app.listen(port, () => {
-//     mLOG(port +' Listening for %s', name);
-// });
-
 module.exports = httpsServer;
 require('./work/js/socketListeners.js');

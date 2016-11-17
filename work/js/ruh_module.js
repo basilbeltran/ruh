@@ -39,7 +39,7 @@ function myRouter($routeProvider) {
 
 function mainController(){
   var mainThis = this;
-  mainThis.titleLink = "RU Stuck Test"
+  mainThis.titleLink = "RU Stuck"
   mainThis.profileLink = "Profile"
   mainThis.questionLink = "I'm Stuck"
   mainThis.expertLink = "I'll Help"

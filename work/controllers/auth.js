@@ -14,7 +14,7 @@ module.exports = {
                 console.warn('No user found!');
                 res.status(403).json({ message: 'Invalid username or password' });
             } else {
-                console.info('DB FOUND: ', user);
+                //console.info('DB FOUND: ', user);
 
                 bcrypt.compare(req.body.uPassword, user.uPassword, (compareErr, matched) => {
                     if( compareErr ) { // this will trigger the error .then callback on the frontend
@@ -60,6 +60,7 @@ module.exports = {
             console.error('MongoDB error:', err);
             res.status(500).json(err);
           }
+          console.log('whoami sending', user);
           res.send(user);
         })
     },

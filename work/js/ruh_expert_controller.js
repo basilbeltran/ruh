@@ -16,21 +16,14 @@ function expertController(RuhQuestionFactory, $scope){
 
   var loggedText = "Logged in as You";
 
- expertThis.qArray = RuhQuestionFactory.getQuestions();   // First Get questions locally
+ expertThis.qArray = RuhQuestionFactory.allQuestions;   // First Get questions locally
 // then refresh questions from the server instead
 
-
-  expertThis.socket.on('allQuestions', questions => {       ////////////////////////  FULL
-
-    console.dir("EXPERT RECEIVED QUESTIONS");
-    console.dir(questions);
-    expertThis.qArray = questions;
-    $scope.$apply();
-  });
-
-  // console.log(expertThis.qArray);
-  // console.log( RuhUserFactory.getExperts("node")) ;    // is an expert in that area logged in ?
-
+$scope.$on('newQuestions', function(event, data) {
+  console.log(event.name);
+  expertThis.qArray = data;
+  $scope.$apply();
+});
 
   //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };
   //var sdpConstraints = { 'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true} };

@@ -44,12 +44,22 @@ function mainController(){
   mainThis.expertLink = "I'll Help"
 }
 
-profileController.$inject = ['RuhQuestionFactory', '$http'];
+profileController.$inject = ['RuhQuestionFactory', '$http', '$scope'];
 
-function profileController(RuhQuestionFactory, $http){
+function profileController(RuhQuestionFactory, $http, $scope){
   var profileThis = this;
 
-  profileThis.data = RuhQuestionFactory.getData();
+  profileThis.data = RuhQuestionFactory.admin;
+
+  $scope.$on('newAdmin', function(event, data) {
+    console.log(event.name);
+    profileThis.data = data;
+    $scope.$apply();
+  });
+
+
+  // profileThis.data = RuhQuestionFactory.getData();
+
 
   profileThis.mainText = "Stuck Profile";
   profileThis.subText = "Change your password.";

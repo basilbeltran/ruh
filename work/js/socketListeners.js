@@ -92,6 +92,7 @@ io.sockets.on('connection', function(socket) {
           if(err){
             console.log("Admin.find ERR  ", err);
           }
+
         //console.log("SENDING ADMIN  ", documents);
          socket.emit('getAllAdmin', documents, socket.id);
       });

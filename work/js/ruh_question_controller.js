@@ -6,21 +6,22 @@ questionController.$inject = ['RuhQuestionFactory', '$scope'];
 
 
 
-function questionController(RuhQuestionFactory, $scope ){
+function questionController(RuhQuestionFactory, $scope){
   var questionThis = this;
   // These are assigned to questionThis so butils.js can hold shared code
   questionThis.token = "questionController";
   questionThis.socket = io.connect();
   questionThis.pc;
 
-  var questionObjs; //send the factory fields, get object back
+  questionThis.data = RuhQuestionFactory.admin;
+  console.log("IS ADMIN UNDEFINED", RuhQuestionFactory );
 
-  setTimeout($scope.$apply, 2000);
-  questionThis.data = RuhQuestionFactory.data;
+  $scope.$on('newAdmin', function(event, data) {
+    console.log(data);
+    questionThis.data = RuhQuestionFactory.admin;
+    $scope.$apply();
+  });
 
-   console.dir("questionController data", questionThis.data );
-
-  questionThis.selectedCat;
   questionThis.message = "You are one click (more or less) away from expert help";
 
   //var pcConfig = { 'iceServers': [ {'url': 'stun:stun.l.google.com:19302'} ] };

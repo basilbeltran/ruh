@@ -5,10 +5,9 @@
 angular.module('RuhLogin',[]);
 var loginApp = angular.module("RuhLogin")
     .controller('RuhLoginController', loginController)
-    .factory('RuhQuestionFactory', questionFactory)
 
-loginController.$inject = ['RuhQuestionFactory', '$http'];
-function loginController(RuhQuestionFactory, $http){
+loginController.$inject = ['$http'];
+function loginController($http){
 
         var loginThis = this;
 

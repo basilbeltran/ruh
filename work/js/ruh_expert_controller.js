@@ -5,14 +5,13 @@ angular.module("RuhApp")
 expertController.$inject = ['RuhQuestionFactory', '$scope'];
 
 
-//function expertController($scope, RuhQuestionFactory){
 function expertController(RuhQuestionFactory, $scope){
   var expertThis = this;
   // These are assigned to questionThis so butils.js can hold shared code
   expertThis.token = "expertController";
   expertThis.socket = io.connect();
   expertThis.pc;
-
+  expertThis.isDetailsShown = [];
 
   var loggedText = "Logged in as You";
 
@@ -20,7 +19,7 @@ function expertController(RuhQuestionFactory, $scope){
 // then refresh questions from the server instead
 
 $scope.$on('newQuestions', function(event, data) {
-  console.log(event.name);
+  console.log(event.name , data);
   expertThis.qArray = data;
   $scope.$apply();
 });
@@ -268,17 +267,6 @@ $scope.$on('newQuestions', function(event, data) {
 ////////// END OF webRTC logic  ////////////////
 
 
-
-    expertThis.showQuestionDetails = function(){
-      console.log('showQuestionDetails called');
-    }
-
-    expertThis.hideQuestionDetails = function(){
-      console.log('hideQuestionDetails called');
-    }
-
-
-
     expertThis.showUserDetails = function(){
       console.log('showUserDetails called');
     }
@@ -287,14 +275,19 @@ $scope.$on('newQuestions', function(event, data) {
       console.log('hideUserDetails called');
     }
 
-
-
     expertThis.showCommentArray = function(){
       expertThis.isCommentsShown = true;
     }
 
     expertThis.hideCommentArray = function(){
       expertThis.isCommentsShown = false;
+    }
+    expertThis.showQuestionDetails = function(index){
+      expertThis.isDetailsShown[index] = true;
+    }
+
+    expertThis.hideQuestionDetails = function(index){
+      expertThis.isDetailsShown[index] = false;
     }
 
   ////////////////////////////////////////////////////////

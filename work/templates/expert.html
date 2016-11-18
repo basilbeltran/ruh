@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div class="row outerBox">
         <!-- <div ng-repeat="q in expertMain.qArray | ruhReverse track by $id($index)" -->
-        <div ng-repeat="q in expertMain.qArray | ruhReverse track by $id($index)"
+        <div ng-repeat="(index, q) in expertMain.qArray | ruhReverse track by $id($index)"
              id="question"
              class="col-md-12">
 
@@ -25,8 +25,8 @@
 
 
                 <button class="button "
-                    ng-mouseenter="expertMain.showQuestionDetails()"
-                    ng-mouseleave="expertMain.hideQuestionDetails()">{{q.qSubject}}</button>
+                    ng-mouseenter="expertMain.showQuestionDetails(index)"
+                    ng-mouseleave="expertMain.hideQuestionDetails(index)">{{q.qSubject}}</button>
 
                 <button class="button"
                     ng-mouseenter="expertMain.showCommentArray()"
@@ -41,6 +41,11 @@
 
 <div class="row" ng-show="expertMain.isCommentsShown">
    {{q.qCommentArray[0].cText}}
+</div>
+
+<div class="row" ng-show="expertMain.isDetailsShown[index]">
+   {{q.qGoal}}
+   {{q.qTrying}}
 </div>
 
 

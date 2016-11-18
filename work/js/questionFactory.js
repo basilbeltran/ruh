@@ -1,6 +1,6 @@
 
 questionFactory.$inject = ['$http', '$rootScope'];
-function questionFactory($http, $rootScope){
+function questionFactory($http, $rootScope) {
 
   var allQuestions;
   var socket = io.connect();
@@ -12,14 +12,13 @@ function questionFactory($http, $rootScope){
   socket.on('getAllAdmin', allAdmin => {
     Factory.admin = allAdmin;
     console.log("FACTORY RECEIVED ADMIN", Factory.admin );
-    //$rootScope.$apply();
     $rootScope.$broadcast('newAdmin', allAdmin);
   });
 
   socket.on('allQuestions', newQuestions => {
     Factory.allQuestions = newQuestions;
     console.log("FACTORY RECEIVED QUESTIONS", Factory.allQuestions );
-    $rootScope.$broadcast('newQuestions', newQuestions);    
+    $rootScope.$broadcast('newQuestions', newQuestions);
   });
 
   var getUser = function() {

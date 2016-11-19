@@ -21,7 +21,7 @@ function loginController($http){
         loginThis.passwordText = "password";
         loginThis.passwordHint = "********";
 
-        loginThis.submit = function() {
+        loginThis.login = function() {
             //console.log(loginThis);
 
             $http({
@@ -37,7 +37,25 @@ function loginController($http){
             }, function(err) {
                 console.error(err);
             });
-        }
+        }//login
 
-    }; // loginController
-    //}]); // loginController terse form
+        loginThis.register = function() {
+            //console.log(loginThis);
+
+            $http({
+                method: 'POST',
+                url: '/register',
+                data: {
+                    uEmail: loginThis.email,
+                    uPassword: loginThis.password
+                }
+            }).then(function(res) {
+                console.info("loginThis.REGISTER: ", res.data);
+                location.href = '/';
+            }, function(err) {
+                console.error(err);
+            });
+        }//register
+
+  }; // loginController
+  //}]); // loginController terse form

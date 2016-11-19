@@ -7,6 +7,8 @@ var mongoose = require('mongoose'),
         uName: {type: String},
         uEmail: {type: String},
         uPassword: {type : String},
+        uInterestArray :   {type : Array, default : []},
+        uExpertArray :   {type : Array, default : []},
         uCreated: { type: Number, default: () => Date.now() }
 });
 

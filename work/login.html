@@ -21,7 +21,7 @@
   <div id="login" class="container-fluid ">
   <h2>{{loginMain.mainText}}</h2>
 </br></br></br>
-  <form id="login" ng-submit="loginMain.submit()">
+  <form id="login" >
   <div class="row">
             <div class="form-group col-sm-offset-5 col-sm-2">
                <label for="lUserName"> {{loginMain.userText}}</label>
@@ -43,7 +43,8 @@
             </div>
   </div></br></br>
             <div class="form-group col-sm-offset-5 col-sm-6">
-                <button type="submit" class="btn btn-primary mButton">Login</button>
+                <button ng-click="loginMain.login()" class="btn btn-primary mButton">Login</button>
+                <button ng-click="loginMain.register()" class="btn btn-primary mButton">Register</button>
             <h5>{{loginMain.keepText}}
             <input type="checkbox"
                     id="keepCheckbox"

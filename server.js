@@ -39,7 +39,7 @@ var credentials = {
     },
     development: {
         key:  fs.readFileSync('sslcert/key.pem', 'utf8'),
-        cert: fs.readFileSync('sslcert/cert.pem', 'utf8');
+        cert: fs.readFileSync('sslcert/cert.pem', 'utf8')
     }
 }
 

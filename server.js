@@ -53,7 +53,7 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 
 var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials['development'], app);
+var httpsServer = https.createServer(credentials[process.env.NODE_ENV||'development'], app);
 
 setInterval(function(){
   console.log(sslport+' is serving https @ %s', name);
@@ -62,7 +62,9 @@ setInterval(function(){
 Routes(app);
 
 httpServer.listen(port);
-httpsServer.listen(sslport);
+httpsServer.listen(sslport, function() {
+  console.info('Server Up', this._connectionKey);
+});
 
 module.exports = httpsServer;
 require('./work/js/socketListeners.js');

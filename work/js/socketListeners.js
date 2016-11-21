@@ -1,5 +1,5 @@
 var socketIO = require('socket.io');
-var httpsServer = require('../../server2.js');
+var httpsServer = require('../../server.js');
 var Question = require('../do/questionModel');
 var Admin = require('../do/adminModel');
 
@@ -8,7 +8,8 @@ var first = true;
 var allInqs = [];  // used for testing when database is not available
 
 
-io.sockets.on('connection', function(socket) {
+//io.sockets.on('connection', function(socket) {
+  io.sockets.on('connection', function(socket) {
 
     //messages are simply broadcast to all sockets
     socket.on('message', function(message) {

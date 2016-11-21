@@ -1,6 +1,10 @@
 const name = 'WEB RTC'
-const port = process.env.PORT || 4000
-const sslport = process.env.SSLPORT || 443
+const port = 80
+const sslport = 443
+
+
+
+
 
 var morgan = require('morgan');
 var assert = require('assert')
@@ -28,34 +32,32 @@ var sessions = require('client-sessions')({
     }
 }); // encrypted cookies!
 
-var privateKey  = fs.readFileSync('/etc/letsencrypt/live/rustuck.website/privkey.pem', 'utf8');
-var certificate = fs.readFileSync('/etc/letsencrypt/live/rustuck.website/cert.pem', 'utf8');
-var credentials = { key: privateKey, cert: certificate };
+var credentials = {
+    production: {
+        key:  fs.readFileSync('/etc/letsencrypt/live/rustuck.website/privkey.pem', 'utf8'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/rustuck.website/cert.pem', 'utf8')
+    },
+    development: {
+        key:  fs.readFileSync('sslcert/key.pem', 'utf8'),
+        cert: fs.readFileSync('sslcert/cert.pem', 'utf8');
+    }
+}
 
-mongoose.createConnection('mongodb://localhost/rustuck');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/rustuck');
 
-var  app = express();
+var app = express();
 app.use(morgan('dev'));
 app.use(sessions);
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 
 var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+var httpsServer = https.createServer(credentials[process.env.NODE_ENV||'development'], app);
 
 setInterval(function(){
   console.log(sslport+' is serving https @ %s', name);
 }, 60000);
-
-// this middleware can redirect all traffic to HTTPs, but be sure to mount it BEFORE express.static middleware!!!
-// app.all('*', ( req, res, next ) => {
-//     if( req.protocol === 'http' ) {
-//         res.set('X-Forwarded-Proto','https');
-//         res.redirect('https://'+ req.headers.host + req.url);
-//     } else {
-//         next();
-//     }
-// });
 
 Routes(app);
 

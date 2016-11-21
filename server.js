@@ -53,7 +53,7 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 
 var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials[process.env.NODE_ENV||'development'], app);
+var httpsServer = https.createServer(credentials['development'], app);
 
 setInterval(function(){
   console.log(sslport+' is serving https @ %s', name);

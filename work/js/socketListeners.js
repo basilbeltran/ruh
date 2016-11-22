@@ -94,7 +94,7 @@ var allInqs = [];  // used for testing when database is not available
             console.log("Admin.find ERR  ", err);
           }
 
-        //console.log("SENDING ADMIN  ", documents);
+        console.log("SENDING ADMIN  ", documents);
          socket.emit('getAllAdmin', documents, socket.id);
       });
     });

@@ -2,10 +2,7 @@ const name = 'WEB RTC'
 const port = 80
 const sslport = 443
 
-
-
-
-
+console.log("NODE_ENV is", process.env.NODE_ENV);
 var morgan = require('morgan');
 var assert = require('assert')
 var os = require('os')
@@ -32,16 +29,6 @@ var sessions = require('client-sessions')({
     }
 }); // encrypted cookies!
 
-var credentials = {
-    production: {
-        key:  fs.readFileSync('/etc/letsencrypt/live/rustuck.website/privkey.pem', 'utf8'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/rustuck.website/cert.pem', 'utf8')
-    },
-    development: {
-        key:  fs.readFileSync('sslcert/key.pem', 'utf8'),
-        cert: fs.readFileSync('sslcert/cert.pem', 'utf8')
-    }
-}
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/rustuck');
@@ -53,7 +40,20 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 
 var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials[process.env.NODE_ENV||'development'], app);
+
+if(process.env.NODE_ENV === 'production'){
+  var credentials = {
+      key:  fs.readFileSync('/etc/letsencrypt/live/rustuck.website/privkey.pem', 'utf8'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/rustuck.website/cert.pem', 'utf8')
+      }
+}else {
+  var credentials = {
+      key:  fs.readFileSync('sslcert/key.pem', 'utf8'),
+      cert: fs.readFileSync('sslcert/cert.pem', 'utf8')
+    }
+}
+
+var httpsServer = https.createServer(credentials, app);
 
 setInterval(function(){
   console.log(sslport+' is serving https @ %s', name);

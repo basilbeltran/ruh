@@ -39,7 +39,7 @@ $scope.$on('newQuestions', function(event, data) {
               maxHeigth: 480
           }]
       },
-      audio: false
+      audio: true
   }
 
 
@@ -211,6 +211,9 @@ $scope.$on('newQuestions', function(event, data) {
       expertThis.pc = new RTCPeerConnection(null);
       expertThis.pc.onicecandidate = handleIceCandidate;
       expertThis.pc.onaddstream = handleRemoteStreamAdded;
+//depricated ; use pc.ontrack
+
+
       expertThis.pc.onremovestream = handleRemoteStreamRemoved;
       console.log('Created RTCPeerConnnection');
     } catch (e) {

@@ -14,7 +14,7 @@ function questionController(RuhQuestionFactory, $scope){
   questionThis.pc;
 
   questionThis.data = RuhQuestionFactory.admin;
-  console.log("IS ADMIN UNDEFINED", RuhQuestionFactory );
+  //console.log("IS ADMIN UNDEFINED", RuhQuestionFactory );
 
   $scope.$on('newAdmin', function(event, data) {
     console.log(data);

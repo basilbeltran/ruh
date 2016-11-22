@@ -15,7 +15,7 @@ function loginController($http){
         loginThis.userText = "Email";
 
         loginThis.subText = "Enter your email address and password.";
-        loginThis.keepText = "Keep me signed in";
+        loginThis.keepText = "Keep me signed in !";
         loginThis.forgotText = "I forgot my password";
         loginThis.register = "register";
         loginThis.emailText = "you@domain.com";

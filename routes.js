@@ -1,5 +1,6 @@
 var Question = require('./work/controllers/question.js');
 var Auth =      require('./work/controllers/auth.js');
+var User =      require('./work/controllers/user.js');
 var express =   require('express');
 
 module.exports = (app) => {
@@ -16,9 +17,10 @@ module.exports = (app) => {
   app.get('/me', Auth.middlewares.session);
   app.all('/api*', Auth.middlewares.session);
 
+    app.put('/api/user/:id', User.updateUser);
+
     app.post('/api/question', Question.create);
     app.get('/api/question', Question.get);
-    //TODO app.get('/api/categories', Categories.get);
     app.get('/api/question/:id', Question.get);
     app.use(express.static(__dirname + '/work'));
 }

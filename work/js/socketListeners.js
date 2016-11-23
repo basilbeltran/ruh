@@ -24,27 +24,27 @@ var allInqs = [];  // used for testing when database is not available
         }
     });
 
-    socket.on('noDatabase', function(questionObjs) {
-
-            // add the question object with a key of the socketID
-            //allInqs.push({"id":socket.id, "question":questionObj});
-
-            // here we get all the questions
-            allInqs = questionObjs;
-            var newQuestion = allInqs[allInqs.length -1]
-
-            // create the room with the new question UUID
-            socket.join( newQuestion.qUUID );
-                console.log(`${socket.id} noDatabase ${newQuestion.qUUID}`);
-
-            // ping back to questioner  (was "created")  send back the new question object
-            socket.emit('created', newQuestion.qUUID, socket.id);
-
-            // send the array of inquiries back to everyone
-            socket.broadcast.emit('allQuestions', allInqs, socket.id);
-            //console.log(allInqs);
-
-          });
+    // socket.on('noDatabase', function(questionObjs) {
+    //
+    //         // add the question object with a key of the socketID
+    //         //allInqs.push({"id":socket.id, "question":questionObj});
+    //
+    //         // here we get all the questions
+    //         allInqs = questionObjs;
+    //         var newQuestion = allInqs[allInqs.length -1]
+    //
+    //         // create the room with the new question UUID
+    //         socket.join( newQuestion.qUUID );
+    //             console.log(`${socket.id} noDatabase ${newQuestion.qUUID}`);
+    //
+    //         // ping back to questioner  (was "created")  send back the new question object
+    //         socket.emit('created', newQuestion.qUUID, socket.id);
+    //
+    //         // send the array of inquiries back to everyone
+    //         socket.broadcast.emit('allQuestions', allInqs, socket.id);
+    //         //console.log(allInqs);
+    //
+    //       });
 
 
 

@@ -44,6 +44,13 @@
           </div>
 
 </form>
+
+
+
+
+
+
+
 </div>
 
 <div class="row">
@@ -54,20 +61,30 @@
         </header>
 
         <section class="formBody">
-            <div class="checkWrapper" ng-repeat="x in profileMain.data.categories">
-                <label class="checkbox-inline">
-                    <input type="checkbox"
-                            id="inlineCheckbox1"
-                            value="option1">{{x}}</label>
-            </div>
+
+            <label ng-repeat="skill in profileMain.data.categories" class="checkWrapper">
+              <input
+                type="checkbox"
+                name="selectedSkills[]"
+                value="{{skill}}"
+                ng-checked="profileMain.user.uExpertArray.indexOf(skill) > -1"
+                ng-click="profileMain.toggleSkills(skill)"
+              > {{skill}}
+            </label>
+
         </section>
 
-
         <footer class="col-md-4 text-center" >
-            <button type="submit" class="btn btn-primary mButton">{{profileMain.addExperticeBtn}}</button>
+            <button ng-click="profileMain.updateUser()" class="btn btn-primary mButton">{{profileMain.addExperticeBtn}}</button>
         </footer>
     </form>
 </div>
+
+
+
+
+
+
 
 <div class="row">
     <form class="form-group col-sm-12">
@@ -77,17 +94,23 @@
         </header>
 
         <section class="formBody">
-            <div class="checkWrapper" ng-repeat="x in profileMain.data.categories">
-                <label class="checkbox-inline">
-                    <input type="checkbox"
-                            id="inlineCheckbox1"
-                            value="option1">{{x}}</label>
-            </div>
+
+            <label ng-repeat="interest in profileMain.data.categories" class="checkWrapper">
+              <input
+                type="checkbox"
+                name="selectedInterests[]"
+                value="{{interest}}"
+                ng-checked="profileMain.user.uInterestArray.indexOf(interest) > -1"
+                ng-click="profileMain.toggleInterests(interest)"
+              > {{interest}}
+            </label>
+
         </section>
 
 
+
         <footer class="col-md-4 text-center" >
-            <button type="submit" class="btn btn-primary mButton">{{profileMain.addInterestsBtn}}</button>
+            <button ng-click="profileMain.updateUser()"  class="btn btn-primary mButton">{{profileMain.addInterestsBtn}}</button>
         </footer>
     </form>
 </div>

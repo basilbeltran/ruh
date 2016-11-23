@@ -50,15 +50,62 @@ function profileController(RuhQuestionFactory, $http, $scope){
   var profileThis = this;
 
   profileThis.data = RuhQuestionFactory.admin;
+  profileThis.user = RuhQuestionFactory.user;
 
+//listen for the factory to update admin object
   $scope.$on('newAdmin', function(event, data) {
-    console.log(event.name);
+      console.log("Event", event.name);
     profileThis.data = data;
     $scope.$apply();
   });
 
 
-  // profileThis.data = RuhQuestionFactory.getData();
+  profileThis.toggleSkills = (skill) => {
+    var idx = RuhQuestionFactory.user.uExpertArray.indexOf(skill);
+
+    // is currently selected
+    if (idx > -1) {
+      RuhQuestionFactory.user.uExpertArray.splice(idx, 1);
+      console.log("SKILLS ARRAY", RuhQuestionFactory.user.uExpertArray);
+    }
+
+    // is newly selected
+    else {
+      RuhQuestionFactory.user.uExpertArray.push(skill);
+      console.log("SKILLS ARRAY", RuhQuestionFactory.user.uExpertArray);
+    }
+  };
+
+
+
+  profileThis.toggleInterests = (interest) => {
+    var idx = RuhQuestionFactory.user.uInterestArray.indexOf(interest);
+
+    // is currently selected
+    if (idx > -1) {
+      RuhQuestionFactory.user.uInterestArray.splice(idx, 1);
+      console.log("INTEREST ARRAY", RuhQuestionFactory.user.uInterestArray);
+    }
+
+    // is newly selected
+    else {
+      RuhQuestionFactory.user.uInterestArray.push(interest);
+      console.log("INTEREST ARRAY", RuhQuestionFactory.user.uInterestArray);
+    }
+  };
+
+
+  profileThis.updateUser = function() {
+    console.info("profileThis.updateUser", RuhQuestionFactory.user._id );
+
+      $http.put('/api/user/' + RuhQuestionFactory.user._id, RuhQuestionFactory.user)
+      .then(function(res) {
+          // the user object has already been updated in the factory
+          console.info("SERVER HAS UPDATED USER", res.data);
+      }, function(err) {
+          console.error("tried profileThis.updateUser", err);
+      });
+  }
 
 
   profileThis.mainText = "Stuck Profile";
@@ -66,20 +113,15 @@ function profileController(RuhQuestionFactory, $http, $scope){
   profileThis.oldPasswordText = "old password";
   profileThis.newPasswordText = "new password";
   profileThis.checkPasswordText = "retype password";
-
     profileThis.addPhoto = "Your Photo";
     profileThis.addPhotoBtn = "Take Photo";
-
   profileThis.addExpertice = "Areas of Expertice";
   profileThis.addExperticeBtn = "Add Expertice";
-
   profileThis.addInterests = "Areas of Interest";
   profileThis.addInterestsBtn = "Add Interests";
 
-
-  profileThis.changePassword = function(){
+  profileThis.changePassword = () => {
     console.log('password changed');
   }
-
 
 }

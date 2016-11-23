@@ -6,6 +6,7 @@ module.exports = {
     updateUser: (req, res) => {
         var id = req.params.id;   // you can pass the id in a param if available
         var user = req.body;
+        console.error('updateUser', req.params.id); 
         if (user && user._id !== id) {
             return res.status(500).json({
                 err: "Ids don't match"

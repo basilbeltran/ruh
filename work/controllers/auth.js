@@ -1,6 +1,33 @@
 var User = require('../do/userModel.js'),
     bcrypt = require('bcryptjs');
 
+var    errors = { // response errors
+         general: {
+             status: 500,
+             message: 'Backend error'
+         },
+         users: {
+             duplicate: {
+                 status: 409,
+                 message: 'User already exists!'
+             }
+         },
+         login: {
+             status: 403,
+             message: 'Invalid username or password'
+         }
+     },
+     messages = {
+         login: {
+             status: 200,
+             message: 'Login success'
+         },
+         register : {
+             status: 200,
+             message: 'Register success'
+         }
+ };
+
 module.exports = {
     login: ( req, res ) => { // POST login
         //console.info('LOGIN::POST::PAYLOAD::', req.body);
@@ -19,7 +46,7 @@ module.exports = {
                 bcrypt.compare(req.body.uPassword, user.uPassword, (compareErr, matched) => {
                     if( compareErr ) { // this will trigger the error .then callback on the frontend
                         console.error('compareErr error:', compareErr);
-                        res.status(500).json(err);
+                        res.status(500).send(errors.general);
                     } else if( !matched ) {
                         console.log('Password mismatch!');
                         res.status(403).json({ message: 'Invalid username or password' });

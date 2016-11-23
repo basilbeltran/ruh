@@ -11,9 +11,10 @@ function loginController($http){
 
         var loginThis = this;
 
+        loginThis.message = "";
+
         loginThis.mainText = "Sign in ...";
         loginThis.userText = "Email";
-
         loginThis.subText = "Enter your email address and password.";
         loginThis.keepText = "Keep me signed in !";
         loginThis.forgotText = "I forgot my password";
@@ -36,6 +37,7 @@ function loginController($http){
                 console.info("loginThis.SUBMIT: ", res.data);
                 location.href = '/';
             }, function(err) {
+                loginThis.message = err.data.message;
                 console.error(err);
             });
         }//login
@@ -51,9 +53,11 @@ function loginController($http){
                     uPassword: loginThis.password
                 }
             }).then(function(res) {
+              loginThis.message = res.data.uEmail + " is now registered. ";
                 console.info("loginThis.REGISTER: ", res.data);
-                location.href = '/';
+                // location.href = '/';
             }, function(err) {
+              loginThis.message = res.data;
                 console.error(err);
             });
         }//register

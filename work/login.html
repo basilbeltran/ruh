@@ -20,7 +20,9 @@
 
   <div id="login" class="container-fluid ">
   <h2>{{loginMain.mainText}}</h2>
-</br></br></br>
+</br></br>
+<p>{{ loginMain.message }}</p>
+</br>
   <form id="login" >
   <div class="row">
             <div class="form-group col-sm-offset-5 col-sm-2">
@@ -46,16 +48,13 @@
                 <button ng-click="loginMain.login()" class="btn btn-primary mButton">Login</button>
                 <button ng-click="loginMain.register()" class="btn btn-primary mButton">Register</button>
 
-
-
             <h5>{{loginMain.keepText}}
             <input type="checkbox"
                     id="keepCheckbox"
                     value="keep"></h5>
             <a href="http://www.w3schools.com">{{loginMain.forgotText}}</a>
 </br>
-            <a href="https://www.rustuck.website/register">{{loginMain.registerPage}}</a>
-            <a href="https://www.rustuck.website/register">Register</a>
+            <!-- <a href="https://www.rustuck.website/register">{{loginMain.registerPage}}</a> -->
 
 
           </div>
@@ -63,7 +62,6 @@
 
 
   </div>
-
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/ruh_login_controller.js"></script>

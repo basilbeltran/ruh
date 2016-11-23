@@ -3,6 +3,11 @@ background-color: grey;
 color: black;
 }
 
+p {
+  text-align: center;
+  color:yellow;
+}
+
 a {
   color:black;
 }

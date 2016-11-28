@@ -86,11 +86,22 @@ video {
     font-weight: bold;
 }
 
-#main-nav{
+#outside-navbar{
   position:fixed;
-  width: 100%;
   top: 0;
   border-bottom-color: rgb(252,182,20);
+  display:inline-block;
+  float: none;
+
+}
+
+.navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
 }
 
 

@@ -39,7 +39,7 @@ $scope.$on('newQuestions', function(event, data) {
               maxHeigth: 480
           }]
       },
-      audio: true
+      audio: false
   }
 
 

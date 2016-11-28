@@ -39,7 +39,7 @@ function questionController(RuhQuestionFactory, $scope){
               maxHeigth: 480
           }]
       },
-      audio: true
+      audio: false
   }
 
 
